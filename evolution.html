@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Evolution — Oakley Gompels</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js/lib/index.iife.js"></script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">Oakley Gompels</a>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#photography">Photography</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+                <li><a href="index.html#contact" class="nav-cta">Get In Touch</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="evo-hero">
+        <div class="evo-hero-dots"></div>
+        <div class="container evo-hero-content">
+            <a href="index.html" class="evo-back-link">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M10 3L5 8l5 5"/></svg>
+                Back to portfolio
+            </a>
+            <div class="section-label" style="margin-top:1.5rem;">Version History</div>
+            <h1>Site Evolution</h1>
+            <p class="evo-hero-sub">
+                Every iteration of this site is preserved as a named branch in Git.
+                Each commit below is a real snapshot — click any version card to see
+                exactly what changed on GitHub.
+            </p>
+        </div>
+    </section>
+
+    <!-- Git Graph Section -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-label">Branch Graph</div>
+            <h2>Commit History</h2>
+            <p style="color:var(--text-muted);margin-bottom:2rem;font-size:0.95rem;">
+                Orange nodes are commits on <strong style="color:#ff6d4a">main</strong>.
+                Purple nodes are feature branches — each one a named design iteration, merged back when ready.
+            </p>
+            <div class="evo-graph-card">
+                <div id="gitgraph-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Version Cards Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Versions</div>
+            <h2>Design Iterations</h2>
+            <p style="color:var(--text-muted);margin-bottom:2rem;font-size:0.95rem;">
+                Click any card to open the GitHub commit and see a line-by-line diff of what changed.
+            </p>
+            <div id="version-cards" class="version-cards"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <span class="footer-logo">Oakley Gompels</span>
+            <p>&copy; 2025 Oakley Gompels. Built with HTML &amp; CSS.</p>
+        </div>
+    </footer>
+
+    <!-- =============================================
+         SITE EVOLUTION — Styles & Gitgraph renderer
+         ============================================= -->
+    <style>
+        /* Page hero */
+        .evo-hero {
+            position: relative;
+            padding: 5rem 2rem 4rem;
+            overflow: hidden;
+            background: var(--bg);
+        }
+        .evo-hero-dots {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+        .evo-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -5%;
+            width: 60%; height: 100%;
+            background: radial-gradient(ellipse at center, rgba(255,109,74,0.07) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .evo-hero-content {
+            position: relative;
+        }
+        .evo-hero-content h1 {
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        .evo-hero-sub {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.8;
+        }
+        .evo-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .evo-back-link:hover { color: var(--text); }
+
+        /* Graph card */
+        .evo-graph-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem 1.5rem 1.5rem;
+            overflow-x: auto;
+        }
+        #gitgraph-container svg {
+            font-family: var(--font) !important;
+            overflow: visible;
+        }
+
+        /* Version cards */
+        .version-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+        }
+        .version-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+            cursor: default;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+        .version-card--link { cursor: pointer; }
+        .version-card--link:hover {
+            border-color: rgba(255,109,74,0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+        }
+        .version-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.85rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .version-card-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(255,109,74,0.12);
+            padding: 0.2rem 0.65rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,109,74,0.25);
+        }
+        .version-card-date { font-size: 0.8rem; color: var(--text-muted); }
+        .version-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        .version-card p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        .version-card-footer {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .version-card-branch {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+        .version-card-branch svg { width: 12px; height: 12px; flex-shrink: 0; }
+        .merged-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #4ade80;
+            background: rgba(74,222,128,0.1);
+            border: 1px solid rgba(74,222,128,0.25);
+            padding: 0.15rem 0.55rem;
+            border-radius: 20px;
+        }
+        .view-diff-hint {
+            margin-left: auto;
+            font-size: 0.78rem;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .version-card--link:hover .view-diff-hint { opacity: 1; }
+    </style>
+
+    <script>
+    (function () {
+
+        fetch('versions.json')
+            .then(r => r.json())
+            .then(versions => {
+                if (typeof GitgraphJS !== 'undefined') {
+                    renderGraph(versions);
+                } else {
+                    renderFallbackTimeline(versions);
+                }
+                renderCards(versions);
+            })
+            .catch(err => {
+                console.error('Could not load versions.json:', err);
+                document.getElementById('gitgraph-container').innerHTML =
+                    '<p style="color:var(--text-muted);padding:1rem;font-size:0.85rem;">Could not load version data.</p>';
+            });
+
+        // ── GITGRAPH ──────────────────────────────────────────────────────────
+        function renderGraph(versions) {
+            const { createGitgraph } = GitgraphJS;
+            const container = document.getElementById('gitgraph-container');
+            if (!container) return;
+
+            const gitgraph = createGitgraph(container, {
+                template: {
+                    colors: ['#ff6d4a', '#a78bfa', '#38bdf8'],
+                    branch: {
+                        lineWidth: 3,
+                        spacingX: 55,
+                        labelFont: '600 12px Inter, system-ui, sans-serif',
+                        labelRotation: 0,
+                    },
+                    commit: {
+                        spacing: 70,
+                        dot: { size: 11, strokeWidth: 2, strokeColor: '#16162a' },
+                        message: {
+                            font: '500 13px Inter, system-ui, sans-serif',
+                            color: '#f0f0f5',
+                            displayAuthor: false,
+                            displayHash: false,
+                        },
+                    },
+                    tag: {
+                        font: '600 11px Inter, system-ui, sans-serif',
+                        color: '#ff6d4a',
+                    },
+                },
+                orientation: 'horizontal',
+                mode: 'compact',
+            });
+
+            const main = gitgraph.branch({
+                name: 'main',
+                style: {
+                    color: '#ff6d4a',
+                    label: { color: '#ff6d4a', bgColor: 'rgba(255,109,74,0.12)', strokeColor: 'rgba(255,109,74,0.3)' },
+                },
+            });
+
+            versions.forEach(v => {
+                if (v.branch === 'main') {
+                    main.commit({
+                        subject: `${v.version}: ${v.message.split('—')[0].trim()}`,
+                        tag: v.version,
+                        style: { dot: { color: '#ff6d4a', strokeColor: '#16162a' }, message: { color: '#f0f0f5' } },
+                        onClick: () => v.compareUrl && window.open(v.compareUrl, '_blank'),
+                    });
+                } else {
+                    const feat = gitgraph.branch({
+                        name: v.branch,
+                        from: main,
+                        style: {
+                            color: '#a78bfa',
+                            label: { color: '#a78bfa', bgColor: 'rgba(167,139,250,0.12)', strokeColor: 'rgba(167,139,250,0.3)' },
+                        },
+                    });
+                    feat.commit({
+                        subject: `${v.version}: ${v.message.split('—')[0].trim()}`,
+                        tag: v.version,
+                        style: { dot: { color: '#a78bfa', strokeColor: '#16162a' }, message: { color: '#f0f0f5' } },
+                        onClick: () => v.compareUrl && window.open(v.compareUrl, '_blank'),
+                    });
+                    if (v.merged) {
+                        main.merge({
+                            branch: feat,
+                            fastForward: false,
+                            commitOptions: {
+                                subject: `Merge ${v.branch} → main`,
+                                style: { dot: { color: '#ff6d4a', strokeColor: '#16162a' }, message: { color: '#9090a8' } },
+                            },
+                        });
+                    }
+                }
+            });
+        }
+
+        // ── SVG FALLBACK ──────────────────────────────────────────────────────
+        function renderFallbackTimeline(versions) {
+            const container = document.getElementById('gitgraph-container');
+            if (!container) return;
+            const nodeSpacing = 180;
+            const mainY = 45;
+            const featY = 100;
+            const totalWidth = Math.max(700, versions.length * nodeSpacing + 140);
+            let s = [`<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 ${totalWidth} 150" style="font-family:Inter,sans-serif;min-width:${totalWidth}px">`];
+            s.push(`<line x1="60" y1="${mainY}" x2="${totalWidth-40}" y2="${mainY}" stroke="#ff6d4a" stroke-width="3" stroke-linecap="round"/>`);
+            let mx = 90;
+            versions.forEach(v => {
+                const isMain = v.branch === 'main';
+                const nx = isMain ? mx : mx + 45;
+                const ny = isMain ? mainY : featY;
+                const col = isMain ? '#ff6d4a' : '#a78bfa';
+                if (!isMain) {
+                    s.push(`<path d="M${mx} ${mainY} C${mx} ${featY} ${nx} ${featY} ${nx} ${featY}" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-dasharray="5,3"/>`);
+                    if (v.merged) {
+                        const mergeX = nx + 65;
+                        s.push(`<path d="M${nx} ${featY} C${mergeX} ${featY} ${mergeX} ${mainY} ${mergeX} ${mainY}" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-dasharray="5,3"/>`);
+                        s.push(`<circle cx="${mergeX}" cy="${mainY}" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>`);
+                        mx = mergeX + nodeSpacing;
+                    }
+                }
+                s.push(`<circle cx="${nx}" cy="${ny}" r="11" fill="${col}" stroke="#16162a" stroke-width="2.5"/>`);
+                s.push(`<text x="${nx}" y="${ny+1}" text-anchor="middle" dominant-baseline="middle" fill="#0d0d1f" font-size="9" font-weight="700">${v.version.toUpperCase()}</text>`);
+                const label = v.message.split('—')[0].trim();
+                const lY = ny + (isMain ? -26 : 26);
+                s.push(`<text x="${nx}" y="${lY}" text-anchor="middle" fill="${col}" font-size="11" font-weight="600">${label.length > 22 ? label.slice(0,20)+'…' : label}</text>`);
+                s.push(`<text x="${nx}" y="${lY+15}" text-anchor="middle" fill="#9090a8" font-size="10">${v.branch}</text>`);
+                if (isMain) mx += nodeSpacing;
+            });
+            s.push(`<text x="22" y="${mainY+1}" dominant-baseline="middle" fill="#ff6d4a" font-size="11" font-weight="700">main</text>`);
+            s.push('</svg>');
+            container.innerHTML = s.join('\n');
+        }
+
+        // ── VERSION CARDS ─────────────────────────────────────────────────────
+        function renderCards(versions) {
+            const container = document.getElementById('version-cards');
+            if (!container) return;
+
+            const branchIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="4" cy="3" r="1.5"/><circle cx="4" cy="13" r="1.5"/>
+                <circle cx="12" cy="6" r="1.5"/>
+                <line x1="4" y1="4.5" x2="4" y2="11.5"/>
+                <path d="M4 6 Q4 9 12 7.5" fill="none"/>
+            </svg>`;
+
+            container.innerHTML = versions.map(v => {
+                const title = v.message.split('—')[0].trim();
+                const detail = v.message.includes('—') ? v.message.split('—')[1].trim() : '';
+                const clickable = !!v.compareUrl;
+                return `
+                <a class="version-card ${clickable ? 'version-card--link' : ''}"
+                   ${clickable ? `href="${v.compareUrl}" target="_blank" rel="noopener"` : ''}
+                   title="${clickable ? 'View diff on GitHub' : ''}">
+                    <div class="version-card-header">
+                        <span class="version-card-tag">${v.version}</span>
+                        <span class="version-card-date">${v.date}</span>
+                    </div>
+                    <h4>${title}</h4>
+                    ${detail ? `<p>${detail}</p>` : ''}
+                    <div class="version-card-footer">
+                        <span class="version-card-branch">${branchIcon} ${v.branch}</span>
+                        ${v.merged ? '<span class="merged-badge">✓ merged</span>' : ''}
+                        ${clickable ? `<span class="view-diff-hint">
+                            View diff on GitHub
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="11" height="11"><path d="M10 2h4v4M14 2L8 8"/><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3"/></svg>
+                        </span>` : ''}
+                    </div>
+                </a>`;
+            }).join('');
+        }
+
+    })();
+    </script>
+
+</body>
+</html>

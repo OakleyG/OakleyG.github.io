@@ -6,8 +6,6 @@
     <title>Oakley Gompels</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Gitgraph.js via CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js/lib/index.iife.js"></script>
 </head>
 <body>
 
@@ -72,14 +70,36 @@
                     <a href="Projects/Lab1.pdf" class="project-link">Read Full Report <span class="arrow">→</span></a>
                 </div>
 
-                <div class="project-card">
-                    <div class="card-tag">Physics Lab</div>
-                    <h3>Investigating the Dependencies on Pendulum</h3>
-                    <p>An experiment to further evaluate and extend theoretical predictions of damped harmonic motion
-                    by verifying period independence from amplitude,
-                    exponential decay, length scaling, and apparatus symmetry.</p>
-                    <a href="Projects/Pendulum.pdf" class="project-link">Read Full Report <span class="arrow">→</span></a>
-                </div>
+                <!-- Site Evolution card -->
+                <a href="evolution.html" class="project-card project-card--evo" title="View the full site evolution page">
+                    <!-- Mini git graph SVG -->
+                    <svg class="evo-mini-graph" viewBox="0 0 260 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <!-- Main branch line -->
+                        <line x1="20" y1="28" x2="240" y2="28" stroke="#ff6d4a" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Feature branch curve out -->
+                        <path d="M 80 28 C 80 28 88 56 110 56" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
+                        <!-- Feature branch line -->
+                        <line x1="110" y1="56" x2="170" y2="56" stroke="#a78bfa" stroke-width="2.5"/>
+                        <!-- Feature branch merge back -->
+                        <path d="M 170 56 C 192 56 192 28 192 28" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
+                        <!-- Main nodes -->
+                        <circle cx="20"  cy="28" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>
+                        <circle cx="80"  cy="28" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>
+                        <circle cx="192" cy="28" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>
+                        <circle cx="240" cy="28" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>
+                        <!-- Feature nodes -->
+                        <circle cx="110" cy="56" r="8" fill="#a78bfa" stroke="#16162a" stroke-width="2"/>
+                        <circle cx="170" cy="56" r="8" fill="#a78bfa" stroke="#16162a" stroke-width="2"/>
+                        <!-- Labels -->
+                        <text x="20"  y="16" text-anchor="middle" fill="#ff6d4a" font-size="8" font-family="Inter,sans-serif" font-weight="600">v1</text>
+                        <text x="110" y="72" text-anchor="middle" fill="#a78bfa" font-size="8" font-family="Inter,sans-serif" font-weight="600">v2</text>
+                        <text x="240" y="16" text-anchor="middle" fill="#ff6d4a" font-size="8" font-family="Inter,sans-serif" font-weight="600">main</text>
+                    </svg>
+                    <div class="card-tag card-tag--evo">Site History</div>
+                    <h3>Site Evolution</h3>
+                    <p>A living visual history of this website — every design iteration preserved as a named Git branch. Explore the commits, design decisions, and what changed between each version.</p>
+                    <span class="project-link">Explore History <span class="arrow">→</span></span>
+                </a>
 
                 <div class="project-card">
                     <div class="card-tag">Physics Lab</div>
@@ -92,28 +112,6 @@
                 </div>
 
             </div>
-        </div>
-    </section>
-
-    <!-- Site Evolution Section -->
-    <section id="evolution" class="section section-alt">
-        <div class="container">
-            <div class="section-label">Version History</div>
-            <h2>Site Evolution</h2>
-            <p class="about-body" style="margin-bottom: 2rem;">
-                <span style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
-                    Every iteration of this site is preserved as a named branch in Git.
-                    Each node below is a real commit — click any version card to see what changed.
-                </span>
-            </p>
-
-            <!-- Graph canvas -->
-            <div class="evo-card">
-                <div id="gitgraph-container"></div>
-            </div>
-
-            <!-- Version cards rendered by JS -->
-            <div id="version-cards" class="version-cards"></div>
         </div>
     </section>
 
@@ -295,329 +293,30 @@
         </div>
     </footer>
 
-
-    <!-- =============================================
-         SITE EVOLUTION — Gitgraph.js visualisation
-         Only touches #evolution section
-         ============================================= -->
+    <!-- Site Evolution card styles -->
     <style>
-        /* --- Evolution section container --- */
-        .evo-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2rem 1.5rem 1rem;
-            overflow-x: auto;
-            margin-bottom: 2rem;
-        }
-
-        #gitgraph-container svg {
-            font-family: var(--font) !important;
-            overflow: visible;
-        }
-
-        /* --- Version cards below the graph --- */
-        .version-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.25rem;
-        }
-
-        .version-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-            cursor: default;
+        .project-card--evo {
             text-decoration: none;
-            display: block;
             color: inherit;
-        }
-
-        .version-card--link {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
             cursor: pointer;
         }
-
-        .version-card--link:hover {
-            border-color: rgba(255, 109, 74, 0.4);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+        .evo-mini-graph {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+            padding: 0.5rem 0;
+            margin-bottom: 0.25rem;
         }
-
-        .version-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .version-card-tag {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--accent);
-            background: rgba(255, 109, 74, 0.12);
-            padding: 0.2rem 0.65rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 109, 74, 0.25);
-        }
-
-        .version-card-date {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-
-        .version-card h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 0.4rem;
-        }
-
-        .version-card p {
-            font-size: 0.86rem;
-            color: var(--text-muted);
-            line-height: 1.65;
-        }
-
-        .version-card-branch {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-top: 0.75rem;
-            background: rgba(255,255,255,0.04);
-            padding: 0.25rem 0.6rem;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-        }
-
-        .version-card-branch svg {
-            width: 12px;
-            height: 12px;
-            flex-shrink: 0;
-        }
-
-        .merged-badge {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #4ade80;
-            background: rgba(74, 222, 128, 0.1);
-            border: 1px solid rgba(74, 222, 128, 0.25);
-            padding: 0.15rem 0.55rem;
-            border-radius: 20px;
-            margin-left: 0.5rem;
+        .card-tag--evo {
+            background: rgba(167,139,250,0.1);
+            color: #a78bfa;
+            border-color: rgba(167,139,250,0.25);
         }
     </style>
-
-    <script>
-    (function () {
-
-        // ── Load versions.json then render everything ─────────────────────────
-        fetch('versions.json')
-            .then(r => r.json())
-            .then(versions => {
-                if (typeof GitgraphJS !== 'undefined') {
-                    renderGraph(versions);
-                } else {
-                    renderFallbackTimeline(versions);
-                }
-                renderCards(versions);
-            })
-            .catch(err => {
-                console.error('Could not load versions.json:', err);
-                document.getElementById('gitgraph-container').innerHTML =
-                    '<p style="color:var(--text-muted);padding:1rem;font-size:0.85rem;">Could not load version data.</p>';
-            });
-
-        // ── GITGRAPH RENDERER ─────────────────────────────────────────────────
-        function renderGraph(versions) {
-            const { createGitgraph } = GitgraphJS;
-            const container = document.getElementById('gitgraph-container');
-            if (!container) return;
-
-            const gitgraph = createGitgraph(container, {
-                template: {
-                    colors: ['#ff6d4a', '#a78bfa', '#38bdf8'],
-                    branch: {
-                        lineWidth: 3,
-                        spacingX: 50,
-                        labelFont: '600 12px Inter, system-ui, sans-serif',
-                        labelRotation: 0,
-                    },
-                    commit: {
-                        spacing: 60,
-                        dot: { size: 10, strokeWidth: 2, strokeColor: '#0d0d1f' },
-                        message: {
-                            font: '500 13px Inter, system-ui, sans-serif',
-                            color: '#f0f0f5',
-                            displayAuthor: false,
-                            displayHash: false,
-                        },
-                    },
-                    tag: {
-                        font: '600 11px Inter, system-ui, sans-serif',
-                        color: '#ff6d4a',
-                    },
-                },
-                orientation: 'horizontal',
-                mode: 'compact',
-            });
-
-            const main = gitgraph.branch({
-                name: 'main',
-                style: {
-                    color: '#ff6d4a',
-                    label: { color: '#ff6d4a', bgColor: 'rgba(255,109,74,0.12)', strokeColor: 'rgba(255,109,74,0.3)' },
-                },
-            });
-
-            versions.forEach(v => {
-                if (v.branch === 'main') {
-                    main.commit({
-                        subject: `${v.version}: ${v.message.split('—')[0].trim()}`,
-                        tag: v.version,
-                        style: { dot: { color: '#ff6d4a', strokeColor: '#0d0d1f' }, message: { color: '#f0f0f5' } },
-                        onClick: () => v.compareUrl && window.open(v.compareUrl, '_blank'),
-                    });
-                } else {
-                    const feat = gitgraph.branch({
-                        name: v.branch,
-                        from: main,
-                        style: {
-                            color: '#a78bfa',
-                            label: { color: '#a78bfa', bgColor: 'rgba(167,139,250,0.12)', strokeColor: 'rgba(167,139,250,0.3)' },
-                        },
-                    });
-                    feat.commit({
-                        subject: `${v.version}: ${v.message.split('—')[0].trim()}`,
-                        tag: v.version,
-                        style: { dot: { color: '#a78bfa', strokeColor: '#0d0d1f' }, message: { color: '#f0f0f5' } },
-                        onClick: () => v.compareUrl && window.open(v.compareUrl, '_blank'),
-                    });
-                    if (v.merged) {
-                        main.merge({
-                            branch: feat,
-                            fastForward: false,
-                            commitOptions: {
-                                subject: `Merge ${v.branch} → main`,
-                                style: { dot: { color: '#ff6d4a', strokeColor: '#0d0d1f' }, message: { color: '#9090a8' } },
-                            },
-                        });
-                    }
-                }
-            });
-        }
-
-        // ── FALLBACK: pure-SVG timeline (renders if CDN is unavailable) ────────
-        function renderFallbackTimeline(versions) {
-            const container = document.getElementById('gitgraph-container');
-            if (!container) return;
-
-            const nodeSpacing = 160;
-            const mainY = 40;
-            const featY = 90;
-            const totalWidth = Math.max(600, versions.length * nodeSpacing + 120);
-
-            let svgParts = [`<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 ${totalWidth} 140" style="font-family:Inter,sans-serif;min-width:${totalWidth}px">`];
-
-            // Draw main line
-            svgParts.push(`<line x1="60" y1="${mainY}" x2="${totalWidth - 40}" y2="${mainY}" stroke="#ff6d4a" stroke-width="3" stroke-linecap="round"/>`);
-
-            // Draw nodes
-            let mainX = 80;
-            versions.forEach((v, i) => {
-                const isMain = v.branch === 'main';
-                const nx = isMain ? mainX : mainX + 40;
-                const ny = isMain ? mainY : featY;
-                const col = isMain ? '#ff6d4a' : '#a78bfa';
-
-                if (!isMain) {
-                    // Branch line down
-                    svgParts.push(`<path d="M${mainX} ${mainY} Q${mainX} ${featY} ${nx} ${featY}" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-dasharray="5,3"/>`);
-                    if (v.merged) {
-                        const mergeX = nx + 60;
-                        // Merge line back up
-                        svgParts.push(`<path d="M${nx} ${featY} Q${mergeX} ${featY} ${mergeX} ${mainY}" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-dasharray="5,3"/>`);
-                        // Merge node on main
-                        svgParts.push(`<circle cx="${mergeX}" cy="${mainY}" r="7" fill="#ff6d4a" stroke="#0d0d1f" stroke-width="2"/>`);
-                        mainX = mergeX + nodeSpacing;
-                    }
-                }
-
-                // Commit dot
-                svgParts.push(`<circle cx="${nx}" cy="${ny}" r="10" fill="${col}" stroke="#0d0d1f" stroke-width="2"/>`);
-                // Version tag
-                svgParts.push(`<text x="${nx}" y="${ny + 1}" text-anchor="middle" dominant-baseline="middle" fill="#0d0d1f" font-size="9" font-weight="700">${v.version.toUpperCase()}</text>`);
-                // Label below
-                const label = v.message.split('—')[0].trim();
-                const labelY = ny + (isMain ? -22 : 22);
-                svgParts.push(`<text x="${nx}" y="${labelY}" text-anchor="middle" fill="${col}" font-size="11" font-weight="600">${label.length > 20 ? label.slice(0, 18) + '…' : label}</text>`);
-                // Branch name
-                svgParts.push(`<text x="${nx}" y="${labelY + 14}" text-anchor="middle" fill="#9090a8" font-size="10">${v.branch}</text>`);
-
-                if (isMain) mainX += nodeSpacing;
-            });
-
-            // Branch label
-            svgParts.push(`<text x="20" y="${mainY + 1}" dominant-baseline="middle" fill="#ff6d4a" font-size="11" font-weight="600">main</text>`);
-            svgParts.push('</svg>');
-            container.innerHTML = svgParts.join('\n');
-        }
-
-        // ── VERSION CARDS (clickable → GitHub compare) ────────────────────────
-        function renderCards(versions) {
-            const container = document.getElementById('version-cards');
-            if (!container) return;
-
-            const branchIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="4" cy="3" r="1.5"/><circle cx="4" cy="13" r="1.5"/>
-                <circle cx="12" cy="6" r="1.5"/>
-                <line x1="4" y1="4.5" x2="4" y2="11.5"/>
-                <path d="M4 6 Q4 9 12 7.5" fill="none"/>
-            </svg>`;
-
-            const extIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" style="width:11px;height:11px;flex-shrink:0;opacity:0.5">
-                <path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3"/>
-                <path d="M10 2h4v4M14 2L8 8"/>
-            </svg>`;
-
-            container.innerHTML = versions.map(v => {
-                const title = v.message.split('—')[0].trim();
-                const detail = v.message.includes('—') ? v.message.split('—')[1].trim() : '';
-                const clickable = !!v.compareUrl;
-
-                return `
-                <a class="version-card ${clickable ? 'version-card--link' : ''}"
-                   ${clickable ? `href="${v.compareUrl}" target="_blank" rel="noopener"` : ''}
-                   title="${clickable ? 'View commit on GitHub' : ''}">
-                    <div class="version-card-header">
-                        <span class="version-card-tag">${v.version}</span>
-                        <div style="display:flex;align-items:center;gap:0.4rem">
-                            <span class="version-card-date">${v.date}</span>
-                            ${clickable ? extIcon : ''}
-                        </div>
-                    </div>
-                    <h4>${title}</h4>
-                    ${detail ? `<p>${detail}</p>` : ''}
-                    <div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
-                        <span class="version-card-branch">${branchIcon} ${v.branch}</span>
-                        ${v.merged
-                            ? '<span class="merged-badge">✓ merged</span>'
-                            : '<span style="font-size:0.7rem;color:var(--text-muted);">in progress</span>'}
-                    </div>
-                </a>`;
-            }).join('');
-        }
-
-    })();
-    </script>
 
 </body>
 </html>
