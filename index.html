@@ -3,77 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Portfolio</title>
+    <title>Oakley Gompels</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <!-- Navigation Bar -->
     <nav>
         <div class="nav-container">
-            <h1 class="logo">Oakley Gompels</h1>
+            <span class="logo">Oakley Gompels</span>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#photography">Photography</a></li>
                 <li><a href="#cv">CV</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="nav-cta">Get In Touch</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section (First thing visitors see) -->
+    <!-- Hero Section -->
     <section class="hero">
+        <div class="hero-bg-dots"></div>
         <div class="hero-content">
-            <h1>Hello, I'm Oakley Gompels</h1>
-            <p>Quantitative | Adaptable | Passionate</p>
-            <a href="#projects" class="cta-button">View My Work</a>
+            <p class="hero-eyebrow">Mathematics & Physics · University of Toronto</p>
+            <h1>Hello, I'm<br><span class="hero-highlight">Oakley Gompels</span></h1>
+            <p class="hero-sub">Quantitative &nbsp;·&nbsp; Adaptable &nbsp;·&nbsp; Passionate</p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn-primary">View My Work</a>
+                <a href="#contact" class="btn-secondary">Get In Touch</a>
+            </div>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about" class="section">
         <div class="container">
-            <h2>About Me</h2>
-            <p style="text-align: left;">I'm a Mathematics and Physics undergraduate at the University of Toronto,
-                 with a strong interest in how quantitative thinking translates into real-world decision-making.
-                  Alongside my degree, I've built experience across leadership, operations, and finance 
-                  - from running a large student organisation to improving operational workflows under real time pressure.
-                   I'm comfortable working with large data, models, and systems, but I care just
-                   as much about execution and outcomes as I do about theory.</p>
+            <div class="section-label">About</div>
+            <h2>Who I am</h2>
+            <div class="about-body">
+                <p>I'm a Mathematics and Physics undergraduate at the University of Toronto,
+                with a strong interest in how quantitative thinking translates into real-world decision-making.
+                Alongside my degree, I've built experience across leadership, operations, and finance
+                — from running a large student organisation to improving operational workflows under real-time pressure.
+                I'm comfortable working with large data, models, and systems, but I care just
+                as much about execution and outcomes as I do about theory.</p>
+            </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="section">
+    <section id="projects" class="section section-alt">
         <div class="container">
-            <h2>My Projects</h2>
+            <div class="section-label">Projects</div>
+            <h2>My Work</h2>
             <div class="projects-grid">
-       
+
                 <div class="project-card">
+                    <div class="card-tag">Physics Lab</div>
                     <h3>Brownian Motion and Diffusion Coefficient of Microspheres</h3>
                     <p>Analyzed the Brownian motion of microspheres suspended in liquid using digital
-                         video microscope using mean squared displacement, weighted linear fits and Stokes-Einstein 
-                         relation to confirm the stochastic nature of thermal motion 
-                         and highlight the importance of accurate uncertainty estimation in physical measurements. </p>
-                    <a href="Projects/Lab1.pdf" class="project-link">Read Full Report →</a>
+                    video microscopy — using mean squared displacement, weighted linear fits and the Stokes-Einstein
+                    relation to confirm the stochastic nature of thermal motion
+                    and highlight the importance of accurate uncertainty estimation in physical measurements.</p>
+                    <a href="Projects/Lab1.pdf" class="project-link">Read Full Report <span class="arrow">→</span></a>
                 </div>
 
                 <div class="project-card">
+                    <div class="card-tag">Physics Lab</div>
                     <h3>Investigating the Dependencies on Pendulum</h3>
-                    <p>An Experiment to further evaluate and extend theoretical predictions of damped harmonic motion
-                        by verifying period independence from amplitude,
-                        exponential decay, length scaling, and apparatus symmetry.</p>
-                    <a href="Projects/Pendulum.pdf" class="project-link">Read Full Report →</a>
+                    <p>An experiment to further evaluate and extend theoretical predictions of damped harmonic motion
+                    by verifying period independence from amplitude,
+                    exponential decay, length scaling, and apparatus symmetry.</p>
+                    <a href="Projects/Pendulum.pdf" class="project-link">Read Full Report <span class="arrow">→</span></a>
                 </div>
 
                 <div class="project-card">
+                    <div class="card-tag">Physics Lab</div>
                     <h3>Velocity of Ultrasonic Waves in Water</h3>
-                    <p>The Debye-Sears effect was employed to measure the speed of sound in water 
-                        and to determine its corresponding bulk modulus. The experiment utilised optical 
-                        diffraction from an acoustically driven standing wave in a liquid medium, with 
-                        angular deflection calibrated using a sodium lamp and a diffraction grating.</p>
-                    <a href="Projects/Lab2.pdf" class="project-link">Read Full Report →</a>
+                    <p>The Debye-Sears effect was employed to measure the speed of sound in water
+                    and determine its bulk modulus. The experiment utilised optical
+                    diffraction from an acoustically driven standing wave in a liquid medium, with
+                    angular deflection calibrated using a sodium lamp and a diffraction grating.</p>
+                    <a href="Projects/Lab2.pdf" class="project-link">Read Full Report <span class="arrow">→</span></a>
                 </div>
+
             </div>
         </div>
     </section>
@@ -81,194 +96,180 @@
     <!-- Photography Section -->
     <section id="photography" class="section">
         <div class="container">
-            <h2>Photography</h2>
-            <p style="text-align: left;"> What began as a casual hobby has grown into a genuine passion. 
+            <div class="section-label">Photography</div>
+            <h2>Through the Lens</h2>
+            <div class="about-body">
+                <p>What began as a casual hobby has grown into a genuine passion.
                 Photography has become a creative outlet that allows me to capture the sports
                 and moments shared by friends and family, preserving high-quality images that
                 hold lasting meaning. Beyond documenting memories, it has given me a new way
-                to engage with the world — one that encourages patience, attention, and an 
-                appreciation for detail. Through photography, I've been able to combine my love
-                of travel with creativity, exploring new places more thoughtfully and seeing familiar
-                environments from a fresh perspective.
-            </p>
-            <p style="text-align: left;">
-                Here are some of my favourite shots from over the years.
-                For me, each image doesn't stop at the press of the shutter;
+                to engage with the world — one that encourages patience, attention, and an
+                appreciation for detail.</p>
+                <p>Each image doesn't stop at the press of the shutter —
                 the creative process continues through post-editing, reflection,
-                and constantly experimenting with new ways to add character and originality.
-                It's this process of refining and re-imagining that allows each photo to move
-                beyond the ordinary and better reflect how the moment felt
-            </p>
+                and constantly experimenting with new ways to add character and originality.</p>
+            </div>
 
-            </p>
             <div class="photo-grid">
-                <!-- Replace # with your image file paths -->
                 <div class="photo-item">
-                    <img src="Pictures/flavia_toronto.jpg" alt="Photo description">
-                </div>
-                <div class="photo-item">
-                    <img src="Pictures/southspain.jpg" alt="Photo description">
+                    <img src="Pictures/flavia_toronto.jpg" alt="Toronto">
                 </div>
                 <div class="photo-item">
-                    <img src="Pictures/brooklyn_2.jpg" alt="Photo description">
+                    <img src="Pictures/southspain.jpg" alt="South Spain">
                 </div>
                 <div class="photo-item">
-                    <img src="Pictures/olly_reflect.jpg" alt="Photo description">
+                    <img src="Pictures/brooklyn_2.jpg" alt="Brooklyn">
                 </div>
-        </div>
-        <div class="container">
-                <div class="photo-grid">
-                
-                <div class="photo-item2">
-                    <img src="Pictures/spain_landscape.jpg" alt="Photo description">
+                <div class="photo-item">
+                    <img src="Pictures/olly_reflect.jpg" alt="Reflection">
                 </div>
-                <div class="photo-item2">
-                    <img src="Pictures/swiss vict.jpg" alt="Photo description">
-                </div>
-                <div class="photo-item2">
-                    <img src="Pictures/surf_wave.jpg" alt="Photo description">
-                </div>
+            </div>
 
-        </div>
+            <div class="photo-grid photo-grid-wide">
+                <div class="photo-item-wide">
+                    <img src="Pictures/spain_landscape.jpg" alt="Spain Landscape">
+                </div>
+                <div class="photo-item-wide">
+                    <img src="Pictures/swiss vict.jpg" alt="Switzerland">
+                </div>
+                <div class="photo-item-wide">
+                    <img src="Pictures/surf_wave.jpg" alt="Surf Wave">
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CV Section -->
-    <section id="cv" class="section">
+    <section id="cv" class="section section-alt">
         <div class="container">
-            <h2>Experience & Education</h2>
-            
-            <div class="cv-section">
-                <h3>Experience</h3>
-                <div class="cv-item">
-                    <h4>Vice President - University of Toronto Ski & Snowboard Club</h4>
-                    <p class="cv-date">January 2025 - Present</p>
-                    <p>Directed operations for a 400+ member organisation; 
-                        recruited and managed 15+ executives; and
-                        inclusivity policies, improving member engagement by 20%
-                         and reducing planning inefficiencies.</p>
+            <div class="section-label">CV</div>
+            <h2>Experience &amp; Education</h2>
+
+            <div class="cv-columns">
+
+                <!-- Experience -->
+                <div class="cv-col">
+                    <h3 class="cv-group-title">Experience</h3>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>Vice President</h4>
+                            <span class="cv-date">Jan 2025 – Present</span>
+                        </div>
+                        <p class="cv-org">University of Toronto Ski &amp; Snowboard Club</p>
+                        <p>Directed operations for a 400+ member organisation; recruited and managed 15+ executives; implemented inclusivity policies, improving member engagement by 20% and reducing planning inefficiencies.</p>
+                    </div>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>Property Manager</h4>
+                            <span class="cv-date">Sep 2024 – Nov 2025</span>
+                        </div>
+                        <p class="cv-org">Phi Gamma Delta</p>
+                        <p>Revitalised a century-old charitable housing property — rebuilding trust with owners after two decades of strained relations and unlocking a $70K renovation fund. Designed and managed operational workflows for a 45-member team.</p>
+                    </div>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>Operations</h4>
+                            <span class="cv-date">Oct 2023 – Aug 2025</span>
+                        </div>
+                        <p class="cv-org">Only Four Ltd</p>
+                        <p>Processed and dispatched 200+ customer orders daily with 99% accuracy. Identified operational bottlenecks and developed prototype improvements projected to cut pick-and-pack time by ~0.5 seconds per item (~500 hours annually).</p>
+                    </div>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>Investment Banking Internship</h4>
+                            <span class="cv-date">Jul – Aug 2021</span>
+                        </div>
+                        <p class="cv-org">InvestIn</p>
+                        <p>Competed in investment banking simulations, developed financial models, conducted equity valuations, and presented M&amp;A pitch decks — gaining exposure to capital markets and client advisory.</p>
+                    </div>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>Summer Programme — Business &amp; Entrepreneurship</h4>
+                            <span class="cv-date">Jun – Aug 2024</span>
+                        </div>
+                        <p class="cv-org">INSEAD</p>
+                        <p>Intensive exposure in entrepreneurship, innovation strategy, and global business practices. Collaborated on case studies and startup simulations, developing cross-cultural teamwork and pitching skills.</p>
+                    </div>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>Lifeguard</h4>
+                            <span class="cv-date">Sep 2020 – Apr 2022</span>
+                        </div>
+                        <p class="cv-org">Dauntsey's School</p>
+                        <p>Responded to emergencies with professionalism, applying crisis management and training under pressure.</p>
+                    </div>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>Smallpeice Trust</h4>
+                            <span class="cv-date">Jul 2017 &amp; Jul 2018</span>
+                        </div>
+                        <p class="cv-org">Engineering Experience</p>
+                        <p>First-hand experience creating prototypes, managing budgets and analysing data. Automotive Engineering: team design and build alongside Bloodhound/Rolls Royce/JLR, incorporating systems thinking, control, teamwork, and technical communication with industry mentors.</p>
+                    </div>
                 </div>
-                
-                <div class="cv-item">
-                    <h4>Property Manager - Phi Gamma Delta </h4>
-                    <p class="cv-date">September 2024 - November 2025 </p>
-                    <p>Revitalised century-old charitable housing property by
-                         rebuilding trust with owners after 2 decades of strained
-                          relations, unlocked $70K renovation fund by creating
-                           prioritised lists aligned with objectives. </p>
-                    <p>Designed and managed operational workflows for a 45-member team,
-                         driving consistent completion, strengthening operational efficiency,
-                          accountability and effective collaboration.</p> 
+
+                <!-- Education -->
+                <div class="cv-col">
+                    <h3 class="cv-group-title">Education</h3>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>BSc Mathematics &amp; Physics</h4>
+                            <span class="cv-date">2022 – 2026</span>
+                        </div>
+                        <p class="cv-org">University of Toronto</p>
+                        <p>Additional Certificate of Business — Rotman School of Commerce.</p>
+                        <p>Key modules: Ordinary &amp; Partial Differential Equations, Combinatorics, Abstract Maths, Linear Algebra, Multivariable Calculus, Practical Physics Labs, and Advanced Classical Mechanics.</p>
+                        <p>Supplementary courses in Environmental Sustainability, Psychology, International Development Studies, Business Ethics, and Economics.</p>
+                    </div>
+
+                    <div class="cv-item">
+                        <div class="cv-item-header">
+                            <h4>A-Levels &amp; GCSEs</h4>
+                            <span class="cv-date">2017 – 2022</span>
+                        </div>
+                        <p class="cv-org">Dauntsey's School</p>
+                        <p>A Levels: Mathematics (A), Physics (B), Economics (B).</p>
+                        <p>Captain of 2nd XI Hockey Team, Devizes Club 1st Team Hockey, 1st Team Rugby and Cricket.</p>
+                    </div>
                 </div>
-                
-                <div class="cv-item">
-                    <h4> Only Four Ltd</h4>
-                    <p class="cv-date"> October 2023 - August 2025</p>
-                    <p>
-                        Processed and dispatched 200+ customer orders daily
-                        with 99% accuracy, maintaining service standards under high demand.
-                        Identified operational bottlenecks and developed prototype 
-                        improvements, projected to cut the pick and pack time by
-                        ~0.5 seconds per item (~500 hours annually).
-                    </p>
-                </div>
-                <div class = "cv-item">
-                    <h4> Investment Banking Internship - InvestIn</h4>
-                    <p class = "cv-date"> July 2021 - August 2021</p>
-                    <p>
-                        Competed in investment banking simulations, 
-                        developed financial models, conducted equity valuations, 
-                        and presented M&A pitch decks, gaining experience with 
-                        capital markets and client advisory alongside. 
-                    </p>
-                </div>
-                <div class = "cv-item">
-                    <h4> Summer Programme Business & Entrepreneurship - INSEAD  </h4>
-                    <p class = "cv-date">June 2024 - August 2024 </p>
-                    <p>
-                        Intensive exposure in entrepreneurship, 
-                        innovation strategy, & global business practices,
-                         collaborated and presented on case studies and 
-                         startup simulations, developing cross-cultural
-                          teamwork and pitching skills.
-                    </p>
-                
-                </div>
-                <div class="cv-item">
-                    <h4> Lifeguard - Dauntseys School </h4>
-                    <p class="cv-date"> September 2020 - April 2022</p>
-                    <p>
-                        Responded to emergencies with professionalism,
-                         applying crisis management and training under pressure.
-                    </p>
-                </div>
-                <div class ="cv-item">
-                    <h4> Smallpeice Trust</h4>
-                    <p class = "cv-date"> July 2017 & July 2018</p>
-                    <p> 
-                        Engineering Experience: First-hand experience
-                        creating prototypes, managing budgets & analysing data.
-                    </p>
-                    <p>
-                        Automotive Engineering: Team design & build alongside 
-                        Bloodhound/Rolls Royce/JLR, incorporating systems thinking
-                        & control with teamwork and technical communication with
-                        industry mentors.
-                    </p>
-                </div>
+
             </div>
-            
-            <div class="cv-section">
-                <h3>Education</h3>
-                <div class="cv-item">
-                    <h4>BSc Mathematics & Physics - University of Toronto</h4>
-                    <p class="cv-date">2022 - 2026</p>
-                    <p>Additional Certificate of Business - Rotman School of Commerce</p>
-                    <p>Key modules include: Ordinary & Partial Differential Equations, 
-                        Combinatorics, Abstract Maths, Linear Algebra, 
-                        Multivariable Calculus, Practical Physics Labs and 
-                        Advance Classical Mechanics.
-                    </p>
-                    <p>Supplementary Courses in Environmental Sustainability, 
-                        Psychology, international development Studies,
-                        Business Ethics and Economics.
-                    </p>
-                </div>
-                <div class ="cv-item">
-                    <h4>A-Levels & GCSES - Dauntsey's School </h4>
-                    <p class ="cv-date">2017 - 2022</p>
-                    <p> 
-                    A Levels: Mathematics (A), Physics (B), Economics (B)</p>
-                    <p>
-                    Captain of 2nd XI Hockey Team, Devizes Club 1st Team Hockey, 1st Team Rugby and Cricket
-                    </p>
-                    </p>
-                    </h4>
-                </div>
-                </h3>
+
+            <div class="cv-download-wrap">
+                <a href="Oakley Gompels CV.pdf" class="btn-primary">Download Full CV (PDF)</a>
             </div>
-            
-            <a href="Oakley Gompels CV.pdf" class="download-cv">Download Full CV (PDF)</a>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
+    <section id="contact" class="section contact-section">
+        <div class="contact-glow"></div>
+        <div class="container contact-inner">
+            <div class="section-label">Contact</div>
             <h2>Get In Touch</h2>
-            <p>Feel free to reach out for collaborations or just a friendly chat!</p>
+            <p class="contact-sub">Feel free to reach out for collaborations or just a friendly chat.</p>
             <div class="contact-links">
-                <a href="mailto:oakleygompels@gmail.com">Email</a>
-                <a href="https://www.linkedin.com/in/oakley-gompels" target="_blank">LinkedIn</a>
+                <a href="mailto:oakleygompels@gmail.com" class="btn-primary">Email Me</a>
+                <a href="https://www.linkedin.com/in/oakley-gompels" target="_blank" class="btn-secondary">LinkedIn</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Oakley Gompels. Built with HTML & CSS.</p>
+        <div class="footer-inner">
+            <span class="footer-logo">Oakley Gompels</span>
+            <p>&copy; 2025 Oakley Gompels. Built with HTML &amp; CSS.</p>
+        </div>
     </footer>
+
 </body>
 </html>
-
