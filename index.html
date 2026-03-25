@@ -6,6 +6,8 @@
     <title>Oakley Gompels</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Gitgraph.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js"></script>
 </head>
 <body>
 
@@ -90,6 +92,28 @@
                 </div>
 
             </div>
+        </div>
+    </section>
+
+    <!-- Site Evolution Section -->
+    <section id="evolution" class="section section-alt">
+        <div class="container">
+            <div class="section-label">Version History</div>
+            <h2>Site Evolution</h2>
+            <p class="about-body" style="margin-bottom: 2rem;">
+                <span style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;">
+                    Every iteration of this site is preserved as a named branch in Git.
+                    Each node below is a real commit — click any version card to see what changed.
+                </span>
+            </p>
+
+            <!-- Graph canvas -->
+            <div class="evo-card">
+                <div id="gitgraph-container"></div>
+            </div>
+
+            <!-- Version cards rendered by JS -->
+            <div id="version-cards" class="version-cards"></div>
         </div>
     </section>
 
@@ -270,6 +294,267 @@
             <p>&copy; 2025 Oakley Gompels. Built with HTML &amp; CSS.</p>
         </div>
     </footer>
+
+
+    <!-- =============================================
+         SITE EVOLUTION — Gitgraph.js visualisation
+         Only touches #evolution section
+         ============================================= -->
+    <style>
+        /* --- Evolution section container --- */
+        .evo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem 1.5rem 1rem;
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        #gitgraph-container svg {
+            font-family: var(--font) !important;
+            overflow: visible;
+        }
+
+        /* --- Version cards below the graph --- */
+        .version-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .version-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            cursor: default;
+        }
+
+        .version-card:hover {
+            border-color: rgba(255, 109, 74, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+        }
+
+        .version-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .version-card-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(255, 109, 74, 0.12);
+            padding: 0.2rem 0.65rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 109, 74, 0.25);
+        }
+
+        .version-card-date {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .version-card h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+        }
+
+        .version-card p {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .version-card-branch {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            background: rgba(255,255,255,0.04);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .version-card-branch svg {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+
+        .merged-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.25);
+            padding: 0.15rem 0.55rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+        }
+    </style>
+
+    <script>
+    (function () {
+        // ── Load versions.json then render graph + cards ──────────────────────
+        fetch('versions.json')
+            .then(r => r.json())
+            .then(versions => {
+                renderGraph(versions);
+                renderCards(versions);
+            })
+            .catch(err => console.error('Could not load versions.json:', err));
+
+        // ── GITGRAPH RENDERER ─────────────────────────────────────────────────
+        function renderGraph(versions) {
+            const { createGitgraph } = GitgraphJS;
+
+            const container = document.getElementById('gitgraph-container');
+            if (!container) return;
+
+            // Custom template to match site palette exactly
+            const siteTemplate = {
+                colors: ['#ff6d4a', '#a78bfa', '#38bdf8'],
+                branch: {
+                    lineWidth: 3,
+                    spacingX: 50,
+                    labelFont: '600 12px Inter, system-ui, sans-serif',
+                    labelRotation: 0,
+                },
+                commit: {
+                    spacing: 60,
+                    dot: {
+                        size: 10,
+                        strokeWidth: 2,
+                        strokeColor: '#0d0d1f',
+                    },
+                    message: {
+                        font: '500 13px Inter, system-ui, sans-serif',
+                        color: '#f0f0f5',
+                        displayAuthor: false,
+                        displayHash: false,
+                    },
+                    shouldDisplayTooltipsInCompactMode: true,
+                },
+                tag: {
+                    font: '600 11px Inter, system-ui, sans-serif',
+                    color: '#ff6d4a',
+                },
+            };
+
+            const gitgraph = createGitgraph(container, {
+                template: siteTemplate,
+                orientation: 'horizontal',
+                mode: 'compact',
+            });
+
+            // ── Build the graph from versions.json ────────────────────────────
+            // Always start on main
+            const main = gitgraph.branch({
+                name: 'main',
+                style: {
+                    color: '#ff6d4a',
+                    label: { color: '#ff6d4a', bgColor: 'rgba(255,109,74,0.12)', strokeColor: 'rgba(255,109,74,0.3)' },
+                },
+            });
+
+            const branchMap = { main };
+
+            versions.forEach(v => {
+                if (v.branch === 'main') {
+                    // Commit directly on main
+                    main.commit({
+                        subject: `${v.version}: ${v.message.split('—')[0].trim()}`,
+                        tag: v.version,
+                        style: {
+                            dot: { color: '#ff6d4a', strokeColor: '#0d0d1f' },
+                            message: { color: '#f0f0f5' },
+                        },
+                    });
+                } else {
+                    // Create a feature branch off main, commit, then merge back
+                    const featureBranch = gitgraph.branch({
+                        name: v.branch,
+                        from: main,
+                        style: {
+                            color: '#a78bfa',
+                            label: { color: '#a78bfa', bgColor: 'rgba(167,139,250,0.12)', strokeColor: 'rgba(167,139,250,0.3)' },
+                        },
+                    });
+
+                    featureBranch.commit({
+                        subject: `${v.version}: ${v.message.split('—')[0].trim()}`,
+                        tag: v.version,
+                        style: {
+                            dot: { color: '#a78bfa', strokeColor: '#0d0d1f' },
+                            message: { color: '#f0f0f5' },
+                        },
+                    });
+
+                    if (v.merged) {
+                        main.merge({
+                            branch: featureBranch,
+                            fastForward: false,
+                            commitOptions: {
+                                subject: `Merge ${v.branch} → main`,
+                                style: {
+                                    dot: { color: '#ff6d4a', strokeColor: '#0d0d1f' },
+                                    message: { color: '#9090a8' },
+                                },
+                            },
+                        });
+                    }
+                }
+            });
+        }
+
+        // ── VERSION CARDS RENDERER ────────────────────────────────────────────
+        function renderCards(versions) {
+            const container = document.getElementById('version-cards');
+            if (!container) return;
+
+            const branchIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="4" cy="3" r="1.5"/><circle cx="4" cy="13" r="1.5"/>
+                <circle cx="12" cy="6" r="1.5"/>
+                <line x1="4" y1="4.5" x2="4" y2="11.5"/>
+                <path d="M4 6 Q4 9 12 7.5" fill="none"/>
+            </svg>`;
+
+            container.innerHTML = versions.map(v => `
+                <div class="version-card">
+                    <div class="version-card-header">
+                        <span class="version-card-tag">${v.version}</span>
+                        <span class="version-card-date">${v.date}</span>
+                    </div>
+                    <h4>${v.message.split('—')[0].trim()}</h4>
+                    <p>${v.message.includes('—') ? v.message.split('—')[1].trim() : ''}</p>
+                    <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.75rem; flex-wrap:wrap;">
+                        <span class="version-card-branch">
+                            ${branchIcon}
+                            ${v.branch}
+                        </span>
+                        ${v.merged ? '<span class="merged-badge">✓ merged</span>' : '<span style="font-size:0.7rem;color:var(--text-muted);">in progress</span>'}
+                    </div>
+                </div>
+            `).join('');
+        }
+    })();
+    </script>
 
 </body>
 </html>

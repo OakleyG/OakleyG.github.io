@@ -1,0 +1,16 @@
+[
+  {
+    "version": "v1",
+    "branch": "main",
+    "date": "2026-03-25",
+    "message": "Initial website — HTML & CSS portfolio with hero, about, projects, photography, CV and contact sections",
+    "merged": true
+  },
+  {
+    "version": "v2",
+    "branch": "v2-redesign",
+    "date": "2026-03-25",
+    "message": "n8n-inspired dark redesign — deep navy theme, orange accents, Inter font, dark cards, two-column CV layout",
+    "merged": true
+  }
+]
