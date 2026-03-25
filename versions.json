@@ -16,5 +16,14 @@
     "merged": true,
     "commitHash": "736f2bf08ab9f1cf7a2c6183f00cc0a0bb84872c",
     "compareUrl": "https://github.com/OakleyG/OakleyG.github.io/compare/54d29ba...736f2bf"
+  },
+  {
+    "version": "v3",
+    "branch": "feature/git-history-visual",
+    "date": "2026-03-25",
+    "message": "Site Evolution page — interactive Gitgraph.js branch visualisation, standalone evolution.html, version history cards with GitHub diff links",
+    "merged": false,
+    "commitHash": "8fda944bc0ac255d934e85f5f4083a0cffc58c3c",
+    "compareUrl": "https://github.com/OakleyG/OakleyG.github.io/compare/main...feature/git-history-visual"
   }
 ]
