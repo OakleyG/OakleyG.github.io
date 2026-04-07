@@ -15,6 +15,9 @@ Website/
 ├── Oakley Gompels CV.pdf
 ├── Pictures/           # Photography images
 ├── Projects/           # Lab report PDFs
+├── Notes/              # Maths revision notes (HTML documents)
+│   ├── MAT301_Revision_Sheet.html   # Group Theory
+│   └── MAT344_Revision.html         # Combinatorics
 └── .vscode/
 ```
 
@@ -82,6 +85,7 @@ It powers the interactive branch graph on `evolution.html`. Each entry looks lik
 | v1 | `main` | Initial HTML & CSS portfolio — hero, about, projects, photography, CV, contact |
 | v2 | `v2-redesign` | n8n-inspired dark redesign — navy theme, orange accents, Inter font, dark cards |
 | v3 | `feature/git-history-visual` | Site Evolution page — Gitgraph.js visualisation, evolution.html, version cards |
+| v4 | `feature/maths-revision-notes` | Maths revision notes — MAT301 Group Theory and MAT344 Combinatorics added to Notes/ |
 
 ---
 

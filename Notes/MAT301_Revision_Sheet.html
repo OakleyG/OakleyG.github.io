@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAT301 Exam Revision — Group Theory</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --gold: #c8972a;
+    --red: #b5341b;
+    --blue: #1a3a5c;
+    --green: #1f5c3a;
+    --highlight: #ffe066;
+    --border: #c8b89a;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Source Serif 4', serif;
+    --display: 'Playfair Display', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 24px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--gold);
+  }
+  nav span {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin-right: 8px;
+  }
+  nav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: #ccc;
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid #444;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  nav a:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 56px 48px 40px;
+    border-bottom: 4px solid var(--gold);
+  }
+  header h1 {
+    font-family: var(--display);
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  header h1 em { color: var(--gold); font-style: normal; }
+  header p {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #aaa;
+    letter-spacing: 0.1em;
+  }
+  .exam-info {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+  .pill-red { background: var(--red); color: white; }
+  .pill-gold { background: var(--gold); color: var(--ink); }
+  .pill-blue { background: var(--blue); color: white; }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* SECTIONS */
+  section {
+    margin-bottom: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 8px;
+    margin-bottom: 28px;
+  }
+  .section-header h2 {
+    font-family: var(--display);
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .section-header .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 2px 8px;
+    border-radius: 1px;
+  }
+
+  /* THEOREM BOXES */
+  .theorem-box {
+    border: 2px solid var(--ink);
+    margin-bottom: 20px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .theorem-box::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: var(--blue);
+  }
+  .theorem-box.gold::before { background: var(--gold); }
+  .theorem-box.red::before { background: var(--red); }
+  .theorem-box.green::before { background: var(--green); }
+
+  .theorem-header {
+    background: var(--ink);
+    color: white;
+    padding: 8px 16px 8px 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .theorem-box.gold .theorem-header { background: var(--gold); color: var(--ink); }
+  .theorem-box.red .theorem-header { background: var(--red); color: white; }
+  .theorem-box.green .theorem-header { background: var(--green); color: white; }
+
+  .theorem-body {
+    padding: 16px 20px 16px 24px;
+  }
+  .theorem-body p { margin-bottom: 8px; }
+  .theorem-body p:last-child { margin-bottom: 0; }
+
+  /* TRICK/TIP BOX */
+  .trick {
+    background: var(--highlight);
+    border: 2px solid #b8961f;
+    border-radius: 2px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-family: var(--serif);
+    position: relative;
+  }
+  .trick::before {
+    content: '✦ TRICK';
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.15em;
+    color: #7a6200;
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* PROOF SCAFFOLD */
+  .proof-scaffold {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--blue);
+    padding: 20px 20px 20px 24px;
+    margin: 16px 0;
+    font-family: var(--serif);
+  }
+  .proof-scaffold h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--blue);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .proof-step {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 0 10px;
+    margin-bottom: 8px;
+    align-items: start;
+  }
+  .step-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--blue);
+    margin-top: 2px;
+  }
+
+  /* MATH */
+  .math {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: rgba(0,0,0,0.05);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+  .math-block {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--ink);
+    color: #e8f0ff;
+    padding: 16px 20px;
+    margin: 14px 0;
+    border-radius: 2px;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.8;
+  }
+
+  /* GRID CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .card {
+    border: 1.5px solid var(--border);
+    background: white;
+    padding: 18px;
+    position: relative;
+  }
+  .card h4 {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .card ul li {
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+    font-size: 13.5px;
+  }
+  .card ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: bold;
+  }
+
+  /* DANGER / WARN */
+  .danger {
+    background: #fff3f0;
+    border: 2px solid var(--red);
+    border-radius: 2px;
+    padding: 14px 18px;
+    margin: 14px 0;
+  }
+  .danger::before {
+    content: '⚠ COMMON ERROR';
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* WHEN TO USE table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 16px 0;
+  }
+  th {
+    background: var(--ink);
+    color: white;
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+  td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--cream); }
+
+  /* SUBSECTION */
+  h3.sub {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    margin: 32px 0 14px;
+    color: var(--blue);
+    border-left: 4px solid var(--blue);
+    padding-left: 12px;
+  }
+
+  /* FLOW */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+  }
+  .flow-box {
+    background: var(--blue);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 2px;
+    font-size: 11.5px;
+  }
+  .flow-arrow { color: var(--gold); font-size: 18px; font-weight: bold; }
+
+  /* BIG NUMBER */
+  .big-theorem {
+    font-family: var(--display);
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--cream);
+    position: absolute;
+    right: 12px;
+    top: -10px;
+    pointer-events: none;
+    z-index: 0;
+    line-height: 1;
+  }
+
+  strong.key { color: var(--blue); }
+  strong.warn { color: var(--red); }
+
+  @media print {
+    nav { display: none; }
+    .theorem-box { break-inside: avoid; }
+    section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span>MAT301</span>
+  <a href="#roadmap">Roadmap</a>
+  <a href="#foundations">Foundations</a>
+  <a href="#mod3">Module 3</a>
+  <a href="#mod4">Module 4</a>
+  <a href="#mod5">Module 5</a>
+  <a href="#sylow">Sylow Theorems</a>
+  <a href="#proof-guide">Proof Guide</a>
+  <a href="#find-errors">Find Errors</a>
+  <a href="#exam-tactics">Exam Tactics</a>
+</nav>
+
+<header>
+  <h1>MAT301 <em>Group Theory</em><br>Complete Exam Revision</h1>
+  <p>UNIVERSITY OF TORONTO · WINTER 2026 · PROF. MAYES-TANG · EMPHASIS: MODULES 3–5</p>
+  <div class="exam-info">
+    <span class="pill pill-red">Multiple Choice</span>
+    <span class="pill pill-gold">Translation</span>
+    <span class="pill pill-blue">Proof</span>
+    <span class="pill pill-red">Connections</span>
+    <span class="pill pill-gold">Sylow-type Arguments Required</span>
+  </div>
+</header>
+
+<main>
+
+<!-- ====== ROADMAP ====== -->
+<section id="roadmap">
+  <div class="section-header">
+    <h2>The Big Picture</h2>
+    <span class="tag">Concept Map</span>
+  </div>
+  <div class="flow">
+    <div class="flow-box">Groups &amp; Subgroups</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Cosets &amp; Lagrange</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Normal Subgroups</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Quotient Groups</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Homomorphisms</div>
+  </div>
+  <div class="flow">
+    <div class="flow-box">1st Iso. Theorem</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">2nd &amp; 3rd Iso. Theorems</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Class Equation</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Cauchy's Theorem</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Sylow Theorems</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box">Classification</div>
+  </div>
+  <div class="trick">The course is a <strong>layered story</strong>: every new theorem is a tool that makes the next one possible. Sylow is the payoff — but it requires everything before it. Know the <em>why</em> each tool was built.</div>
+</section>
+
+<!-- ====== FOUNDATIONS ====== -->
+<section id="foundations">
+  <div class="section-header">
+    <h2>Foundations — Cosets, Lagrange &amp; Cyclic Groups</h2>
+    <span class="tag">Everything Builds on This</span>
+  </div>
+
+  <h3 class="sub">Cosets</h3>
+  <div class="theorem-box gold">
+    <div class="theorem-header">DEFINITION · Left and Right Cosets</div>
+    <div class="theorem-body">
+      <p>Let H ≤ G and a ∈ G. The <strong>left coset</strong> of H containing a is <span class="math">aH = {ah : h ∈ H}</span>.</p>
+      <p>The <strong>right coset</strong> is <span class="math">Ha = {ha : h ∈ H}</span>.</p>
+      <p><strong>Key facts:</strong></p>
+      <p>1. Cosets are <em>not</em> subgroups (unless a ∈ H).</p>
+      <p>2. aH = bH if and only if a⁻¹b ∈ H (cosets are equal or completely disjoint).</p>
+      <p>3. The distinct left cosets of H partition G into equal-sized pieces.</p>
+      <p>4. |aH| = |H| for all a ∈ G — the map h ↦ ah is a bijection H → aH.</p>
+    </div>
+  </div>
+  <div class="trick">
+    <strong>Coset membership test:</strong> To check if x ∈ aH, compute a⁻¹x. If a⁻¹x ∈ H, then x ∈ aH. To check if aH = bH, compute b⁻¹a — if it's in H, the cosets are equal.
+  </div>
+
+  <h3 class="sub">Lagrange's Theorem</h3>
+  <div class="theorem-box red">
+    <div class="theorem-header">★ LAGRANGE'S THEOREM — The Single Most Used Result in the Course</div>
+    <div class="theorem-body">
+      <p>If G is a finite group and H ≤ G, then <strong>|H| divides |G|</strong>.</p>
+      <p>Equivalently: <span class="math">|G| = |H| · [G : H]</span> where [G:H] is the number of distinct cosets of H in G.</p>
+    </div>
+  </div>
+  <div class="proof-scaffold">
+    <h4>Proof Sketch — Lagrange's Theorem</h4>
+    <div class="proof-step"><span class="step-num">1.</span><span><strong>Partition:</strong> The distinct left cosets of H in G partition G — every element belongs to exactly one coset. (Any two cosets are either equal or disjoint.)</span></div>
+    <div class="proof-step"><span class="step-num">2.</span><span><strong>Equal sizes:</strong> f: H → aH by f(h) = ah is a bijection, so |aH| = |H| for every coset.</span></div>
+    <div class="proof-step"><span class="step-num">3.</span><span><strong>Count:</strong> G is partitioned into [G:H] cosets each of size |H|, so |G| = [G:H]·|H|, meaning |H| divides |G|. □</span></div>
+  </div>
+  <div class="theorem-box">
+    <div class="theorem-header">COROLLARIES OF LAGRANGE — Know All Four</div>
+    <div class="theorem-body">
+      <p><strong>1. Order of elements:</strong> For any a ∈ G, ord(a) divides |G|. Therefore <span class="math">a^|G| = e</span> for all a ∈ G.</p>
+      <p><strong>2. Prime order → cyclic:</strong> If |G| = p (prime), then G ≅ Cₚ. Every non-identity element has order p and generates G.</p>
+      <p><strong>3. Index-2 ⟹ normal:</strong> If [G:H] = 2, then H ◁ G. (Only two cosets — H itself and everything else — so left and right cosets agree.)</p>
+      <p><strong>4. Converse is FALSE:</strong> A group need not have a subgroup of every order dividing |G|. Counterexample: A₄ (order 12) has no subgroup of order 6.</p>
+    </div>
+  </div>
+  <div class="danger">
+    The most common exam trap: "Since k | |G|, G must have a subgroup of order k." FALSE in general. Lagrange is one-directional. Cauchy covers primes; Sylow covers prime powers. For arbitrary divisors — no guarantee.
+  </div>
+
+  <h3 class="sub">Cyclic Groups</h3>
+  <div class="theorem-box">
+    <div class="theorem-header">KEY FACTS — Cyclic Groups &amp; Subgroup Structure</div>
+    <div class="theorem-body">
+      <p>G is <strong>cyclic</strong> if G = ⟨a⟩ = {aⁿ : n ∈ ℤ} for some a ∈ G.</p>
+      <p>1. Every subgroup of a cyclic group is cyclic.</p>
+      <p>2. If |G| = n, then G has <em>exactly one</em> subgroup of order d for each d | n.</p>
+      <p>3. In Cₙ = ⟨a⟩: the subgroup ⟨aᵏ⟩ = ⟨a^{gcd(k,n)}⟩ and has order n/gcd(k,n).</p>
+      <p>4. The number of generators of Cₙ is φ(n) (Euler's totient).</p>
+      <p>5. <span class="math">Cₘ × Cₙ ≅ Cₘₙ</span> iff gcd(m,n) = 1.</p>
+    </div>
+  </div>
+  <div class="trick">
+    <strong>Subgroups of Cₙ:</strong> One subgroup for each divisor of n. The subgroup of order k is ⟨a^{n/k}⟩. The subgroup lattice of Cₙ mirrors the divisibility lattice of n — draw it! This is how you quickly see all subgroups.
+  </div>
+
+  <h3 class="sub">Group Actions — The Engine Behind Sylow</h3>
+  <div class="theorem-box gold">
+    <div class="theorem-header">DEFINITION · Group Action</div>
+    <div class="theorem-body">
+      <p>A <strong>group action</strong> of G on a set S is a map G × S → S, written (g, s) ↦ g·s, satisfying:</p>
+      <p>1. <strong>Identity:</strong> e·s = s for all s ∈ S.</p>
+      <p>2. <strong>Compatibility:</strong> (gh)·s = g·(h·s) for all g,h ∈ G, s ∈ S.</p>
+      <p><strong>Orbit of s:</strong> orb(s) = {g·s : g ∈ G} — all places s can move to.</p>
+      <p><strong>Stabilizer of s:</strong> stab(s) = {g ∈ G : g·s = s} — elements that fix s. Always a subgroup of G.</p>
+      <p><strong>Orbit-Stabilizer Theorem:</strong> <span class="math">|G| = |orb(s)| · |stab(s)|</span></p>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Key Actions to Know</h4>
+      <ul>
+        <li><strong>Conjugation on elements:</strong> g·x = gxg⁻¹. Orbits = conjugacy classes. Stabilizer of x = Cₓ (centralizer).</li>
+        <li><strong>Left mult. on cosets:</strong> g·(aH) = gaH. Used in Sylow 2 proof. Stabilizer of gH = gHg⁻¹ ∩ K (for K acting).</li>
+        <li><strong>Conjugation on subgroups:</strong> g·P = gPg⁻¹. Orbits = conjugacy classes of subgroups. Stabilizer of P = N_G(P). Used in Sylow 3.</li>
+        <li><strong>Cayley's Theorem:</strong> G acts on itself by left mult. → G embeds in S_{|G|}.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Burnside's Lemma</h4>
+      <ul>
+        <li>If G acts on X: # orbits = (1/|G|) · Σ_{g∈G} |X^g|</li>
+        <li>X^g = set of elements of X fixed by g</li>
+        <li>Used to count distinct necklaces/colorings up to symmetry</li>
+        <li>Necklace example: G = rotations (Cₙ), X = all colourings of n beads with B colours, X^g = colourings fixed by rotation g</li>
+      </ul>
+    </div>
+  </div>
+  <div class="trick">
+    <strong>Actions unify everything:</strong> Conjugation on elements → class equation. Conjugation on Sylow subgroups → Sylow 2 &amp; 3. Left multiplication on cosets → Cayley's theorem. Every major result is secretly an orbit-stabilizer argument.
+  </div>
+
+  <h3 class="sub">Semidirect Products</h3>
+  <div class="theorem-box">
+    <div class="theorem-header">DEFINITION · Semidirect Product H ⋊ K</div>
+    <div class="theorem-body">
+      <p>G = H ⋊_φ K is a group built from subgroups H and K where:</p>
+      <p>• G = HK, H ∩ K = {e}, <strong>H ◁ G</strong> (H normal), K not necessarily normal.</p>
+      <p>• The operation twists by φ: K → Aut(H): <span class="math">(h₁,k₁)(h₂,k₂) = (h₁·φ(k₁)(h₂), k₁k₂)</span></p>
+      <p><strong>Direct vs Semidirect:</strong> H × K is the special case where φ is trivial (K acts on H by identity). In H ⋊ K, the action is non-trivial — K "twists" or "rewires" H.</p>
+      <p><strong>Visual clue:</strong> In the Cayley diagram, arrows between cosets don't connect corresponding elements — the cosets are rotated/twisted versions of each other.</p>
+    </div>
+  </div>
+  <div class="trick">
+    <strong>Identifying semidirect structure:</strong> If H ◁ G and K ≤ G with HK = G and H ∩ K = {e}, then G ≅ H ⋊ K. The homomorphism φ: K → Aut(H) is given by φ(k)(h) = khk⁻¹. If K is also normal, it's a direct product. The key question is: does conjugation by K give a non-trivial automorphism of H?
+  </div>
+</section>
+
+<!-- ====== MODULE 3 ====== -->
+<section id="mod3">
+  <div class="section-header">
+    <h2>Module 3 — Quotients, Products &amp; Homomorphisms</h2>
+    <span class="tag">Foundation for Modules 4–5</span>
+  </div>
+
+  <h3 class="sub">Quotient Groups</h3>
+
+  <div class="theorem-box gold">
+    <div class="theorem-header">DEFINITION · Quotient Group G/H</div>
+    <div class="theorem-body">
+      <p>If <span class="math">H ◁ G</span> (H is <strong>normal</strong> in G), then the set of left cosets <span class="math">G/H = {gH : g ∈ G}</span> forms a group under the operation <span class="math">(aH)(bH) = (ab)H</span>.</p>
+      <p><strong>Order:</strong> <span class="math">|G/H| = |G| / |H|</span> (this is the <em>index</em> of H in G).</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Visualize it as "collapsing":</strong> take the Cayley diagram of G and shrink every element of each coset into a single node. The resulting diagram is the Cayley diagram of G/H. Normal subgroups are exactly the ones where this collapsing produces a well-defined group (cosets multiply consistently).
+  </div>
+
+  <div class="danger">
+    H must be <strong>normal</strong> for G/H to be a group. If H is not normal, coset multiplication is not well-defined. Always verify normality first: <span class="math">gHg⁻¹ = H for all g ∈ G</span>.
+  </div>
+
+  <h3 class="sub">Direct Products</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Key Lemmas to Know</h4>
+      <ul>
+        <li><span class="math">|A × B| = |A| · |B|</span></li>
+        <li>A × B is abelian iff both A and B are abelian</li>
+        <li>Components A and B are normal subgroups of A × B</li>
+        <li><span class="math">Cₘ × Cₙ ≅ Cₘₙ</span> iff gcd(m,n) = 1</li>
+        <li>Order of (a,b) in A×B = lcm(ord(a), ord(b))</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Fundamental Theorem of Finite Abelian Groups</h4>
+      <ul>
+        <li>Every finite abelian group is a product of cyclic groups of prime power order</li>
+        <li>This product is unique up to rearrangement</li>
+        <li>To list all abelian groups of order n: factor n, then list all partition-products</li>
+        <li>Example: Order 12 = 4·3 gives <span class="math">C₁₂, C₂×C₆, C₂×C₂×C₃</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sub">Homomorphisms — Essential Facts</h3>
+
+  <div class="theorem-box">
+    <div class="theorem-header">MUST-MEMORIZE · Homomorphism Properties</div>
+    <div class="theorem-body">
+      <p>A map <span class="math">φ: G → H</span> is a homomorphism if <span class="math">φ(ab) = φ(a)φ(b)</span> for all a,b ∈ G.</p>
+      <p><strong>Always true:</strong></p>
+      <p>1. <span class="math">φ(e_G) = e_H</span> — identities map to identities.</p>
+      <p>2. <span class="math">φ(a⁻¹) = φ(a)⁻¹</span> — inverses map to inverses.</p>
+      <p>3. <span class="math">ker(φ) = {g ∈ G : φ(g) = e_H}</span> is a <strong>normal</strong> subgroup of G.</p>
+      <p>4. <span class="math">Im(φ) = {φ(g) : g ∈ G}</span> is a subgroup of H.</p>
+      <p>5. If G is abelian, Im(φ) is abelian. If G is cyclic, Im(φ) is cyclic.</p>
+      <p>6. Order of φ(a) divides order of a.</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Kernel = normality detector:</strong> The kernel of any homomorphism is always normal. Conversely, every normal subgroup N ◁ G is the kernel of the quotient map <span class="math">π: G → G/N</span>. These two facts are two sides of the same coin.
+  </div>
+
+  <h3 class="sub">Conjugacy Classes — Full Details</h3>
+
+  <div class="theorem-box">
+    <div class="theorem-header">CONJUGACY — Definitions &amp; Properties to Prove</div>
+    <div class="theorem-body">
+      <p>a is <strong>conjugate</strong> to b if a = xbx⁻¹ for some x ∈ G. The <strong>conjugacy class</strong> of a is <span class="math">[a] = {xax⁻¹ : x ∈ G}</span>.</p>
+      <p><strong>Must know:</strong></p>
+      <p>1. Conjugacy is an equivalence relation → conjugacy classes partition G.</p>
+      <p>2. <span class="math">|[a]| = [G : C_a]</span> — size of class = index of centralizer. (Proved via orbit-stabilizer: G acts on G by conjugation; orb(a) = [a], stab(a) = C_a.)</p>
+      <p>3. a ∈ Z(G) iff [a] = {a} (conjugacy class of size 1).</p>
+      <p>4. <strong>Normal subgroups are unions of conjugacy classes.</strong> (Key exam tool: if |N| must divide |G| and N is a union of conjugacy classes, list which classes can combine to give a valid order.)</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Testing normality via conjugacy classes:</strong> List all conjugacy classes of G (with sizes). A normal subgroup N must contain complete conjugacy classes and satisfy |N| | |G|. So compute: which subsets of classes have total size dividing |G|? Those are the candidates for normal subgroups. This is exactly how the A₅ class equation 60 = 1+15+20+12+12 forces A₅ to be simple — no subset of {1,15,20,12,12} (including 1) adds to a proper divisor of 60 except {1} and {1,15,20,12,12} = 60 itself.
+  </div>
+
+
+
+  <div class="theorem-box">
+    <div class="theorem-header">DEFINITION · Normalizer &amp; Centralizer</div>
+    <div class="theorem-body">
+      <p><strong>Normalizer of H in G:</strong> <span class="math">N_G(H) = {g ∈ G : gHg⁻¹ = H}</span></p>
+      <p>This is the <em>largest</em> subgroup of G in which H is normal. H ◁ G iff N_G(H) = G.</p>
+      <p><strong>Center Z(G):</strong> <span class="math">Z(G) = {x ∈ G : xg = gx for all g ∈ G}</span> — elements that commute with everything.</p>
+      <p><strong>Centralizer of element a:</strong> <span class="math">C_a = {x ∈ G : xa = ax}</span></p>
+    </div>
+  </div>
+
+  <div class="trick">
+    To find the normalizer quickly: if H is not normal, the normalizer must contain H and only adds elements g where gHg⁻¹ = H. Look for symmetry in the Cayley diagram — if gH = Hg (left and right cosets agree), then g ∈ N_G(H).
+  </div>
+</section>
+
+<!-- ====== MODULE 4 ====== -->
+<section id="mod4">
+  <div class="section-header">
+    <h2>Module 4 — The Isomorphism Theorems</h2>
+    <span class="tag">High Exam Weight</span>
+  </div>
+
+  <div class="theorem-box red">
+    <div class="theorem-header">★ FIRST ISOMORPHISM THEOREM — The Most Important Theorem in the Course</div>
+    <div class="theorem-body">
+      <p>Let <span class="math">φ: G → H</span> be a homomorphism. Then:</p>
+      <div class="math-block">G / ker(φ)  ≅  Im(φ)</div>
+      <p>More precisely: the map <span class="math">ψ: G/ker(φ) → Im(φ)</span> defined by <span class="math">ψ(g·ker(φ)) = φ(g)</span> is an isomorphism.</p>
+    </div>
+  </div>
+
+  <div class="proof-scaffold">
+    <h4>Proof Scaffold — First Isomorphism Theorem</h4>
+    <div class="proof-step"><span class="step-num">1.</span><span><strong>Define the map:</strong> Let K = ker(φ). Define ψ: G/K → Im(φ) by ψ(gK) = φ(g).</span></div>
+    <div class="proof-step"><span class="step-num">2.</span><span><strong>Well-defined:</strong> If gK = g'K, then g'⁻¹g ∈ K, so φ(g'⁻¹g) = e, so φ(g) = φ(g'). Thus ψ(gK) = ψ(g'K). ✓</span></div>
+    <div class="proof-step"><span class="step-num">3.</span><span><strong>Homomorphism:</strong> ψ((aK)(bK)) = ψ(abK) = φ(ab) = φ(a)φ(b) = ψ(aK)ψ(bK). ✓</span></div>
+    <div class="proof-step"><span class="step-num">4.</span><span><strong>Injective:</strong> ker(ψ) = {gK : ψ(gK) = e} = {gK : φ(g) = e} = {gK : g ∈ K} = {K} = identity coset. ✓</span></div>
+    <div class="proof-step"><span class="step-num">5.</span><span><strong>Surjective:</strong> Every element φ(g) ∈ Im(φ) is hit by ψ(gK). ✓</span></div>
+    <div class="proof-step"><span class="step-num">6.</span><span><strong>Conclusion:</strong> ψ is a bijective homomorphism, hence an isomorphism. □</span></div>
+  </div>
+
+  <div class="trick">
+    <strong>1st Iso Theorem Recipe — How to use it:</strong><br>
+    (1) Find a surjective homomorphism φ: G → something you recognize.<br>
+    (2) Compute ker(φ).<br>
+    (3) Conclude G/ker(φ) ≅ Im(φ).<br><br>
+    <strong>Classic example:</strong> det: GL_n(ℚ) → ℚ* is surjective (det of diagonal matrix = any nonzero rational). ker(det) = SL_n(ℚ). So GL_n(ℚ)/SL_n(ℚ) ≅ ℚ*.
+  </div>
+
+  <div class="theorem-box">
+    <div class="theorem-header">SECOND ISOMORPHISM THEOREM (Diamond Theorem)</div>
+    <div class="theorem-body">
+      <p>Let K ◁ G and H ≤ G. Then:</p>
+      <div class="math-block">• HK is a subgroup of G
+• H ∩ K is a normal subgroup of H
+• HK/K  ≅  H/(H ∩ K)</div>
+      <p><strong>Use when:</strong> You have a product of subgroups HK and need to understand its structure.</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Mnemonic — "Diamond":</strong> Draw a diamond with G at top, HK below G, H and K on the sides, H∩K at the bottom. The two sides of the diamond are isomorphic quotients: HK/K ≅ H/(H∩K). The lengths of the sides of the diamond are equal.
+  </div>
+
+  <div class="theorem-box">
+    <div class="theorem-header">CORRESPONDENCE THEOREM (prerequisite for 3rd Iso)</div>
+    <div class="theorem-body">
+      <p>If <span class="math">θ: G₁ → G₂</span> is a surjective homomorphism with <span class="math">K = ker(θ)</span>, then there is a bijection between:</p>
+      <p>{ subgroups of G₁ containing K } ←→ { subgroups of G₂ }</p>
+      <p>given by <span class="math">H ↦ θ(H)</span> and <span class="math">J ↦ θ⁻¹(J)</span>. Furthermore, this bijection preserves normality and indices.</p>
+    </div>
+  </div>
+
+  <div class="theorem-box green">
+    <div class="theorem-header">THIRD ISOMORPHISM THEOREM</div>
+    <div class="theorem-body">
+      <p>If <span class="math">K ◁ G</span> and <span class="math">K ◁ H ◁ G</span>, then:</p>
+      <div class="math-block">G/H  ≅  (G/K) / (H/K)</div>
+      <p><strong>Intuition:</strong> Quotienting in two stages (first by K, then by H/K) is the same as quotienting directly by H.</p>
+      <p><strong>Analogy:</strong> Like (12/4)/3 = 12/12 = 1. Dividing out in stages gives the same answer.</p>
+    </div>
+  </div>
+
+  <h3 class="sub">When to Use Each Isomorphism Theorem</h3>
+  <table>
+    <tr>
+      <th>Theorem</th>
+      <th>Trigger Phrase / Situation</th>
+      <th>What You Get</th>
+    </tr>
+    <tr>
+      <td><strong>1st Iso</strong></td>
+      <td>You have a homomorphism φ and want to identify a quotient group</td>
+      <td>G/ker(φ) ≅ Im(φ)</td>
+    </tr>
+    <tr>
+      <td><strong>2nd Iso</strong></td>
+      <td>You have H and K (one normal), and want to understand HK or count elements</td>
+      <td>HK/K ≅ H/(H∩K)</td>
+    </tr>
+    <tr>
+      <td><strong>3rd Iso</strong></td>
+      <td>You have a chain of normal subgroups K ◁ H ◁ G</td>
+      <td>(G/K)/(H/K) ≅ G/H</td>
+    </tr>
+    <tr>
+      <td><strong>Correspondence</strong></td>
+      <td>You want to transfer subgroup structure through a surjection</td>
+      <td>Bijection between subgroup lattices</td>
+    </tr>
+  </table>
+
+  <div class="danger">
+    <strong>Exam trap:</strong> The 3rd Isomorphism Theorem requires K ◁ H AND K ◁ G AND H ◁ G — <em>all three</em> normality conditions. Don't just check one. Also: the conclusion is G/H ≅ (G/K)/(H/K), <strong>not</strong> "Normal A" (a noted correction from lecture).
+  </div>
+
+  <h3 class="sub">Automorphisms</h3>
+  <div class="theorem-box">
+    <div class="theorem-header">DEFINITION &amp; KEY FACTS — Aut(G)</div>
+    <div class="theorem-body">
+      <p>An <strong>automorphism</strong> is an isomorphism φ: G → G. Aut(G) is the set of all automorphisms under composition.</p>
+      <p>• Aut(G) is itself a group.</p>
+      <p>• <span class="math">Aut(Cₙ) ≅ U(n)</span> (the group of units mod n), which has order φ(n) (Euler's totient).</p>
+      <p>• For prime p: <span class="math">Aut(Cₚ) ≅ Cₚ₋₁</span>.</p>
+      <p>• An automorphism is determined entirely by where generators go; a generator must map to a generator of the same order.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MODULE 5 / SYLOW ====== -->
+<section id="mod5">
+  <div class="section-header">
+    <h2>Module 5 — Class Equation &amp; Cauchy's Theorem</h2>
+    <span class="tag">Bridge to Sylow</span>
+  </div>
+
+  <div class="theorem-box gold">
+    <div class="theorem-header">THE CLASS EQUATION</div>
+    <div class="theorem-body">
+      <div class="math-block">|G| = |Z(G)| + Σ [G : C_a]</div>
+      <p>where the sum is over one representative a from each conjugacy class NOT in Z(G), and <span class="math">C_a</span> is the centralizer of a.</p>
+      <p><strong>Note:</strong> <span class="math">[G : C_a] = |orb(a)|</span> — the size of a's conjugacy class. Elements in Z(G) each form their own class of size 1.</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Class equation in action:</strong> Every term on the right divides |G| (by Lagrange). This forces constraints on what p-groups can look like. Key use: if p | |G| and p | [G:C_a] for all non-central a, then p | |Z(G)|, so Z(G) is non-trivial!
+  </div>
+
+  <div class="theorem-box red">
+    <div class="theorem-header">THEOREM — Centre of a p-Group is Non-Trivial</div>
+    <div class="theorem-body">
+      <p>If <span class="math">|G| = pᵏ</span> for a prime p and k ≥ 1, then <span class="math">Z(G) ≠ {e}</span>.</p>
+      <p><strong>Proof sketch:</strong> Use the class equation. Every [G:C_a] divides |G| = pᵏ, so each term in the sum is a power of p. Since p | |G| and p | each summand, we get p | |Z(G)|, so |Z(G)| ≥ p > 1. □</p>
+    </div>
+  </div>
+
+  <div class="theorem-box">
+    <div class="theorem-header">THEOREM — Groups of Order p² are Abelian</div>
+    <div class="theorem-body">
+      <p>If <span class="math">|G| = p²</span> for a prime p, then G is abelian. In fact, <span class="math">G ≅ Cₚ² or G ≅ Cₚ × Cₚ</span>.</p>
+      <p><strong>Proof sketch:</strong> Since Z(G) ≠ {e} and |Z(G)| divides p², we get |Z(G)| = p or p². If |Z(G)| = p², done (G is abelian). If |Z(G)| = p, then |G/Z(G)| = p, so G/Z(G) is cyclic, but then G must be abelian (classic lemma) — contradiction. So Z(G) = G. □</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Key lemma to memorize:</strong> "If G/Z(G) is cyclic, then G is abelian." This is used constantly. Proof: if G/Z(G) = ⟨gZ(G)⟩, then every element of G has the form gⁿz for some n and z ∈ Z(G), and any two such elements commute.
+  </div>
+
+  <div class="theorem-box green">
+    <div class="theorem-header">CAUCHY'S THEOREM</div>
+    <div class="theorem-body">
+      <p>If a prime p divides |G|, then G has an element of order p (and hence a subgroup ≅ Cₚ).</p>
+      <p><strong>This is the "partial converse" to Lagrange</strong> — for primes, it always works.</p>
+      <p><em>Counter-example to full converse:</em> A₄ has order 12, but has no subgroup of order 6.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SYLOW ====== -->
+<section id="sylow">
+  <div class="section-header">
+    <h2>The Sylow Theorems</h2>
+    <span class="tag">★ Most Critical for Exam</span>
+  </div>
+
+  <p style="margin-bottom:18px; font-style:italic; color:#555;">Named after Norwegian mathematician Peter Sylow (pronounced "See-Low"). These theorems give a powerful partial converse to Lagrange and allow us to classify groups by their prime-power subgroup structure.</p>
+
+  <div class="theorem-box red">
+    <div class="theorem-header">FIRST SYLOW THEOREM — Existence</div>
+    <div class="theorem-body">
+      <p>Let <span class="math">|G| = pᵏ · m</span> where p is prime and p ∤ m. Then G has at least one subgroup of order pⁱ for every <span class="math">1 ≤ i ≤ k</span>.</p>
+      <p>In particular, G has at least one subgroup of order pᵏ — a <strong>Sylow p-subgroup</strong>.</p>
+    </div>
+  </div>
+
+  <div class="theorem-box red">
+    <div class="theorem-header">SECOND SYLOW THEOREM — Conjugacy</div>
+    <div class="theorem-body">
+      <p>Any two Sylow p-subgroups of G are <strong>conjugate</strong> to each other.</p>
+      <p>That is, if P and P' are both Sylow p-subgroups, then <span class="math">P' = gPg⁻¹</span> for some g ∈ G.</p>
+      <p><strong>Key consequence:</strong> If there is only ONE Sylow p-subgroup, it must be conjugate only to itself, so it is <strong>normal</strong> in G.</p>
+    </div>
+  </div>
+
+  <div class="theorem-box red">
+    <div class="theorem-header">THIRD SYLOW THEOREM — Count</div>
+    <div class="theorem-body">
+      <p>Let nₚ = number of Sylow p-subgroups. Then:</p>
+      <div class="math-block">1.  nₚ ≡ 1  (mod p)
+2.  nₚ  |  m       (where |G| = pᵏm, p ∤ m)
+3.  nₚ = [G : N_G(P)]</div>
+      <p><strong>Corollary:</strong> If nₚ = 1, the unique Sylow p-subgroup is normal.</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>THE SYLOW TOOLKIT — 3-step process for any problem:</strong><br>
+    <strong>Step 1 — Factor the order:</strong> Write |G| = p₁^a₁ · p₂^a₂ · … Find all Sylow subgroup sizes.<br>
+    <strong>Step 2 — Apply the 3rd theorem:</strong> For each prime p, list the possibilities for nₚ using conditions (1) nₚ ≡ 1 mod p AND (2) nₚ | (|G|/pᵏ).<br>
+    <strong>Step 3 — Force nₚ = 1:</strong> If you can rule out all other values, the Sylow subgroup is normal. Then use it.
+  </div>
+
+  <h3 class="sub">Master Reference: nₚ Analysis</h3>
+  <table>
+    <tr>
+      <th>|G|</th>
+      <th>Sylow subgroups</th>
+      <th>Constraints on nₚ</th>
+      <th>Conclusion</th>
+    </tr>
+    <tr>
+      <td>pq (p &lt; q, q ≢ 1 mod p)</td>
+      <td>nₚ | q and ≡1 mod p; nq | p and ≡1 mod q</td>
+      <td>nq must be 1 (since only option ≡1 mod q dividing p); nₚ = 1 too</td>
+      <td>G ≅ Cₚq = Cₚ × Cq</td>
+    </tr>
+    <tr>
+      <td>p² q</td>
+      <td>Use 3rd theorem for each prime</td>
+      <td>Often forces one Sylow subgroup to be unique</td>
+      <td>Depends on specific primes</td>
+    </tr>
+    <tr>
+      <td>pᵏ (prime power)</td>
+      <td>G is a p-group</td>
+      <td>Z(G) ≠ {e} by class equation</td>
+      <td>Non-trivial centre; if k=2, abelian</td>
+    </tr>
+  </table>
+
+  <h3 class="sub">Proof Strategies for Sylow Problems</h3>
+
+  <div class="proof-scaffold">
+    <h4>Strategy: Showing a Group Has No Simple Groups of Order n</h4>
+    <div class="proof-step"><span class="step-num">1.</span><span>Factor n. Find all Sylow subgroup sizes pᵏ.</span></div>
+    <div class="proof-step"><span class="step-num">2.</span><span>For each prime p, compute what nₚ could be. Check if nₚ = 1 is forced.</span></div>
+    <div class="proof-step"><span class="step-num">3.</span><span>If some nₚ = 1: that Sylow subgroup is normal ⇒ G is not simple.</span></div>
+    <div class="proof-step"><span class="step-num">4.</span><span>If no nₚ = 1 immediately: count elements. If total count of elements in all Sylow subgroups exceeds |G|, contradiction.</span></div>
+    <div class="proof-step"><span class="step-num">5.</span><span>Use element counting: a Sylow p-subgroup of order pᵏ contains (pᵏ − 1) non-identity elements. If subgroups are distinct, their non-identity elements don't overlap (for groups of prime order). Add them up.</span></div>
+  </div>
+
+  <div class="theorem-box">
+    <div class="theorem-header">WORKED EXAMPLE — No Simple Group of Order 56</div>
+    <div class="theorem-body">
+      <p>|G| = 56 = 2³ · 7.</p>
+      <p><strong>Sylow 7-subgroups:</strong> n₇ ≡ 1 mod 7 and n₇ | 8. So n₇ ∈ {1, 8}.</p>
+      <p><strong>Sylow 2-subgroups:</strong> n₂ ≡ 1 mod 2 and n₂ | 7. So n₂ ∈ {1, 7}.</p>
+      <p><strong>Case n₇ = 1:</strong> Unique Sylow 7-subgroup is normal → G not simple. Done.</p>
+      <p><strong>Case n₇ = 8:</strong> 8 Sylow 7-subgroups, each of order 7, any two intersecting only at e. That's 8 × 6 = 48 elements of order 7.</p>
+      <p>Remaining elements: 56 − 48 = 8. These 8 must all belong to a Sylow 2-subgroup of order 8 → n₂ = 1 → unique Sylow 2-subgroup is normal → G not simple. □</p>
+    </div>
+  </div>
+
+  <div class="theorem-box">
+    <div class="theorem-header">WORKED EXAMPLE — Group of Order pq (p &lt; q, q ≢ 1 mod p)</div>
+    <div class="theorem-body">
+      <p>nq ≡ 1 mod q and nq | p. Since p &lt; q, the only value ≡ 1 mod q that divides p is 1. So nq = 1 → unique Sylow q-subgroup K ◁ G.</p>
+      <p>By similar argument (or element counting), nₚ = 1 → unique Sylow p-subgroup H ◁ G.</p>
+      <p>|H| = p, |K| = q, H∩K = {e} (coprime orders), HK = G (by order count).</p>
+      <p>Since both H and K are normal with trivial intersection: G = H × K ≅ Cₚ × Cq ≅ Cₚq. □</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>The "Normal + Trivial Intersection" lemma:</strong> If H ◁ G and K ◁ G and H∩K = {e} and HK = G, then G ≅ H × K. This is the bridge from "these Sylow subgroups are normal" to the explicit structure of G. You <strong>must</strong> prove hk = kh for all h∈H, k∈K — do this by showing hkh⁻¹k⁻¹ ∈ H∩K = {e}.
+  </div>
+
+  <h3 class="sub">Orbit-Stabilizer Theorem (Crucial for Sylow Proofs)</h3>
+
+  <div class="theorem-box gold">
+    <div class="theorem-header">ORBIT-STABILIZER THEOREM</div>
+    <div class="theorem-body">
+      <div class="math-block">|G| = |orb(x)| · |stab(x)|</div>
+      <p>Equivalently: <span class="math">|orb(x)| = [G : stab(x)]</span></p>
+      <p><strong>The normalizer is the stabilizer:</strong> When G acts on its Sylow p-subgroups by conjugation, the stabilizer of P is N_G(P). So nₚ = [G : N_G(P)], which divides |G|.</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Burnside's Lemma</strong> (for counting problems like necklaces):
+    # of distinct orbits = (1/|G|) · Σ_{g∈G} |X^g|
+    where X^g = fixed points of g's action on set X.
+  </div>
+</section>
+
+<!-- ====== CLASSIFICATION ====== -->
+<section>
+  <div class="section-header">
+    <h2>Classification of Groups</h2>
+    <span class="tag">Big Picture Connections</span>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Jordan–Hölder Theorem</h4>
+      <ul>
+        <li>Every finite group is "built from" finite simple groups</li>
+        <li>Simple groups are the building blocks of all groups</li>
+        <li>The classification of all finite simple groups was completed ~2004 (10,000s of pages)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Simple Groups</h4>
+      <ul>
+        <li>G is simple if its only normal subgroups are {e} and G</li>
+        <li>Cyclic groups of prime order are simple</li>
+        <li>A₅ (rotations of icosahedron) is simple — this is what makes the quintic unsolvable</li>
+        <li>A₅ has class equation: 60 = 1+15+20+12+12</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Semidirect Products</h4>
+      <ul>
+        <li>G = H ⋊ K (not necessarily direct — arrows don't go between corresponding elements)</li>
+        <li>Direct product: arrows connect corresponding cosets</li>
+        <li>Quotient G/H "reveals" the product structure</li>
+        <li>Uses Aut(K) — how K "acts on" H via conjugation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ====== PROOF GUIDE ====== -->
+<section id="proof-guide">
+  <div class="section-header">
+    <h2>Proof Construction Guide</h2>
+    <span class="tag">How to Write &amp; Evaluate Proofs</span>
+  </div>
+
+  <h3 class="sub">The Anatomy of a Good Proof</h3>
+
+  <div class="proof-scaffold">
+    <h4>Proof Structure Template</h4>
+    <div class="proof-step"><span class="step-num">①</span><span><strong>State your assumptions clearly.</strong> "Let G be a group with... Suppose H is a subgroup such that..."</span></div>
+    <div class="proof-step"><span class="step-num">②</span><span><strong>State what you will show.</strong> "We wish to show that... We claim that..."</span></div>
+    <div class="proof-step"><span class="step-num">③</span><span><strong>Build the deductive bridge.</strong> Each line must follow from what came before. Cite the result/definition you are using.</span></div>
+    <div class="proof-step"><span class="step-num">④</span><span><strong>Don't assume the conclusion.</strong> Check: "Am I using what I'm trying to prove?" (Begging the question — the most common error.)</span></div>
+    <div class="proof-step"><span class="step-num">⑤</span><span><strong>Close the proof.</strong> Explicitly state "Therefore, [exactly what was asked]." Write □ or QED.</span></div>
+  </div>
+
+  <h3 class="sub">Proof Types &amp; When to Use Them</h3>
+  <table>
+    <tr>
+      <th>Proof Type</th>
+      <th>When to Use</th>
+      <th>Key Move</th>
+    </tr>
+    <tr>
+      <td><strong>Direct proof</strong></td>
+      <td>Most algebraic proofs (homomorphism properties, subgroup checks)</td>
+      <td>Assume hypotheses, manipulate, derive conclusion</td>
+    </tr>
+    <tr>
+      <td><strong>Proof by contradiction</strong></td>
+      <td>Showing something is impossible (e.g., no simple group of order n)</td>
+      <td>Assume ¬conclusion, derive contradiction with known facts</td>
+    </tr>
+    <tr>
+      <td><strong>Induction</strong></td>
+      <td>Results about all groups of order ≤ n (Cauchy's theorem proof)</td>
+      <td>Base case + inductive step on |G|</td>
+    </tr>
+    <tr>
+      <td><strong>Counting / pigeonhole</strong></td>
+      <td>Element counting in Sylow arguments</td>
+      <td>Count elements two ways, force contradiction or uniqueness</td>
+    </tr>
+    <tr>
+      <td><strong>Construct an isomorphism</strong></td>
+      <td>"Show G ≅ H"</td>
+      <td>Define map explicitly, verify homomorphism, bijective</td>
+    </tr>
+  </table>
+
+  <h3 class="sub">Proving Subgroup, Normality, Isomorphism — Checklists</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Subgroup Test (3 things)</h4>
+      <ul>
+        <li>1. Non-empty: e ∈ H (or show at least one element)</li>
+        <li>2. Closure: a,b ∈ H ⇒ ab ∈ H</li>
+        <li>3. Inverses: a ∈ H ⇒ a⁻¹ ∈ H</li>
+        <li><em>Shortcut:</em> a,b ∈ H ⇒ ab⁻¹ ∈ H (combines all three)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Normal Subgroup (pick one)</h4>
+      <ul>
+        <li>gHg⁻¹ = H for all g ∈ G</li>
+        <li>Left cosets = right cosets: gH = Hg</li>
+        <li>H is the kernel of some homomorphism</li>
+        <li>H is a union of conjugacy classes</li>
+        <li>[G:H] = 2 (index 2 → always normal)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Isomorphism Proof (4 things)</h4>
+      <ul>
+        <li>1. Define φ: G → H explicitly</li>
+        <li>2. Show φ is a homomorphism: φ(ab) = φ(a)φ(b)</li>
+        <li>3. Show φ is injective: ker(φ) = {e}</li>
+        <li>4. Show φ is surjective: Im(φ) = H</li>
+        <li><em>Or use 1st Iso Thm for steps 3+4</em></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Homomorphism Proof</h4>
+      <ul>
+        <li>Only need: φ(ab) = φ(a)φ(b)</li>
+        <li>Identities and inverses are automatic</li>
+        <li>If defined on generators: extend linearly and check relations are preserved</li>
+        <li>Verify: does φ respect all group relations?</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sub">Reading &amp; Evaluating Proofs (Exam Section)</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Common Logical Errors to Spot</h4>
+      <ul>
+        <li><strong>Begging the question:</strong> assumes the conclusion in the middle</li>
+        <li><strong>Wrong direction:</strong> proves P→Q when Q→P was needed (e.g., injectivity vs surjectivity)</li>
+        <li><strong>Local vs global:</strong> each line true, but overall structure broken</li>
+        <li><strong>Syntactic ritual:</strong> correct algebra but missing logical glue</li>
+        <li><strong>Counterexample as exception:</strong> one counterexample kills a universal claim</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Proof Comprehension Framework</h4>
+      <ul>
+        <li>(1–4) Understand meaning of all terms</li>
+        <li>(5–6) Identify proof type &amp; sentence roles</li>
+        <li>(7–8) Justify claims; find implicit assumptions</li>
+        <li>(9–10) Summarize overall + sub-proofs</li>
+        <li>(11–13) Identify modules &amp; their logical relations</li>
+        <li>(14–16) Transfer method to new context</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Prof's top-2 proof requirements:</strong><br>
+    1. Is it <strong>correct</strong>? (Every claim is justified, no gaps, no circular reasoning.)<br>
+    2. Is it <strong>readable</strong>? (Easy to follow, correct conventions, appropriate length, no extra junk.)
+  </div>
+</section>
+
+<!-- ====== FIND THE ERRORS ====== -->
+<section id="find-errors">
+  <div class="section-header">
+    <h2>Find the Error — Proof Evaluation Practice</h2>
+    <span class="tag">Directly Tested on Exam</span>
+  </div>
+
+  <p style="margin-bottom:18px;">The exam includes a section where you evaluate broken proofs. Below are the exact error types from your course — practise spotting them before you see them on the paper.</p>
+
+  <h3 class="sub">Lagrange's Theorem — Broken Proofs</h3>
+
+  <div class="danger">
+    <strong>Broken Proof A — "Modding out" hand-wave:</strong><br>
+    <em>"We know that when we form cosets we are modding out by H. This process naturally creates a partition, just like integers modulo n. Therefore cosets partition G and |H| divides |G|."</em><br><br>
+    <strong>Error:</strong> <em>Proof by analogy is not a proof.</em> The argument assumes cosets behave like congruence classes without proving it. You must prove (1) every element is in at least one coset, and (2) any two cosets are equal or disjoint. The analogy is suggestive but not a deductive bridge.
+  </div>
+
+  <div class="danger">
+    <strong>Broken Proof B — Powers of h:</strong><br>
+    <em>"Since H is a subgroup, for any h ∈ H, hⁿ ∈ G for some n. Thus |G| = n|H|."</em><br><br>
+    <strong>Error:</strong> The statement "hⁿ ∈ G for some n" is trivially true (every element is in G), but says nothing useful. The author is confusing the order of an element with the index. This proves nothing about divisibility.
+  </div>
+
+  <div class="danger">
+    <strong>Broken Proof C — Cosets disjoint or equal (almost right!):</strong><br>
+    <em>"Suppose aH ∩ bH is non-empty and aH ≠ bH. Then x = ah₁ = bh₂, so a = bh₂h₁⁻¹ ∈ bH. Therefore aH ⊆ bH. Similarly bH ⊆ aH. So aH = bH — contradiction."</em><br><br>
+    <strong>Error:</strong> The algebra is actually <em>correct</em>, but the conclusion "this is a contradiction" is then used to say cosets must be disjoint. The phrasing "any two cosets are either disjoint <em>nor</em> equal" is garbled. The logical structure should say: "Two cosets are either disjoint or equal" — the proof correctly establishes this, but then mislabels the conclusion. Watch for: <strong>Local vs. Global error</strong> — each line is fine but the overall claim is stated wrong.
+  </div>
+
+  <h3 class="sub">Prime Order Groups — Broken Proofs</h3>
+
+  <div class="danger">
+    <strong>Broken Proof D — "Limited structure forces uniqueness":</strong><br>
+    <em>"By Lagrange, any subgroup has order 1 or p. So G has no non-trivial subgroups. This limited structure forces G to be unique."</em><br><br>
+    <strong>Error:</strong> The conclusion ("forces G to be unique") does not follow. Having no non-trivial subgroups tells you nothing directly about cyclicity or isomorphism class. The correct argument: pick any a ≠ e in G. Then ⟨a⟩ is a subgroup of order dividing p. Since p is prime and a ≠ e, ord(a) = p. So ⟨a⟩ = G, meaning G is cyclic.
+  </div>
+
+  <div class="danger">
+    <strong>Broken Proof E — "Same number of elements = isomorphic":</strong><br>
+    <em>"Let G and H both have order p. Since any bijection between sets of the same size preserves the number of elements, G and H are isomorphic."</em><br><br>
+    <strong>Error:</strong> A bijection of sets does NOT imply a group isomorphism. Isomorphism requires the bijection to preserve the group operation: φ(ab) = φ(a)φ(b). This proof confuses set-bijection with group-isomorphism — a classic <strong>syntactic ritual error</strong>.
+  </div>
+
+  <div class="trick">
+    <strong>The correct proof that all groups of prime order p are isomorphic to Cₚ:</strong><br>
+    Let G have order p (prime). Pick any a ∈ G with a ≠ e. By Lagrange, ord(a) | p. Since p is prime, ord(a) = 1 or p. Since a ≠ e, ord(a) ≠ 1, so ord(a) = p. Then ⟨a⟩ is a subgroup of order p = |G|, so ⟨a⟩ = G. Thus G is cyclic of order p, and all such groups are isomorphic to Cₚ. □
+  </div>
+
+  <h3 class="sub">Error Taxonomy — Quick Reference</h3>
+  <table>
+    <tr><th>Error Type</th><th>What it looks like</th><th>How to catch it</th></tr>
+    <tr><td><strong>Begging the question</strong></td><td>The thing being proved appears in the middle of the proof as an assumption</td><td>Ask: "Did I use what I'm trying to show?"</td></tr>
+    <tr><td><strong>Wrong direction</strong></td><td>Proves P→Q when Q→P was needed (e.g., proves injectivity when surjectivity is needed)</td><td>Re-read what "to show" is. Check direction of every implication.</td></tr>
+    <tr><td><strong>Syntactic ritual</strong></td><td>Correct algebra, but no logical connective tissue — steps don't connect to conclusion</td><td>Ask: "Does each step follow from the previous? Does the final step deliver exactly what was asked?"</td></tr>
+    <tr><td><strong>Proof by analogy</strong></td><td>Says "this is just like X" without proving the analogy holds formally</td><td>Every analogy must be turned into a deductive argument.</td></tr>
+    <tr><td><strong>Local vs. global</strong></td><td>Every individual line is correct but the overall logical path is broken</td><td>Read the proof as a whole. Does it prove EXACTLY what's claimed?</td></tr>
+    <tr><td><strong>Set ≠ group confusion</strong></td><td>Uses bijection (set map) to conclude isomorphism (group map)</td><td>Always check: is φ(ab) = φ(a)φ(b) verified?</td></tr>
+  </table>
+</section>
+
+<!-- ====== CONNECTIONS: FERMAT + RSA ====== -->
+<section>
+  <div class="section-header">
+    <h2>Connections — Fermat's Theorem &amp; RSA</h2>
+    <span class="tag">Module 4 Week 1 / Week 9</span>
+  </div>
+  <p style="margin-bottom:18px; font-style:italic; color:#555;">These connections show the <em>power of abstraction</em> — one group-theoretic fact gives you a family of classical number theory theorems for free.</p>
+
+  <div class="theorem-box gold">
+    <div class="theorem-header">FERMAT'S LITTLE THEOREM — via Group Theory</div>
+    <div class="theorem-body">
+      <p><strong>Group-theoretic statement:</strong> If G is a group of order n, then a^n = e for every a ∈ G.</p>
+      <p><strong>Apply to G = U(p) = ℤₚ* (units mod p, p prime):</strong></p>
+      <p>|U(p)| = p−1. So for any a with gcd(a,p) = 1: <span class="math">a^{p-1} ≡ 1 (mod p)</span>.</p>
+      <p>This is <strong>Fermat's Little Theorem</strong> — a direct corollary of Lagrange!</p>
+    </div>
+  </div>
+
+  <div class="theorem-box">
+    <div class="theorem-header">U(pq) ≅ U(p) × U(q) — Euler's Totient via Isomorphism</div>
+    <div class="theorem-body">
+      <p>The canonical map <span class="math">f: U(pq) → U(p) × U(q)</span> sending ā ↦ (ā mod p, ā mod q) is a group isomorphism (for distinct primes p,q).</p>
+      <p><strong>Consequence:</strong> <span class="math">φ(pq) = |U(pq)| = |U(p)| · |U(q)| = (p−1)(q−1)</span></p>
+      <p>The isomorphism is proved via: (1) define f, (2) show homomorphism, (3) show injective (kernel = {1}), (4) show surjective by CRT (Chinese Remainder Theorem gives the inverse).</p>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>RSA connection (exam may ask about this):</strong> RSA encryption uses the fact that if n = pq and gcd(a,n) = 1, then a^{φ(n)} ≡ 1 (mod n). This follows from a^|G| = e applied to G = U(n). Decryption works because ed ≡ 1 (mod φ(n)), so c^d = (m^e)^d = m^{ed} = m^{1+kφ(n)} = m · (m^{φ(n)})^k ≡ m (mod n).
+  </div>
+</section>
+
+<!-- ====== EXAM TACTICS ====== -->
+<section id="exam-tactics">
+  <div class="section-header">
+    <h2>Exam Tactics</h2>
+    <span class="tag">Strategic Preparation</span>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Multiple Choice — Watch for</h4>
+      <ul>
+        <li>Contrapositive errors ("if G has order n then...") — Lagrange converse is FALSE</li>
+        <li>Begging the question traps</li>
+        <li>True for one example but asked "for all"</li>
+        <li>Confusing quotient G/H with G or H alone</li>
+        <li>Kernel vs image of a homomorphism mixed up</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Translation Section</h4>
+      <ul>
+        <li>Convert formal math ↔ plain English precisely</li>
+        <li>"H is normal in G" = "cosets of H partition G into equal-size blocks that form a group"</li>
+        <li>"The kernel is trivial" = "the map is injective"</li>
+        <li>"G ≅ H" = "G and H have identical structure, just with different labels"</li>
+        <li>Know what quotient groups MEAN visually</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Connections Section</h4>
+      <ul>
+        <li>Link: Lagrange → Cauchy → Sylow (partial converses getting stronger)</li>
+        <li>Link: Normal subgroups ↔ kernels ↔ quotient groups</li>
+        <li>Link: Class equation → p-group center → Cauchy → Sylow 1</li>
+        <li>Link: 1st Iso Thm → specific isomorphism constructions</li>
+        <li>Link: Classification of abelian groups → Sylow structure → group classification</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Sylow Argument Checklist</h4>
+      <ul>
+        <li>✓ Factor the group order</li>
+        <li>✓ Identify all Sylow subgroup sizes</li>
+        <li>✓ Apply 3rd theorem constraints for each prime</li>
+        <li>✓ If nₚ = 1: state it's normal (cite 2nd Sylow)</li>
+        <li>✓ If counting: subtract element counts carefully</li>
+        <li>✓ If G = H×K: verify H∩K={e}, HK=G, and both normal</li>
+        <li>✓ State conclusion explicitly</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="trick">
+    <strong>Study technique hierarchy (most → least effective):</strong><br>
+    <strong>★★★</strong> Find errors in proofs · Explain proofs to someone else · Attempt from scratch<br>
+    <strong>★★</strong> Concept maps connecting all theorems · Self-quizzing on definitions<br>
+    <strong>★</strong> Re-reading · Re-copying correct proofs (almost useless alone)<br><br>
+    <strong>Prof's advice: "Recall is better than reading."</strong> Close your notes and reproduce theorems. Then check.
+  </div>
+
+  <h3 class="sub">Quick-Fire Definition Recall</h3>
+  <table>
+    <tr><th>Term</th><th>Definition</th><th>Key property</th></tr>
+    <tr><td>Normal subgroup H ◁ G</td><td>gHg⁻¹ = H for all g ∈ G</td><td>Makes G/H a group</td></tr>
+    <tr><td>Quotient group G/H</td><td>Set of cosets {gH} with operation (aH)(bH)=abH</td><td>|G/H| = |G|/|H|</td></tr>
+    <tr><td>Coset aH</td><td>{ah : h ∈ H} — a translated copy of H</td><td>All cosets have size |H|; they partition G</td></tr>
+    <tr><td>Index [G:H]</td><td>Number of distinct left cosets of H in G</td><td>|G| = [G:H]·|H| (Lagrange)</td></tr>
+    <tr><td>Kernel of φ</td><td>{g ∈ G : φ(g) = e_H}</td><td>Always normal in G</td></tr>
+    <tr><td>Conjugacy class [a]</td><td>{xax⁻¹ : x ∈ G}</td><td>Size = [G:C_a]; normal subgroups = unions of classes</td></tr>
+    <tr><td>p-group</td><td>Group of order pᵏ for prime p</td><td>Z(G) ≠ {e}; if k=2, G is abelian</td></tr>
+    <tr><td>Sylow p-subgroup</td><td>Subgroup of order pᵏ where pᵏ | |G| but pᵏ⁺¹ ∤ |G|</td><td>All conjugate (Sylow 2)</td></tr>
+    <tr><td>Simple group</td><td>No normal subgroups except {e} and G</td><td>Building block; A₅ is smallest non-abelian simple</td></tr>
+    <tr><td>Centralizer C_a</td><td>{x ∈ G : xa = ax}</td><td>|[a]| = [G:C_a]</td></tr>
+    <tr><td>Automorphism</td><td>Isomorphism G → G</td><td>Aut(G) is a group; Aut(Cₙ) ≅ U(n)</td></tr>
+    <tr><td>Normalizer N_G(H)</td><td>{g ∈ G : gHg⁻¹ = H}</td><td>H ◁ G iff N_G(H) = G; nₚ = [G:N_G(P)]</td></tr>
+    <tr><td>Orbit orb(s)</td><td>{g·s : g ∈ G} under a group action</td><td>|orb(s)| = [G:stab(s)]</td></tr>
+    <tr><td>Stabilizer stab(s)</td><td>{g ∈ G : g·s = s}</td><td>Always a subgroup; |G| = |orb|·|stab|</td></tr>
+  </table>
+
+  <div style="margin-top:40px; padding:24px; background:var(--ink); color:var(--paper); border-radius:2px;">
+    <p style="font-family:var(--mono); font-size:10.5px; letter-spacing:0.1em; color:var(--gold); margin-bottom:12px;">FINAL REMINDER FROM PROF. MAYES-TANG</p>
+    <p style="font-family:var(--display); font-size:1.3rem; font-style:italic; line-height:1.5;">"I LOVE questions that show understanding of BIG concepts — what are quotients? What are the single Sylow implications?"</p>
+    <p style="margin-top:16px; font-size:13px; color:#bbb;">The exam rewards students who understand the <em>why</em>, not just the <em>what</em>. Know how every theorem connects to the bigger story. Know when to use each tool. Practice writing Sylow arguments from scratch with full justification.</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+  // Smooth scroll for nav
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
