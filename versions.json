@@ -22,8 +22,17 @@
     "branch": "feature/git-history-visual",
     "date": "2026-03-25",
     "message": "Site Evolution page — interactive Gitgraph.js branch visualisation, standalone evolution.html, version history cards with GitHub diff links",
-    "merged": false,
+    "merged": true,
     "commitHash": "8fda944bc0ac255d934e85f5f4083a0cffc58c3c",
-    "compareUrl": "https://github.com/OakleyG/OakleyG.github.io/compare/main...feature/git-history-visual"
+    "compareUrl": "https://github.com/OakleyG/OakleyG.github.io/compare/54d29ba...131b0e1"
+  },
+  {
+    "version": "v4",
+    "branch": "feature/maths-revision-notes",
+    "date": "2026-04-06",
+    "message": "Maths revision notes — MAT301 Group Theory and MAT344 Combinatorics added as interactive HTML documents in Notes/ folder",
+    "merged": false,
+    "commitHash": "",
+    "compareUrl": "https://github.com/OakleyG/OakleyG.github.io/compare/main...feature/maths-revision-notes"
   }
 ]

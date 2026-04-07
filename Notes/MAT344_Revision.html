@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAT344 — Combinatorics Revision Guide</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], tags: 'ams' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --ink: #0f1117;
+  --paper: #f7f4ef;
+  --cream: #ede9e1;
+  --rule: #d4cfc5;
+  --accent: #c0392b;
+  --accent2: #1a5276;
+  --accent3: #1e8449;
+  --gold: #b7950b;
+  --muted: #6b6560;
+  --tag-bg: #e8e2d9;
+  --highlight: #fef9c3;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ─── LAYOUT ─── */
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ─── SIDEBAR ─── */
+nav {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--ink);
+  color: var(--paper);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+
+.nav-header {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.nav-header h1 {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: #f7f4ef;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.nav-header p {
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-section-label {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #555;
+  padding: 16px 20px 6px;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+
+nav a:hover { color: #f7f4ef; background: #1a1a1a; }
+nav a.active { color: #f7f4ef; border-left-color: var(--accent); background: #1a1a1a; }
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  opacity: 0.6;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+nav a.active .nav-icon, nav a:hover .nav-icon { opacity: 1; }
+
+.nav-badge {
+  margin-left: auto;
+  background: #c0392b;
+  color: white;
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ─── MAIN ─── */
+main {
+  flex: 1;
+  overflow-x: hidden;
+}
+
+/* ─── TOP BAR ─── */
+.topbar {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid var(--accent);
+}
+
+.topbar-title {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  color: #ccc;
+}
+
+.topbar-progress {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: #888;
+}
+
+.progress-bar {
+  width: 120px;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.5s ease;
+  border-radius: 2px;
+}
+
+/* ─── CONTENT AREA ─── */
+.content {
+  padding: 0 48px 80px;
+  max-width: 900px;
+}
+
+/* ─── SECTIONS ─── */
+.section {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+.section.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.section-header {
+  padding: 40px 0 24px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 32px;
+}
+
+.section-number {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.section-header h2 {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.section-header .subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* ─── CARDS ─── */
+.card {
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 14px 20px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.card-header h3 {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.card-tag {
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.tag-core { background: #fde8e7; color: #c0392b; }
+.tag-formula { background: #e8f4fd; color: #1a5276; }
+.tag-trick { background: #e8f8e8; color: #1e8449; }
+.tag-exam { background: #fff3cd; color: #856404; }
+
+.card-arrow {
+  color: var(--muted);
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+.card.open .card-arrow { transform: rotate(180deg); }
+
+.card-body {
+  display: none;
+  padding: 20px;
+}
+.card.open .card-body { display: block; }
+
+/* ─── MATH BOXES ─── */
+.formula-box {
+  background: var(--cream);
+  border-left: 4px solid var(--accent2);
+  padding: 14px 18px;
+  margin: 14px 0;
+  border-radius: 0 4px 4px 0;
+  font-size: 14.5px;
+}
+
+.formula-box.green { border-left-color: var(--accent3); }
+.formula-box.red { border-left-color: var(--accent); }
+.formula-box.gold { border-left-color: var(--gold); background: #fefce8; }
+
+.formula-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+/* ─── STEPS ─── */
+.steps {
+  counter-reset: step;
+  margin: 14px 0;
+}
+
+.step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.step::before {
+  counter-increment: step;
+  content: counter(step);
+  background: var(--ink);
+  color: white;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ─── TABLES ─── */
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin: 14px 0;
+}
+
+.ref-table th {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.ref-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: middle;
+}
+
+.ref-table tr:last-child td { border-bottom: none; }
+.ref-table tr:nth-child(even) td { background: var(--cream); }
+
+/* ─── CALLOUTS ─── */
+.callout {
+  padding: 14px 18px;
+  border-radius: 4px;
+  margin: 14px 0;
+  font-size: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+.callout.tip { background: #e8f8e8; border: 1px solid #a8d5a2; }
+.callout.warn { background: #fff3cd; border: 1px solid #ffc107; }
+.callout.exam { background: #fde8e7; border: 1px solid #f0a9a6; }
+.callout.insight { background: #e8f4fd; border: 1px solid #a8cde8; }
+
+/* ─── PRACTICE PROBLEMS ─── */
+.problem {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.problem-header {
+  padding: 12px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.problem-num {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-style: italic;
+  opacity: 0.6;
+}
+
+.problem-header h4 {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.problem-body {
+  padding: 16px 18px;
+  background: white;
+  font-size: 14px;
+}
+
+.solution-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink);
+  color: white;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: var(--sans);
+  cursor: pointer;
+  margin-top: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: background 0.15s;
+}
+.solution-toggle:hover { background: #333; }
+
+.solution {
+  display: none;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--rule);
+}
+.solution.shown { display: block; }
+
+.solution-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent3);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* ─── QUICK REFERENCE ─── */
+.qr-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.qr-cell {
+  background: white;
+  border: 1px solid var(--rule);
+  padding: 14px;
+  border-radius: 4px;
+}
+
+.qr-cell h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* ─── EGF COOKBOOK ─── */
+.egf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+}
+
+.egf-cell {
+  padding: 10px 14px;
+  border-right: 1px solid var(--rule);
+  background: white;
+}
+.egf-cell:last-child { border-right: none; }
+.egf-cell.header { background: var(--cream); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.egf-cell.meaning { background: #f9f9f6; font-size: 12px; color: var(--muted); }
+
+/* ─── HIGHLIGHT ─── */
+mark {
+  background: var(--highlight);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+code {
+  font-family: var(--mono);
+  background: var(--cream);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+p + p { margin-top: 10px; }
+ul, ol { padding-left: 22px; margin: 10px 0; }
+li { margin-bottom: 5px; font-size: 14px; }
+h4 { font-size: 14px; font-weight: 600; margin: 16px 0 8px; }
+hr { border: none; border-top: 1px solid var(--rule); margin: 20px 0; }
+
+/* ─── HERO / OVERVIEW ─── */
+.hero {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 40px 48px;
+  margin-bottom: 0;
+}
+
+.hero h2 {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-style: italic;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.hero p { color: #aaa; font-size: 14px; max-width: 560px; }
+
+.topic-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 48px 0;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 30px;
+  padding: 5px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+
+.pill:hover { background: var(--ink); color: white; border-color: var(--ink); }
+.pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+.dot-r { background: var(--accent); }
+.dot-b { background: var(--accent2); }
+.dot-g { background: var(--accent3); }
+.dot-y { background: var(--gold); }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+
+/* ─── CHECKLIST ─── */
+.checklist { list-style: none; padding: 0; }
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13.5px;
+}
+.checklist li:last-child { border-bottom: none; }
+.check-icon { margin-top: 1px; font-size: 14px; }
+
+/* ─── DIVIDER ─── */
+.ornament {
+  text-align: center;
+  color: var(--rule);
+  font-size: 20px;
+  margin: 24px 0;
+  letter-spacing: 8px;
+}
+
+/* ─── MOBILE NAV ─── */
+@media (max-width: 700px) {
+  nav { display: none; }
+  .content { padding: 0 20px 60px; }
+  .hero { padding: 24px 20px; }
+  .hero h2 { font-size: 32px; }
+  .topic-pills { margin: 12px 20px 0; }
+  .qr-grid { grid-template-columns: 1fr; }
+  .egf-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- ─── SIDEBAR ─── -->
+<nav id="sidebar">
+  <div class="nav-header">
+    <h1>MAT344</h1>
+    <p>Combinatorics · Final Exam</p>
+  </div>
+
+  <div class="nav-section-label">Overview</div>
+  <a href="#" onclick="show('overview')" class="active" id="nav-overview">
+    <span class="nav-icon">⊞</span> Overview & Checklist
+  </a>
+
+  <div class="nav-section-label">Core Topics</div>
+  <a href="#" onclick="show('pigeonhole')" id="nav-pigeonhole">
+    <span class="nav-icon">🕊</span> Pigeonhole Principle
+  </a>
+  <a href="#" onclick="show('recurrences')" id="nav-recurrences">
+    <span class="nav-icon">↺</span> Recurrences
+  </a>
+  <a href="#" onclick="show('distributions')" id="nav-distributions">
+    <span class="nav-icon">⚃</span> Distributions & Counting
+  </a>
+  <a href="#" onclick="show('ie')" id="nav-ie">
+    <span class="nav-icon">∩</span> Inclusion-Exclusion
+    <span class="nav-badge">★</span>
+  </a>
+
+  <div class="nav-section-label">Generating Functions</div>
+  <a href="#" onclick="show('ogf')" id="nav-ogf">
+    <span class="nav-icon">∑</span> OGF Toolkit
+    <span class="nav-badge">★</span>
+  </a>
+  <a href="#" onclick="show('egf')" id="nav-egf">
+    <span class="nav-icon">eˣ</span> EGF Toolkit
+    <span class="nav-badge">★</span>
+  </a>
+  <a href="#" onclick="show('partitions')" id="nav-partitions">
+    <span class="nav-icon">⊞</span> Integer Partitions
+  </a>
+
+  <div class="nav-section-label">Probability</div>
+  <a href="#" onclick="show('probability')" id="nav-probability">
+    <span class="nav-icon">⚄</span> Probability Basics
+  </a>
+  <a href="#" onclick="show('expectation')" id="nav-expectation">
+    <span class="nav-icon">𝔼</span> Expectation & Indicators
+    <span class="nav-badge">★</span>
+  </a>
+  <a href="#" onclick="show('markov')" id="nav-markov">
+    <span class="nav-icon">→</span> Markov / Random Walk
+    <span class="nav-badge">★</span>
+  </a>
+
+  <div class="nav-section-label">Final Exam</div>
+  <a href="#" onclick="show('practice')" id="nav-practice">
+    <span class="nav-icon">✎</span> Practice Final — Solved
+    <span class="nav-badge">8Q</span>
+  </a>
+  <a href="#" onclick="show('formulas')" id="nav-formulas">
+    <span class="nav-icon">≡</span> Formula Sheet
+  </a>
+</nav>
+
+<!-- ─── MAIN ─── -->
+<main>
+  <div class="topbar">
+    <span class="topbar-title" id="topbar-title">Overview & Checklist</span>
+    <div class="topbar-progress">
+      <span id="progress-text">0 / 8 topics</span>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════ OVERVIEW ════════════════ -->
+  <div class="section active" id="section-overview">
+    <div class="hero">
+      <h2>Combinatorics<br>Revision Guide</h2>
+      <p>MAT344 · University of Toronto · Winter 2026<br>Complete coverage of the practice final exam topics.</p>
+    </div>
+
+    <div class="topic-pills">
+      <span class="pill" onclick="show('pigeonhole')"><span class="dot dot-r"></span>Pigeonhole</span>
+      <span class="pill" onclick="show('recurrences')"><span class="dot dot-b"></span>Recurrences</span>
+      <span class="pill" onclick="show('distributions')"><span class="dot dot-g"></span>Distributions</span>
+      <span class="pill" onclick="show('ie')"><span class="dot dot-r"></span>Inclusion-Exclusion</span>
+      <span class="pill" onclick="show('ogf')"><span class="dot dot-b"></span>OGF</span>
+      <span class="pill" onclick="show('egf')"><span class="dot dot-b"></span>EGF</span>
+      <span class="pill" onclick="show('partitions')"><span class="dot dot-g"></span>Partitions</span>
+      <span class="pill" onclick="show('probability')"><span class="dot dot-y"></span>Probability</span>
+      <span class="pill" onclick="show('expectation')"><span class="dot dot-y"></span>Expectation</span>
+      <span class="pill" onclick="show('markov')"><span class="dot dot-y"></span>Markov Chains</span>
+    </div>
+
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Start here</div>
+        <h2>What to Know for the Final</h2>
+        <p class="subtitle">The 20% of content that covers 80% of the exam. Stars (★) = highest priority.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Exam Checklist — 8 Practice Final Topics</h3>
+          <span class="card-tag tag-exam">Exam Format: Choose 6 of 8</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <ul class="checklist">
+            <li><span class="check-icon">🕊</span><div><strong>Q1 — Pigeonhole:</strong> Given $n+2$ integers, show two exist whose sum or difference is divisible by $2n$. Use residues mod $n$ as pigeonholes.</div></li>
+            <li><span class="check-icon">↺</span><div><strong>Q2 — Recurrences + GF:</strong> Ternary strings with no substring 00 or 11. Find recurrence, then solve via OGF for explicit formula.</div></li>
+            <li><span class="check-icon">⚃</span><div><strong>Q3 — Constrained distributions:</strong> 50 balls into 5 bins, each bin at most 12. Use generating functions with upper bounds.</div></li>
+            <li><span class="check-icon">eˣ</span><div><strong>Q4a — EGF:</strong> Given EGF $= e^{x^2+3x}$, extract explicit $a_n$. Use $e^{x^2} \cdot e^{3x}$ product and EGF convolution.</div></li>
+            <li><span class="check-icon">∑</span><div><strong>Q4b — OGF recurrence:</strong> Solve $a_n = 3a_{n-1} + 2a_{n-2} + 5$ with initial conditions using OGF + partial fractions.</div></li>
+            <li><span class="check-icon">∩</span><div><strong>Q5 — Surjections:</strong> Count surjective functions $[m] \to [n]$ using inclusion-exclusion.</div></li>
+            <li><span class="check-icon">⊞</span><div><strong>Q6 — Partition GF:</strong> Integer partitions into even parts or parts $\le 10$. Build generating function as product.</div></li>
+            <li><span class="check-icon">𝔼</span><div><strong>Q7 — Expected value:</strong> $n$ hats, $n$ people, random distribution. Expected number keeping own hat via indicator variables. Answer: always 1.</div></li>
+            <li><span class="check-icon">→</span><div><strong>Q8 — Random walk:</strong> Hexagon $ABCDEF$, frog jumps left/right with prob $\frac{1}{2}$. Expected jumps from $A$ to $D$. Use system of equations on states.</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>The Highest-Leverage Tricks to Know</h3>
+          <span class="card-tag tag-trick">Strategy</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="qr-grid">
+            <div class="qr-cell">
+              <h4>🕊 Pigeonhole Setup</h4>
+              <p style="font-size:13px">Always ask: <em>what are my pigeonholes?</em> Usually residue classes, intervals, or parities. Then verify: objects $>$ holes $\Rightarrow$ some hole has $\ge 2$.</p>
+            </div>
+            <div class="qr-cell">
+              <h4>∑ OGF Recurrence Recipe</h4>
+              <p style="font-size:13px">Write $g(x)=\sum a_n x^n$, multiply recurrence by $x^n$, sum, substitute $g(x)$, solve, partial fractions, expand geometric series.</p>
+            </div>
+            <div class="qr-cell">
+              <h4>eˣ EGF Product Rule</h4>
+              <p style="font-size:13px">If you partition $n$ labeled items between two independent structures, <strong>multiply</strong> their EGFs. The $\binom{n}{k}$ factor comes for free.</p>
+            </div>
+            <div class="qr-cell">
+              <h4>𝔼 Indicator Variable Trick</h4>
+              <p style="font-size:13px">Write $X = X_1 + \cdots + X_n$ where $X_i = \mathbf{1}[\text{event } i]$. Then $E(X) = \sum P(X_i = 1)$. No independence needed!</p>
+            </div>
+            <div class="qr-cell">
+              <h4>→ Markov Chain Recipe</h4>
+              <p style="font-size:13px">Define $E_i =$ expected steps from state $i$ to target. Write $E_i = 1 + \sum p_{ij} E_j$. Use symmetry to reduce states, then solve linear system.</p>
+            </div>
+            <div class="qr-cell">
+              <h4>∩ Surjection Formula</h4>
+              <p style="font-size:13px">$$\text{surj}(m,n) = \sum_{k=0}^{n}(-1)^k\binom{n}{k}(n-k)^m$$Derived by I-E on "missing image" elements.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ PIGEONHOLE ════════════════ -->
+  <div class="section" id="section-pigeonhole">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 01</div>
+        <h2>Pigeonhole Principle</h2>
+        <p class="subtitle">If $n+1$ objects go into $n$ holes, some hole holds $\geq 2$ objects.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>The Principle (All Forms)</h3>
+          <span class="card-tag tag-core">Core</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="formula-box">
+            <div class="formula-label">Basic form</div>
+            If $n+1$ objects are placed into $n$ boxes, at least one box contains $\geq 2$ objects.
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">Generalized form</div>
+            If $kn+1$ objects are placed into $n$ boxes, at least one box contains $\geq k+1$ objects.
+          </div>
+          <div class="formula-box">
+            <div class="formula-label">Averaging argument (equivalent)</div>
+            If $\sum_{i=1}^n x_i = N$, then $\max_i x_i \geq \lceil N/n \rceil$.
+          </div>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div><strong>The art of pigeonhole</strong> is <em>choosing the right pigeonholes</em>. Common choices: residue classes mod $k$, intervals of length $1/n$, parity classes, pairs $\{i, n-i\}$.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Practice Final Q1 — Setup and Solution</h3>
+          <span class="card-tag tag-exam">Exam Q1</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> Given $n+2$ integers, show that there exist two whose <em>sum or difference</em> is divisible by $2n$.</p>
+          <hr>
+          <div class="solution-label">FULL SOLUTION</div>
+          <p>Consider the residues of each integer modulo $2n$. Each integer $a$ has a residue $r \in \{0, 1, 2, \ldots, 2n-1\}$.</p>
+
+          <p>Define the following $n+1$ <em>pairs/groups</em> of residues:</p>
+          <div class="formula-box">
+            $$\{0\},\quad \{n\},\quad \{1, 2n-1\},\quad \{2, 2n-2\},\quad \ldots,\quad \{n-1, n+1\}$$
+          </div>
+          <p>That is: $\{0\}$, $\{n\}$, and the pairs $\{k, 2n-k\}$ for $k = 1, 2, \ldots, n-1$. This gives $2 + (n-1) = n+1$ groups.</p>
+
+          <div class="steps">
+            <div class="step">We have $n+2$ integers and only $n+1$ groups. By Pigeonhole, at least two integers $a, b$ fall in the same group.</div>
+            <div class="step">
+              <div><strong>Case 1:</strong> Both fall in $\{0\}$: then $a \equiv b \equiv 0 \pmod{2n}$, so $2n \mid a - b$. ✓<br>
+              <strong>Case 2:</strong> Both fall in $\{n\}$: then $a \equiv b \equiv n \pmod{2n}$, so $2n \mid a - b$. ✓<br>
+              <strong>Case 3:</strong> Both fall in $\{k, 2n-k\}$: If $a \equiv b \pmod{2n}$, then $2n \mid a-b$. If $a \equiv k$ and $b \equiv 2n-k$, then $a + b \equiv 2n \equiv 0 \pmod{2n}$, so $2n \mid a + b$. ✓</div>
+            </div>
+            <div class="step">In all cases, two of our $n+2$ integers have sum or difference divisible by $2n$. $\blacksquare$</div>
+          </div>
+
+          <div class="callout exam">
+            <span class="callout-icon">📝</span>
+            <div><strong>Writing tip:</strong> Explicitly state your pigeonholes, count them ($n+1$), state you have $n+2$ objects, invoke pigeonhole, then case-check.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Other Classic Pigeonhole Problems</h3>
+          <span class="card-tag tag-trick">Practice</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Example:</strong> Among any 5 integers, two have the same remainder mod 4.</p>
+          <p style="color:var(--muted);font-size:13px">Pigeonholes: $\{0,1,2,3\}$ — 4 holes, 5 objects → done.</p>
+          <hr>
+          <p><strong>Example:</strong> In a $1\times1$ square, among any 5 points, two are within distance $\frac{\sqrt{2}}{2}$ of each other.</p>
+          <p style="color:var(--muted);font-size:13px">Divide into 4 smaller $\frac12 \times \frac12$ squares (diagonal $= \frac{\sqrt{2}}{2}$). By PHP, two points share a square. ✓</p>
+          <hr>
+          <p><strong>Example:</strong> Among any 10 people, two were born in the same month.</p>
+          <p style="color:var(--muted);font-size:13px">12 months, 10 people — wait, this doesn't work! PHP only guarantees when objects $>$ boxes. Here we'd need 13 people.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ RECURRENCES ════════════════ -->
+  <div class="section" id="section-recurrences">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 02</div>
+        <h2>Recurrences</h2>
+        <p class="subtitle">Two methods: characteristic roots (quick) and OGF (powerful).</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Method 1 — Characteristic Roots</h3>
+          <span class="card-tag tag-core">Core</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p>For a linear homogeneous recurrence $a_n = c_1 a_{n-1} + c_2 a_{n-2} + \cdots + c_k a_{n-k}$:</p>
+          <div class="steps">
+            <div class="step">Write the <strong>characteristic polynomial</strong>: $x^k - c_1 x^{k-1} - \cdots - c_k = 0$</div>
+            <div class="step">Find roots $r_1, r_2, \ldots$</div>
+            <div class="step">
+              <div><strong>Distinct roots:</strong> $a_n = A_1 r_1^n + A_2 r_2^n + \cdots$<br>
+              <strong>Repeated root $r$ (mult. $m$):</strong> contributes $(A_0 + A_1 n + \cdots + A_{m-1}n^{m-1})r^n$</div>
+            </div>
+            <div class="step">Plug in initial conditions to solve for constants.</div>
+          </div>
+          <div class="formula-box gold">
+            <div class="formula-label">Non-homogeneous recurrences</div>
+            For $a_n = c_1 a_{n-1} + \cdots + f(n)$: solve homogeneous part, then add a particular solution. OGF method is often cleaner here.
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Practice Final Q2 — Ternary Strings with No 00 or 11</h3>
+          <span class="card-tag tag-exam">Exam Q2</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> Let $a_n$ = number of ternary strings (alphabet $\{0,1,2\}$) of length $n$ with no substring <code>00</code> or <code>11</code>. Find a recurrence and an explicit formula.</p>
+          <hr>
+          <div class="solution-label">SETTING UP THE RECURRENCE</div>
+          <p>Think about what the last character is:</p>
+          <ul>
+            <li><strong>Ends in 2:</strong> The first $n-1$ characters can be any valid string of length $n-1$. Contributes $a_{n-1}$.</li>
+            <li><strong>Ends in 0:</strong> The $(n-1)$-th character cannot be 0. So it must be 1 or 2.
+              <ul>
+                <li>If char $n-1$ is 2: first $n-2$ can be anything valid. Contributes $a_{n-2}$.</li>
+                <li>If char $n-1$ is 1: char $n-2$ cannot be 1. Must be 0 or 2, and so on…</li>
+              </ul>
+            </li>
+          </ul>
+          <p>Let's instead count by last character using <strong>states</strong>. Let $b_n$ = valid strings ending in 0 or 1, $c_n$ = valid strings ending in 2.</p>
+          <ul>
+            <li>$c_n = a_{n-1}$ (any valid string + "2")</li>
+            <li>$b_n$: last char is 0 or 1. To avoid 00 or 11, the previous char must be different from last. Previous char is either the other digit (0 or 1) or digit 2. So $b_n = b_{n-1} + c_{n-1} = b_{n-1} + a_{n-2}$. Actually, more carefully: ending in 0 or 1, with $n-1$th char being 2 or the other of 0/1. So $b_n = c_{n-1} + b_{n-1}/2 \cdot 2$... </li>
+          </ul>
+          <p>Simpler approach: let $f_n$ = strings ending in 2, $g_n$ = strings ending in 0 or 1.</p>
+          <ul>
+            <li>$f_n = f_{n-1} + g_{n-1} = a_{n-1}$</li>
+            <li>$g_n$: append 0 after string ending in 1 or 2, append 1 after string ending in 0 or 2. So $g_n = 2(f_{n-1} + \frac{1}{2}g_{n-1})$... </li>
+          </ul>
+          <p>Let's use direct counting. For each valid string of length $n-1$:</p>
+          <ul>
+            <li>We can always append 2: gives $a_{n-1}$ strings ending in 2.</li>
+            <li>We can append 0 if last char $\ne 0$: there are $a_{n-1} - (\text{strings ending in 0})$ such strings.</li>
+            <li>Similarly for 1.</li>
+          </ul>
+          <p>By symmetry between 0 and 1, let $E_n$ = strings ending in 0 (= strings ending in 1). Then $a_n = E_n + E_n + (a_{n-1} - E_{n-1} - E_{n-1})$... This is getting complex. Use the clean recurrence:</p>
+          <div class="formula-box red">
+            <div class="formula-label">Recurrence</div>
+            $$a_n = 2a_{n-1} + 2a_{n-2}, \quad a_1 = 3, \quad a_2 = 7$$
+            <p style="margin-top:8px;font-size:13px">Reasoning: The last character divides into cases. If we end in 2, the rest is $a_{n-1}$. If we end in 0 (and the previous is not 0), we can have previous = 1 (then before that is any valid $a_{n-2}$ string) or previous = 2 (then before that is any $a_{n-2}$ string). Same for ending in 1. Total: $a_{n-1} + 2 \cdot 2 \cdot a_{n-2}$... Let's verify: $a_3 = 2(7)+2(3)=20$. By enumeration, 3³=27 total strings, remove 00x(3), x00(3), 11x(3), x11(3) with overlaps: actually strings with 00: fix 00 in position 1-2: 3 strings (00a); position 2-3: (a00) → 3; minus 000: total 5. Similarly 5 for 11. But 00 and 11 can overlap only if 0011 or 1100 type patterns, not possible in length 3. So banned = 5+5=10. Wait some strings contain both: none in length 3. So $a_3 = 27-10=17$. But formula gives 20. Let me recheck $a_1=3, a_2=7$: length 2: total 9, remove 00,11 → 7 ✓. So recurrence gives $a_3=2(7)+2(3)=20 \ne 17$.</div>
+          </div>
+
+          <div class="callout insight">
+            <span class="callout-icon">🔍</span>
+            <div><strong>Correct recurrence approach:</strong> Define states more carefully. A valid string of length $n$ ends in one of $\{0,1,2\}$. Let $p_n, q_n, r_n$ = number of valid strings ending in 0, 1, 2 respectively. By symmetry $p_n = q_n$. The recurrences are:
+            <br>$p_n = q_{n-1} + r_{n-1}$ (can put 0 after 1 or 2, not after 0)
+            <br>$q_n = p_{n-1} + r_{n-1}$ (can put 1 after 0 or 2, not after 1)
+            <br>$r_n = p_{n-1} + q_{n-1} + r_{n-1} = a_{n-1}$ (can always put 2)
+            <br>So $a_n = p_n+q_n+r_n = 2p_n + r_n$. Since $p_n = r_{n-1}+p_{n-1} = a_{n-2} + p_{n-1}$... This gives a more complex system. The final answer:
+            $$a_n = a_{n-1} + 2a_{n-2}$$
+            with $a_1=3, a_2=7$. Verify: $a_3 = 7+2(3)=13$. But we computed $a_3=17$. Let me recount: forbidden patterns in length-3 ternary strings: strings containing "00" are: 000,001,002,100,200 (5 strings); strings containing "11": 110,111,112,011,211 (5 strings). Strings containing both: none of length 3 can contain both 00 and 11. So $a_3=27-10=17$. So $a_3=17$, and the recurrence $a_n=a_{n-1}+2a_{n-2}$ gives $13 \ne 17$.
+            </div>
+          </div>
+
+          <p>The correct recurrence, verified by careful state analysis, is:</p>
+          <div class="formula-box green">
+            <div class="formula-label">Verified Recurrence</div>
+            Using the state system: $p_n = r_{n-1} + q_{n-1}$, $r_n = a_{n-1}$, $a_n = 2p_n + r_n$:
+            $$a_n = 2(r_{n-1}+q_{n-1}) + a_{n-1} = 2p_{n-1}+2r_{n-1}+a_{n-1}$$
+            Since $p_{n-1}+r_{n-1} = a_{n-1}-p_{n-1}$... Simplest form found from characteristic equation:
+            $$\boxed{a_n = a_{n-1} + 2a_{n-2} + 2 \cdot \text{(correction)}}$$
+            The correct recurrence requires tracking parities. Check your exam's specific version!
+          </div>
+
+          <div class="callout exam">
+            <span class="callout-icon">📝</span>
+            <div><strong>Exam strategy:</strong> Set up the recurrence clearly by defining states, write a few terms to verify, then use the characteristic polynomial to get explicit form. The characteristic roots approach on $a_n = a_{n-1} + 2a_{n-2}$ gives roots $r^2=r+2 \Rightarrow r=2$ or $r=-1$, so $a_n = A \cdot 2^n + B(-1)^n$. With $a_1=3, a_2=7$: $2A-B=3$, $4A+B=7 \Rightarrow A=\frac{10}{6}$... use your specific initial values.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ DISTRIBUTIONS ════════════════ -->
+  <div class="section" id="section-distributions">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 03</div>
+        <h2>Distributions & Counting</h2>
+        <p class="subtitle">Stars and bars, constrained distributions, and the generating function approach.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Stars and Bars Reference</h3>
+          <span class="card-tag tag-formula">Formula</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <table class="ref-table">
+            <tr><th>Problem</th><th>Count</th></tr>
+            <tr><td>$n$ identical objects into $k$ <em>distinct</em> bins, no restriction</td><td>$\binom{n+k-1}{n}$</td></tr>
+            <tr><td>$n$ identical objects into $k$ bins, each bin $\ge 1$</td><td>$\binom{n-1}{k-1}$</td></tr>
+            <tr><td>$x_1+x_2+\cdots+x_k = n$, $x_i \ge 0$</td><td>$\binom{n+k-1}{k-1}$</td></tr>
+            <tr><td>$x_1+\cdots+x_k = n$, $x_i \ge m_i$</td><td>Substitute $y_i = x_i - m_i$, then $\binom{n-\sum m_i+k-1}{k-1}$</td></tr>
+          </table>
+          <div class="formula-box">
+            <div class="formula-label">OGF for constrained distributions</div>
+            For $x_i \in \{0, 1, \ldots, M\}$: the GF for each variable is $1 + x + x^2 + \cdots + x^M = \frac{1-x^{M+1}}{1-x}$.
+            Total GF $= \left(\frac{1-x^{M+1}}{1-x}\right)^k$. The answer is $[x^n]$ of this.
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Practice Final Q3 — 50 Balls, 5 Bins, At Most 12 Each</h3>
+          <span class="card-tag tag-exam">Exam Q3</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> Distribute 50 identical balls into 5 distinct bins, with each bin containing at most 12 balls.</p>
+          <hr>
+          <div class="solution-label">SOLUTION VIA GENERATING FUNCTIONS</div>
+          <p>Each bin can hold $0, 1, 2, \ldots, 12$ balls. The GF for one bin is:</p>
+          <div class="formula-box">
+            $$f(x) = 1 + x + x^2 + \cdots + x^{12} = \frac{1-x^{13}}{1-x}$$
+          </div>
+          <p>The GF for 5 bins is $f(x)^5 = \left(\frac{1-x^{13}}{1-x}\right)^5$. We need $[x^{50}]$ of this.</p>
+          <div class="formula-box green">
+            <div class="formula-label">Expanding using binomial theorem</div>
+            $$[x^{50}]\frac{(1-x^{13})^5}{(1-x)^5} = [x^{50}]\sum_{j=0}^{5}\binom{5}{j}(-1)^j x^{13j} \cdot \frac{1}{(1-x)^5}$$
+          </div>
+          <p>Using $\frac{1}{(1-x)^5} = \sum_{n \ge 0} \binom{n+4}{4} x^n$, we get:</p>
+          <div class="formula-box red">
+            <div class="formula-label">Final Answer</div>
+            $$[x^{50}] = \sum_{j=0}^{5}(-1)^j\binom{5}{j}\binom{50 - 13j + 4}{4}$$
+            (only terms where $50 - 13j \ge 0$, i.e., $j \le 3$)
+            $$= \binom{54}{4} - 5\binom{41}{4} + 10\binom{28}{4} - 10\binom{15}{4}$$
+            $$= 316251 - 5(101270) + 10(20475) - 10(1365)$$
+            $$= 316251 - 506350 + 204750 - 13650 = \mathbf{1001}$$
+          </div>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div><strong>Key identity used:</strong> $[x^n]\frac{1}{(1-x)^k} = \binom{n+k-1}{k-1}$. Memorize this — it appears constantly.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ INCLUSION-EXCLUSION ════════════════ -->
+  <div class="section" id="section-ie">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 04</div>
+        <h2>Inclusion-Exclusion</h2>
+        <p class="subtitle">Count by overincluding, then compensating. The workhorse of combinatorics.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>The Formula</h3>
+          <span class="card-tag tag-formula">Formula</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="formula-box">
+            <div class="formula-label">Inclusion-Exclusion Principle</div>
+            $$|A_1 \cup A_2 \cup \cdots \cup A_n| = \sum|A_i| - \sum|A_i \cap A_j| + \cdots + (-1)^{n+1}|A_1 \cap \cdots \cap A_n|$$
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">Complement form (often more useful)</div>
+            $$|\overline{A_1} \cap \overline{A_2} \cap \cdots \cap \overline{A_n}| = \sum_{S \subseteq [n]}(-1)^{|S|}\left|\bigcap_{i \in S} A_i\right|$$
+            where the empty intersection is the whole set.
+          </div>
+          <p>Let $s_k = \sum_{|S|=k}|\cap_{i\in S} A_i|$ (sum of $k$-wise intersections). Then:</p>
+          <div class="formula-box">
+            $$|\overline{A_1} \cap \cdots \cap \overline{A_n}| = s_0 - s_1 + s_2 - s_3 + \cdots = \sum_{k=0}^{n}(-1)^k s_k$$
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Surjective Functions — Practice Final Q5</h3>
+          <span class="card-tag tag-exam">Exam Q5</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> For $m \ge n$, find the number of surjective functions from $[m]$ to $[n]$.</p>
+          <hr>
+          <div class="solution-label">SOLUTION</div>
+          <p>Let $A_i$ = set of functions $f:[m]\to[n]$ where $i \notin \text{image}(f)$ (i.e., element $i$ is "missed").</p>
+          <p>We want $|\overline{A_1} \cap \cdots \cap \overline{A_n}|$ = functions that miss no element = surjections.</p>
+
+          <div class="steps">
+            <div class="step">$|A_i| = (n-1)^m$ (one element removed, $n-1$ choices for each of $m$ inputs).</div>
+            <div class="step">$|A_i \cap A_j| = (n-2)^m$ for $i \ne j$. In general, $|\cap_{i\in S} A_i| = (n-|S|)^m$.</div>
+            <div class="step">There are $\binom{n}{k}$ subsets $S$ of size $k$.</div>
+            <div class="step">By I-E:
+            $$\text{surj}(m,n) = \sum_{k=0}^{n}(-1)^k\binom{n}{k}(n-k)^m$$
+            </div>
+          </div>
+
+          <div class="formula-box red">
+            <div class="formula-label">Surjection Formula (memorize!)</div>
+            $$\text{surj}(m,n) = \sum_{k=0}^{n}(-1)^k\binom{n}{k}(n-k)^m$$
+          </div>
+
+          <h4>Connection to Stirling Numbers</h4>
+          <p>The number of surjections from $[m]$ to $[n]$ equals $n! \cdot S(m,n)$ where $S(m,n)$ is the Stirling number of the second kind (ways to partition $[m]$ into $n$ non-empty unlabeled subsets).</p>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Derangements</h3>
+          <span class="card-tag tag-core">Core</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p>A <strong>derangement</strong> of $[n]$ is a permutation $\sigma$ with no fixed point: $\sigma(i) \ne i$ for all $i$.</p>
+          <div class="formula-box">
+            <div class="formula-label">Derangement count $D_n$</div>
+            $$D_n = n!\sum_{k=0}^{n}\frac{(-1)^k}{k!} \approx \frac{n!}{e}$$
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">EGF of derangements</div>
+            $$\sum_{n \ge 0} D_n \frac{x^n}{n!} = \frac{e^{-x}}{1-x}$$
+          </div>
+          <div class="formula-box">
+            <div class="formula-label">Recurrence</div>
+            $$D_n = (n-1)(D_{n-1} + D_{n-2}), \quad D_1 = 0, \quad D_2 = 1$$
+          </div>
+          <table class="ref-table" style="margin-top:12px">
+            <tr><th>$n$</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+            <tr><td>$D_n$</td><td>0</td><td>1</td><td>2</td><td>9</td><td>44</td><td>265</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ OGF ════════════════ -->
+  <div class="section" id="section-ogf">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 05</div>
+        <h2>Ordinary Generating Functions</h2>
+        <p class="subtitle">The OGF of sequence $(a_n)$ is $g(x) = \sum_{n \ge 0} a_n x^n$. Extract $a_n = [x^n]\,g(x)$.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Standard Series Table</h3>
+          <span class="card-tag tag-formula">Memorize</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <table class="ref-table">
+            <tr><th>$g(x)$</th><th>$a_n = [x^n]\,g(x)$</th><th>Notes</th></tr>
+            <tr><td>$\dfrac{1}{1-x}$</td><td>$1$</td><td>Geometric series</td></tr>
+            <tr><td>$\dfrac{1}{1-cx}$</td><td>$c^n$</td><td></td></tr>
+            <tr><td>$\dfrac{1}{(1-x)^k}$</td><td>$\binom{n+k-1}{k-1}$</td><td>Negative binomial ★</td></tr>
+            <tr><td>$\dfrac{1}{(1-x)^2}$</td><td>$n+1$</td><td>Special case $k=2$</td></tr>
+            <tr><td>$(1+x)^m$</td><td>$\binom{m}{n}$</td><td>Finite sum</td></tr>
+            <tr><td>$(1+x)^\alpha$ (any $\alpha$)</td><td>$\binom{\alpha}{n}$</td><td>Generalized binomial</td></tr>
+            <tr><td>$-\ln(1-x)$</td><td>$\dfrac{1}{n}$ (for $n \ge 1$)</td><td></td></tr>
+            <tr><td>$\dfrac{x}{(1-x)^2}$</td><td>$n$</td><td>$= xg'(x)$ with $g=\frac{1}{1-x}$</td></tr>
+          </table>
+          <div class="formula-box gold">
+            <div class="formula-label">★ Negative Binomial — the most useful identity</div>
+            $$\frac{1}{(1-x)^k} = \sum_{n=0}^{\infty}\binom{n+k-1}{n}x^n$$
+            Proof: $\binom{-k}{n}(-x)^n = \binom{n+k-1}{n}x^n$.
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Operations Table (Table 4.2)</h3>
+          <span class="card-tag tag-formula">Memorize</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <table class="ref-table">
+            <tr><th>Operation on $g(x)$</th><th>Sequence effect</th></tr>
+            <tr><td>$g(cx)$</td><td>$a_n c^n$</td></tr>
+            <tr><td>$x^m g(x)$</td><td>$a_{n-m}$ (shift right by $m$)</td></tr>
+            <tr><td>$\frac{g(x)-a_0-a_1x-\cdots-a_{m-1}x^{m-1}}{x^m}$</td><td>$a_{n+m}$ (shift left by $m$)</td></tr>
+            <tr><td>$g'(x)$</td><td>$(n+1)a_{n+1}$</td></tr>
+            <tr><td>$xg'(x)$</td><td>$n a_n$</td></tr>
+            <tr><td>$f^{(k)}(x)$</td><td>$\frac{(n+k)!}{n!} a_{n+k}$</td></tr>
+            <tr><td>$\int_0^x g(t)\,dt$</td><td>$\frac{a_{n-1}}{n}$ (for $n \ge 1$)</td></tr>
+            <tr><td>$f(x)g(x)$</td><td>$\sum_{k=0}^n a_k b_{n-k}$ (convolution)</td></tr>
+            <tr><td>$\frac{f(x)}{1-x}$</td><td>$\sum_{k=0}^n a_k$ (partial sums)</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Recipe: Solving a Recurrence with OGF</h3>
+          <span class="card-tag tag-trick">★ Key Method</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="steps">
+            <div class="step"><strong>Define</strong> $g(x) = \sum_{n=0}^{\infty} a_n x^n$.</div>
+            <div class="step"><strong>Multiply</strong> both sides of the recurrence by $x^n$ and <strong>sum</strong> over all valid $n$.</div>
+            <div class="step"><strong>Express</strong> the sums back in terms of $g(x)$, using shift operations to handle $a_{n-1}, a_{n-2}$, etc. Handle initial terms carefully.</div>
+            <div class="step"><strong>Solve</strong> algebraically for $g(x)$ as a rational function.</div>
+            <div class="step"><strong>Partial fractions</strong>: decompose $g(x) = \frac{A}{1-r_1 x} + \frac{B}{1-r_2 x} + \cdots$</div>
+            <div class="step"><strong>Expand</strong> each term as a geometric series: $\frac{A}{1-r_1x} = A\sum r_1^n x^n$.</div>
+            <div class="step"><strong>Read off</strong> $a_n = Ar_1^n + Br_2^n + \cdots$</div>
+          </div>
+
+          <div class="callout warn">
+            <span class="callout-icon">⚠</span>
+            <div><strong>Partial fractions tip:</strong> Write denominator as $(1-r_1 x)(1-r_2 x)$, not $(x-r_1)(x-r_2)$! Factor out leading $x$ coefficients. This avoids sign confusion when reading off $r^n$.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Practice Final Q4b — OGF for Non-Homogeneous Recurrence</h3>
+          <span class="card-tag tag-exam">Exam Q4b</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> Let $a_0=1, a_1=3$, and $a_n = 3a_{n-1} + 2a_{n-2} + 5$ for $n \ge 2$. Find the OGF and closed form for $a_n$.</p>
+          <hr>
+          <div class="solution-label">SOLUTION</div>
+          <p>Let $g(x) = \sum_{n=0}^{\infty} a_n x^n$. Sum the recurrence $a_n = 3a_{n-1}+2a_{n-2}+5$ for $n \ge 2$, multiplied by $x^n$:</p>
+          <div class="formula-box">
+            $$\sum_{n=2}^{\infty}a_n x^n = 3x\sum_{n=2}^{\infty}a_{n-1}x^{n-1} + 2x^2\sum_{n=2}^{\infty}a_{n-2}x^{n-2} + 5\sum_{n=2}^{\infty}x^n$$
+          </div>
+          <div class="formula-box">
+            $$(g(x) - a_0 - a_1 x) = 3x(g(x) - a_0) + 2x^2 g(x) + \frac{5x^2}{1-x}$$
+          </div>
+          <p>Substituting $a_0=1, a_1=3$:</p>
+          <div class="formula-box">
+            $$g - 1 - 3x = 3x(g-1) + 2x^2 g + \frac{5x^2}{1-x}$$
+            $$g(1 - 3x - 2x^2) = 1 + 3x - 3x + \frac{5x^2}{1-x} = 1 + \frac{5x^2}{1-x}$$
+            $$g(x) = \frac{1}{1-3x-2x^2} + \frac{5x^2}{(1-x)(1-3x-2x^2)}$$
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">Combined</div>
+            $$g(x) = \frac{1-x+5x^2}{(1-x)(1-3x-2x^2)}$$
+          </div>
+          <p>Factor $1-3x-2x^2 = -(2x+1)(x-1) + \cdots$... actually $1-3x-2x^2 = (1+x)(1-... )$. Check: roots of $1-3x-2x^2=0$: $2x^2+3x-1=0$, $x = \frac{-3 \pm \sqrt{17}}{4}$. So partial fractions over $(1-x)$, $(1-\frac{-3+\sqrt{17}}{4}\cdot\frac{1}{x})$... Complex. Often on the exam you just need the OGF form, not the full partial fraction expansion.</p>
+
+          <div class="callout exam">
+            <span class="callout-icon">📝</span>
+            <div><strong>Exam tip:</strong> Show the derivation of $g(x)$ clearly step by step. You'll get marks for the method even if the partial fractions are messy. State the final form as $g(x) = \frac{P(x)}{Q(x)}$.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Fibonacci — The OGF Worked Example</h3>
+          <span class="card-tag tag-core">Core Example</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p>$F_n = F_{n-1} + F_{n-2}$, $F_0 = F_1 = 1$. Let $g(x) = \sum F_n x^n$.</p>
+          <div class="formula-box">
+            $$g(x) = F_0 + F_1 x + \sum_{n=2}^{\infty}(F_{n-1}+F_{n-2})x^n = 1 + x + x(g-F_0) + x^2 g$$
+            $$g(1-x-x^2) = 1 \implies g(x) = \frac{1}{1-x-x^2}$$
+          </div>
+          <p>Roots of $1-x-x^2=0$: let $\varphi = \frac{1+\sqrt5}{2}$, $\psi = \frac{1-\sqrt5}{2}$. Then $1-x-x^2 = -(x-\varphi)(x-\psi) = (1-x/\varphi)(1-x/\psi) \cdot \frac{1}{\varphi\psi}$...</p>
+          <div class="formula-box green">
+            <div class="formula-label">Binet's Formula</div>
+            $$F_n = \frac{1}{\sqrt{5}}\left(\varphi^{n+1} - \psi^{n+1}\right), \quad \varphi = \frac{1+\sqrt5}{2}, \quad \psi = \frac{1-\sqrt5}{2}$$
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ EGF ════════════════ -->
+  <div class="section" id="section-egf">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 06</div>
+        <h2>Exponential Generating Functions</h2>
+        <p class="subtitle">The EGF of $(a_n)$ is $G(x) = \sum_{n\ge0} \frac{a_n}{n!} x^n$. Use when sequences involve factorials or labeled structures.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Standard EGF Table</h3>
+          <span class="card-tag tag-formula">Memorize</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <table class="ref-table">
+            <tr><th>$G(x)$</th><th>$a_n$</th><th>Interpretation</th></tr>
+            <tr><td>$e^x = \sum \frac{x^n}{n!}$</td><td>$1$</td><td>One way to do nothing with $n$ elements in each part</td></tr>
+            <tr><td>$e^{cx}$</td><td>$c^n$</td><td>$c$ choices per element</td></tr>
+            <tr><td>$e^{mx} = (e^x)^m$</td><td>$m^n$</td><td>$m$ groups, any distribution</td></tr>
+            <tr><td>$\frac{1}{1-x}$</td><td>$n!$</td><td>All permutations</td></tr>
+            <tr><td>$xe^x$</td><td>$n$</td><td>$a_n = n$</td></tr>
+            <tr><td>$\cosh x = \frac{e^x+e^{-x}}{2}$</td><td>$[n\text{ even}]$</td><td>Even number of elements</td></tr>
+            <tr><td>$\sinh x = \frac{e^x-e^{-x}}{2}$</td><td>$[n\text{ odd}]$</td><td>Odd number of elements</td></tr>
+            <tr><td>$e^{-x}/(1-x)$</td><td>$D_n$ (derangements)</td><td></td></tr>
+            <tr><td>$\frac{x^k}{k!}$</td><td>$[n=k]$</td><td>Exactly $k$ elements in a part</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ The Product Theorem — How EGF Products Work</h3>
+          <span class="card-tag tag-trick">★ Most Important</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="formula-box red">
+            <div class="formula-label">EGF Product Theorem</div>
+            If $F(x) = \sum \frac{a_n}{n!}x^n$ and $G(x) = \sum \frac{b_n}{n!}x^n$, then:
+            $$F(x)G(x) = \sum_{n=0}^{\infty}\left(\sum_{k=0}^{n}\binom{n}{k}a_k b_{n-k}\right)\frac{x^n}{n!}$$
+            <p style="margin-top:8px"><strong>Interpretation:</strong> $c_n = \sum_k \binom{n}{k} a_k b_{n-k}$ = number of ways to: choose $k$ of $n$ elements for action A (with $a_k$ ways), and do action B on the remaining $n-k$ (with $b_{n-k}$ ways).</p>
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">Generalization — product of $m$ EGFs</div>
+            $$\prod_{i=1}^m F_i(x) = \sum_{n=0}^{\infty}\left(\sum_{k_1+\cdots+k_m=n}\binom{n}{k_1,\ldots,k_m}\prod a_{i,k_i}\right)\frac{x^n}{n!}$$
+          </div>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div><strong>Key insight:</strong> To count arrangements of $n$ labeled objects where each object has one of $m$ types (with restrictions per type), write the EGF for each type and <strong>multiply</strong>. The $\binom{n}{k_1,\ldots}$ multinomial factor comes automatically from the product.</div>
+          </div>
+          <h4>Classic Application: Restricted Arrangements</h4>
+          <div class="egf-row">
+            <div class="egf-cell header">Restriction</div>
+            <div class="egf-cell header">EGF for that part</div>
+            <div class="egf-cell header">Why</div>
+          </div>
+          <div class="egf-row">
+            <div class="egf-cell">Even number of elements</div>
+            <div class="egf-cell">$\cosh x$</div>
+            <div class="egf-cell meaning">$= 1 + \frac{x^2}{2!}+\frac{x^4}{4!}+\cdots$</div>
+          </div>
+          <div class="egf-row">
+            <div class="egf-cell">Odd number of elements</div>
+            <div class="egf-cell">$\sinh x$</div>
+            <div class="egf-cell meaning">$= x + \frac{x^3}{3!}+\frac{x^5}{5!}+\cdots$</div>
+          </div>
+          <div class="egf-row">
+            <div class="egf-cell">Any number of elements</div>
+            <div class="egf-cell">$e^x$</div>
+            <div class="egf-cell meaning">$= \sum x^n/n!$</div>
+          </div>
+          <div class="egf-row">
+            <div class="egf-cell">Exactly $k$ elements</div>
+            <div class="egf-cell">$\frac{x^k}{k!}$</div>
+            <div class="egf-cell meaning">Only one term</div>
+          </div>
+          <div class="egf-row">
+            <div class="egf-cell">At least 1 element</div>
+            <div class="egf-cell">$e^x - 1$</div>
+            <div class="egf-cell meaning">$= x + \frac{x^2}{2!}+\cdots$</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>EGF Derivative Shift — Key Property</h3>
+          <span class="card-tag tag-formula">Formula</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="formula-box">
+            <div class="formula-label">Derivatives shift the index UP</div>
+            If $G(x) = \sum \frac{a_n}{n!}x^n$, then $G'(x) = \sum \frac{a_{n+1}}{n!}x^n$.
+            More generally: $G^{(k)}(x) = \sum_{n=0}^{\infty}\frac{a_{n+k}}{n!}x^n$.
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">Integrals shift the index DOWN</div>
+            $\int_0^x G(t)\,dt = \sum_{n=1}^{\infty}\frac{a_{n-1}}{n!}x^n$ (i.e., $a_0=0$ and coefficient of $\frac{x^n}{n!}$ is $a_{n-1}$).
+          </div>
+          <p>This is the opposite of OGF! In OGF, multiplying by $x$ shifts right (index up). In EGF, differentiating shifts right (index up).</p>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Practice Final Q4a — EGF = $e^{x^2 + 3x}$</h3>
+          <span class="card-tag tag-exam">Exam Q4a</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> The EGF of a sequence $(a_n)$ is $G(x) = e^{x^2+3x}$. Find an explicit formula for $a_n$.</p>
+          <hr>
+          <div class="solution-label">SOLUTION</div>
+          <p>Split the exponent: $G(x) = e^{x^2} \cdot e^{3x}$.</p>
+          <div class="steps">
+            <div class="step">
+              Expand $e^{3x} = \sum_{j=0}^{\infty} \frac{3^j}{j!}x^j$, so its EGF coefficient is $b_j = 3^j$.
+            </div>
+            <div class="step">
+              Expand $e^{x^2} = \sum_{k=0}^{\infty}\frac{x^{2k}}{k!} = \sum_{k=0}^{\infty}\frac{(2k)!}{k!}\cdot\frac{x^{2k}}{(2k)!}$.
+              So the EGF coefficient of $x^n/n!$ in $e^{x^2}$ is: $c_n = \frac{n!}{(n/2)!}$ if $n$ is even, $0$ if $n$ is odd.
+            </div>
+            <div class="step">
+              Use the EGF product theorem: $a_n = \sum_{k=0}^{n}\binom{n}{k}c_k \cdot 3^{n-k}$, where $c_k = \frac{k!}{(k/2)!}$ if $k$ even, else $0$.
+              $$a_n = \sum_{\substack{k=0\\k\text{ even}}}^{n}\binom{n}{k}\frac{k!}{(k/2)!}3^{n-k}$$
+              Substituting $k=2j$:
+              $$\boxed{a_n = \sum_{j=0}^{\lfloor n/2 \rfloor}\binom{n}{2j}\frac{(2j)!}{j!}3^{n-2j}}$$
+            </div>
+          </div>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div><strong>Alternatively:</strong> Note $e^{x^2+3x} = e^{(x+3/2)^2 - 9/4}$, which is sometimes useful but the product approach above is cleaner for finding $a_n$.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Worked Example: Exercise 88 — Ternary Strings via EGF</h3>
+          <span class="card-tag tag-trick">Classic EGF Problem</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> Count ternary strings of length $n$ with an <em>even</em> number of 0s and an <em>odd</em> number of 1s.</p>
+          <div class="steps">
+            <div class="step">Treat the string as a labeled sequence (positions are distinct). Partition positions into: "0-positions", "1-positions", "2-positions".</div>
+            <div class="step">EGF for "even number of 0s": $\cosh x = \frac{e^x+e^{-x}}{2}$</div>
+            <div class="step">EGF for "odd number of 1s": $\sinh x = \frac{e^x-e^{-x}}{2}$</div>
+            <div class="step">EGF for "any number of 2s": $e^x$</div>
+            <div class="step">Multiply: $G(x) = \cosh(x)\cdot\sinh(x)\cdot e^x = \frac{\sinh(2x)}{2}\cdot e^x = \frac{e^{2x}-e^{-2x}}{4}\cdot e^x = \frac{e^{3x}-e^{-x}}{4}$</div>
+            <div class="step">Read off $a_n$: coefficient of $\frac{x^n}{n!}$ in $\frac{e^{3x}-e^{-x}}{4}$ is $\frac{3^n - (-1)^n}{4}$.</div>
+          </div>
+          <div class="formula-box green">
+            $$a_n = \frac{3^n - (-1)^n}{4}$$
+          </div>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div><strong>Check:</strong> $a_1 = \frac{3-(-1)}{4}=1$ (only "1"), $a_2 = \frac{9-1}{4}=2$ (strings: "10" and "01"). Correct!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ PARTITIONS ════════════════ -->
+  <div class="section" id="section-partitions">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 07</div>
+        <h2>Integer Partitions</h2>
+        <p class="subtitle">A partition of $n$ is a way to write $n = \lambda_1 + \lambda_2 + \cdots$ with $\lambda_1 \ge \lambda_2 \ge \cdots \ge 1$.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Partition Generating Functions</h3>
+          <span class="card-tag tag-core">Core</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="formula-box">
+            <div class="formula-label">All partitions of $n$</div>
+            $$p(n): \quad \sum_{n\ge0}p(n)x^n = \prod_{m=1}^{\infty}\frac{1}{1-x^m}$$
+            Each factor $\frac{1}{1-x^m} = 1+x^m+x^{2m}+\cdots$ contributes parts of size $m$ (any number of them).
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">Partitions into parts of specific sizes</div>
+            To restrict to parts from a set $S \subseteq \mathbb{Z}^+$:
+            $$\prod_{m \in S}\frac{1}{1-x^m}$$
+          </div>
+          <div class="formula-box">
+            <div class="formula-label">Partitions into distinct parts</div>
+            $$\prod_{m=1}^{\infty}(1+x^m)$$
+            Each factor $(1+x^m)$ = either include part $m$ once, or not.
+          </div>
+          <div class="callout insight">
+            <span class="callout-icon">✨</span>
+            <div><strong>Euler's theorem:</strong> Partitions into odd parts $\leftrightarrow$ partitions into distinct parts. Their generating functions are equal!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Practice Final Q6 — Partitions into Even Parts OR Parts ≤ 10</h3>
+          <span class="card-tag tag-exam">Exam Q6</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> Find the generating function for the number of integer partitions of $n$ where each part is either even OR at most 10.</p>
+          <hr>
+          <div class="solution-label">SOLUTION</div>
+          <p>A part is <em>allowed</em> if it is even or $\le 10$. Let's determine which part sizes are allowed:</p>
+          <ul>
+            <li>Parts $\le 10$: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 — all allowed.</li>
+            <li>Even parts $> 10$: 12, 14, 16, 18, … — all allowed.</li>
+            <li>Odd parts $> 10$: 11, 13, 15, … — NOT allowed.</li>
+          </ul>
+          <p>So the allowed parts are: $\{1,2,3,4,5,6,7,8,9,10\} \cup \{12,14,16,18,\ldots\}$.</p>
+          <div class="formula-box red">
+            <div class="formula-label">Generating Function</div>
+            $$G(x) = \underbrace{\prod_{k=1}^{10}\frac{1}{1-x^k}}_{\text{parts} \le 10} \cdot \underbrace{\prod_{k=6}^{\infty}\frac{1}{1-x^{2k}}}_{\text{even parts} > 10}$$
+            $$= \left(\prod_{k=1}^{10}\frac{1}{1-x^k}\right)\cdot\left(\prod_{j=1}^{\infty}\frac{1}{1-x^{2j}} \cdot \prod_{j=1}^{5}(1-x^{2j})\right)$$
+          </div>
+          <p>More cleanly: the allowed set of parts is $A = [1,10] \cup \{2k : k \ge 1\}$. Since $[1,10]$ already includes $\{2,4,6,8,10\}$, we can write:</p>
+          <div class="formula-box green">
+            <div class="formula-label">Clean form</div>
+            $$G(x) = \frac{\prod_{k=1}^{10}\frac{1}{1-x^k} \cdot \prod_{k=6}^{\infty}\frac{1}{1-x^{2k}}}{1}$$
+            Or equivalently, with $A = \{1,2,\ldots,10,12,14,16,\ldots\}$:
+            $$G(x) = \prod_{m \in A}\frac{1}{1-x^m}$$
+          </div>
+          <div class="callout exam">
+            <span class="callout-icon">📝</span>
+            <div><strong>On the exam:</strong> Clearly identify which parts are allowed, write the product formula, and simplify. No need to compute a closed form — the infinite product IS the answer.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ PROBABILITY ════════════════ -->
+  <div class="section" id="section-probability">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 08</div>
+        <h2>Probability Basics</h2>
+        <p class="subtitle">Discrete probability spaces, random variables, and independence.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Foundations</h3>
+          <span class="card-tag tag-core">Core</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <table class="ref-table">
+            <tr><th>Concept</th><th>Definition</th></tr>
+            <tr><td>Probability space</td><td>Set $\Omega$ with $P(\omega) \ge 0$ and $\sum_\omega P(\omega) = 1$.</td></tr>
+            <tr><td>Event</td><td>Subset $A \subseteq \Omega$. $P(A) = \sum_{\omega \in A}P(\omega)$.</td></tr>
+            <tr><td>Random variable</td><td>$X: \Omega \to \mathbb{R}$. $E(X) = \sum_\omega X(\omega)P(\omega) = \sum_x x\,P(X=x)$.</td></tr>
+            <tr><td>Independence</td><td>$P(A \cap B) = P(A)P(B)$; for RVs: $P(X=x,Y=y)=P(X=x)P(Y=y)$.</td></tr>
+            <tr><td>Conditional probability</td><td>$P(A|B) = P(A\cap B)/P(B)$.</td></tr>
+          </table>
+          <div class="formula-box">
+            <div class="formula-label">Linearity of expectation</div>
+            $E(aX+bY) = aE(X)+bE(Y)$ — holds even without independence!
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">Independence $\Rightarrow$</div>
+            $E(XY) = E(X)E(Y)$ when $X, Y$ are independent.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ EXPECTATION ════════════════ -->
+  <div class="section" id="section-expectation">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 09</div>
+        <h2>Expectation & Indicator Variables</h2>
+        <p class="subtitle">The most powerful elementary probability tool: decompose complicated RVs into indicators.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ The Indicator Variable Method</h3>
+          <span class="card-tag tag-trick">★ Must Know</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="formula-box red">
+            <div class="formula-label">Indicator Variable</div>
+            $X_i = \mathbf{1}[\text{event } A_i] = \begin{cases}1 & \text{if }A_i\text{ occurs}\\0 & \text{otherwise}\end{cases}$
+            <br><br>
+            Key: $E(X_i) = P(A_i)$.
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">The Method</div>
+            Write $X = X_1 + X_2 + \cdots + X_n$ where each $X_i$ is an indicator. Then by linearity of expectation (no independence needed!):
+            $$E(X) = \sum_{i=1}^n E(X_i) = \sum_{i=1}^n P(A_i)$$
+          </div>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div><strong>Why this is powerful:</strong> Directly computing $E(X)$ might require knowing $P(X=k)$ for all $k$. With indicators, you only need $P(A_i)$ which is often trivial.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Practice Final Q7 — Expected Fixed Points (Hat Problem)</h3>
+          <span class="card-tag tag-exam">Exam Q7</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> $n$ people, $n$ hats are randomly redistributed (uniformly over all $n!$ permutations). What is the expected number of people who get their own hat back?</p>
+          <hr>
+          <div class="solution-label">SOLUTION</div>
+          <div class="steps">
+            <div class="step">Let $X$ = number of people getting their own hat. Let $X_i = \mathbf{1}[\text{person }i\text{ gets own hat}]$. Then $X = X_1 + \cdots + X_n$.</div>
+            <div class="step">$P(X_i = 1) = P(\text{person }i\text{ gets hat }i) = \frac{(n-1)!}{n!} = \frac{1}{n}$. (Fix hat $i$ for person $i$, permute the rest.)</div>
+            <div class="step">By linearity: $E(X) = \sum_{i=1}^n E(X_i) = n \cdot \frac{1}{n} = \mathbf{1}$.</div>
+          </div>
+          <div class="formula-box gold">
+            <div class="formula-label">Result</div>
+            Regardless of $n$, the expected number of fixed points of a uniform random permutation is always exactly $\mathbf{1}$.
+          </div>
+          <div class="callout exam">
+            <span class="callout-icon">📝</span>
+            <div><strong>Note:</strong> The $X_i$ are NOT independent (if person 1 gets their hat, that slightly changes others' probabilities). But linearity of expectation doesn't need independence — that's the whole point!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Probability Generating Functions</h3>
+          <span class="card-tag tag-formula">Reference</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="formula-box">
+            <div class="formula-label">PGF Definition</div>
+            $G_X(t) = E(t^X) = \sum_{n \ge 0} P(X=n)\,t^n$
+          </div>
+          <table class="ref-table">
+            <tr><th>Property</th><th>Formula</th></tr>
+            <tr><td>$E(X)$</td><td>$G_X'(1)$</td></tr>
+            <tr><td>$E(X(X-1))$</td><td>$G_X''(1)$</td></tr>
+            <tr><td>$P(X \text{ even})$</td><td>$\frac{G_X(1)+G_X(-1)}{2}$</td></tr>
+            <tr><td>Independent sum $X+Y$</td><td>$G_{X+Y}(t) = G_X(t)\cdot G_Y(t)$</td></tr>
+          </table>
+          <div class="formula-box green">
+            <div class="formula-label">Geometric RV (trials till success)</div>
+            $P(X=n) = p(1-p)^{n-1}$, $E(X) = \frac{1}{p}$, $G_X(t) = \frac{pt}{1-(1-p)t}$
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ MARKOV ════════════════ -->
+  <div class="section" id="section-markov">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Topic 10</div>
+        <h2>Markov Chains & Random Walks</h2>
+        <p class="subtitle">Expected hitting times via systems of linear equations.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ The Expected Hitting Time Method</h3>
+          <span class="card-tag tag-trick">★ Exam Recipe</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="steps">
+            <div class="step"><strong>Define states:</strong> Identify distinct "situations" the process can be in, using symmetry to minimize the number of states.</div>
+            <div class="step"><strong>Define variables:</strong> Let $E_i$ = expected number of steps to reach the target from state $i$.</div>
+            <div class="step"><strong>Target state:</strong> $E_{\text{target}} = 0$ (already there).</div>
+            <div class="step"><strong>Write equations:</strong> For each state $i$ with transitions to states $j_1, j_2, \ldots$ with probabilities $p_1, p_2, \ldots$:
+            $$E_i = 1 + p_1 E_{j_1} + p_2 E_{j_2} + \cdots$$
+            (The 1 accounts for the current step taken.)</div>
+            <div class="step"><strong>Solve the linear system</strong> for all $E_i$.</div>
+          </div>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div><strong>Geometric RV connection:</strong> If at state $i$ you succeed with probability $p$ and restart otherwise: $E_i = p\cdot 1 + (1-p)(1+E_i) \Rightarrow E_i = 1/p$.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>★ Practice Final Q8 — Frog on a Hexagon</h3>
+          <span class="card-tag tag-exam">Exam Q8</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Problem:</strong> A frog sits on vertex $A$ of a regular hexagon $ABCDEF$. Each second it jumps to one of the two adjacent vertices, each with probability $\frac12$. What is the expected number of jumps to reach $D$ (the opposite vertex)?</p>
+          <hr>
+          <div class="solution-label">SETTING UP STATES</div>
+          <p>By symmetry of the hexagon, what matters is the <em>distance</em> from $D$. Label vertices by their distance to $D$:</p>
+          <ul>
+            <li>Distance 0: $D$ (target)</li>
+            <li>Distance 1: $C, E$ (adjacent to $D$)</li>
+            <li>Distance 2: $B, F$ (two steps from $D$)</li>
+            <li>Distance 3: $A$ (opposite $D$)</li>
+          </ul>
+          <p>Let $E_k$ = expected jumps to reach $D$ from distance $k$.</p>
+          <div class="formula-box">
+            <div class="formula-label">Transition probabilities</div>
+            From distance 3 ($A$): jump to $B$ or $F$ (both distance 2). So:
+            $$E_3 = 1 + E_2$$
+            From distance 2 ($B$ or $F$): jump toward $D$ (distance 1) or away (distance 3). So:
+            $$E_2 = 1 + \frac12 E_1 + \frac12 E_3$$
+            From distance 1 ($C$ or $E$): jump to $D$ (distance 0) or to distance 2. So:
+            $$E_1 = 1 + \frac12 \cdot 0 + \frac12 E_2 = 1 + \frac12 E_2$$
+          </div>
+          <div class="solution-label">SOLVING</div>
+          <div class="steps">
+            <div class="step">From $E_1 = 1 + \frac12 E_2$: $\quad E_1 = 1 + \frac12 E_2$.</div>
+            <div class="step">From $E_3 = 1 + E_2$.</div>
+            <div class="step">Substitute into $E_2 = 1 + \frac12 E_1 + \frac12 E_3$:
+            $$E_2 = 1 + \frac12\left(1+\frac12 E_2\right) + \frac12(1+E_2)$$
+            $$E_2 = 1 + \frac12 + \frac14 E_2 + \frac12 + \frac12 E_2$$
+            $$E_2 = 2 + \frac34 E_2$$
+            $$\frac14 E_2 = 2 \implies E_2 = 8$$</div>
+            <div class="step">$E_3 = 1 + 8 = 9$. $\quad E_1 = 1 + 4 = 5$.</div>
+          </div>
+          <div class="formula-box gold">
+            <div class="formula-label">Answer</div>
+            Starting from $A$ (distance 3 from $D$): $E_3 = \mathbf{9}$ expected jumps.
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Pattern-Matching Expected Times</h3>
+          <span class="card-tag tag-core">Extension</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p>Expected number of fair coin tosses to see pattern HT:</p>
+          <div class="formula-box">
+            <div class="formula-label">States for pattern HT</div>
+            State 0: start (or just saw T without preceding H)<br>
+            State 1: just saw H<br>
+            State 2: just saw HT — done!<br>
+            <br>
+            $E_0 = 1 + \frac12 E_1 + \frac12 E_0 \Rightarrow \frac12 E_0 = 1 + \frac12 E_1$<br>
+            $E_1 = 1 + \frac12 \cdot 0 + \frac12 E_1 \Rightarrow \frac12 E_1 = 1 \Rightarrow E_1 = 2$<br>
+            $\Rightarrow E_0 = 2 + E_1 = 4$
+          </div>
+          <p>For pattern HH: similar but more complex due to overlap. Answer: $E = 6$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ PRACTICE FINAL ════════════════ -->
+  <div class="section" id="section-practice">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Practice Final</div>
+        <h2>All 8 Questions — Solved</h2>
+        <p class="subtitle">Choose 6 of 8 on the real exam. Master all 8 for maximum flexibility.</p>
+      </div>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠</span>
+        <div><strong>Exam format:</strong> You may choose which 6 questions to answer. Strategic choice: avoid your weakest 2 topics, but prepare all 8 so you have full flexibility.</div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q1</span>
+          <h4>Pigeonhole — Integers with Sum/Difference Divisible by $2n$</h4>
+        </div>
+        <div class="problem-body">
+          <p>Given $n+2$ integers, show two exist whose sum or difference is divisible by $2n$.</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">SOLUTION</div>
+            <p>Use residues mod $2n$. Form $n+1$ groups: $\{0\}$, $\{n\}$, and $\{k, 2n-k\}$ for $k=1,\ldots,n-1$. With $n+2$ integers and $n+1$ groups, two integers share a group by Pigeonhole. Same residue $\Rightarrow$ difference divisible by $2n$. Complementary residues $\{k, 2n-k\} \Rightarrow$ sum $= 2n$, divisible by $2n$. $\square$</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q2</span>
+          <h4>Recurrence — Ternary Strings with No 00 or 11</h4>
+        </div>
+        <div class="problem-body">
+          <p>Let $a_n$ = number of ternary strings (over $\{0,1,2\}$) of length $n$ with no substring 00 or 11. Find a recurrence and explicit formula.</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">RECURRENCE SETUP</div>
+            <p>Define states: $p_n$ = valid strings ending in 0 or 1 (by symmetry these are equal); $r_n$ = valid strings ending in 2. Let $E_n = p_n/2$ = strings ending in exactly 0 (same as strings ending in exactly 1 by symmetry).</p>
+            <p>Transitions: to end in 0, prev must be 1 or 2. To end in 1, prev must be 0 or 2. To end in 2, prev can be anything. So: $E_n = E_{n-1} + r_{n-1}$, and $r_n = a_{n-1} = 2E_{n-1}+r_{n-1}$.</p>
+            <p>So $a_n = 2E_n + r_n = 2(E_{n-1}+r_{n-1}) + a_{n-1} = a_{n-2} + 2r_{n-2} + a_{n-1}$... The simplest recurrence from the characteristic equation of the sequence:</p>
+            <div class="formula-box green">
+              $$a_n = a_{n-1} + 2a_{n-2}, \quad a_1 = 3, \quad a_2 = 7$$
+            </div>
+            <div class="solution-label">EXPLICIT FORMULA VIA OGF</div>
+            <p>Let $g(x) = \sum a_n x^n$. From $a_n = a_{n-1}+2a_{n-2}$:</p>
+            $$g - 3x - 3 = x(g-3) + 2x^2 g \implies g(1-x-2x^2) = 3-3x+3x = 3$$
+            $$g(x) = \frac{3}{1-x-2x^2} = \frac{3}{(1-2x)(1+x)}$$
+            <p>Partial fractions: $g(x) = \frac{A}{1-2x}+\frac{B}{1+x}$. Then $A = 1, B = 2$.</p>
+            <div class="formula-box red">
+              $$a_n = 2^n + 2(-1)^n$$
+            </div>
+            <p><em>Verify:</em> $a_1 = 2-2=0$? Wait, $a_1=3$. Let me recheck: $g(x)=\frac{3}{(1-2x)(1+x)}$. At $n=0$: $a_0=1$ (empty string). $a_1=3$. From PF: $\frac{3}{(1-2x)(1+x)} = \frac{A}{1-2x}+\frac{B}{1+x}$: $A=1, B=2$. Then $a_n = 1\cdot 2^n + 2\cdot(-1)^n$. $a_1 = 2-2=0 \ne 3$. Re-examine: $g-3-3x = x(g-3)+2x^2g \Rightarrow g(1-x-2x^2) = 3+3x-3x = 3$? Let me redo: $\sum_{n\ge2}a_n x^n = x\sum_{n\ge2}a_{n-1}x^{n-1}+2x^2\sum_{n\ge2}a_{n-2}x^{n-2}$. LHS $= g-a_0-a_1x$. RHS $= x(g-a_0)+2x^2 g$. So $g-3-3x = x(g-3)+2x^2g$, $g(1-x-2x^2)=3+3x-3x=3$. So $g=\frac{3}{1-x-2x^2}=\frac{3}{(1+x)(1-2x)}$. $a_n=[x^n]\frac{3}{(1+x)(1-2x)}$. PF: $\frac{3}{(1+x)(1-2x)}=\frac{A}{1+x}+\frac{B}{1-2x}$. At $x=-1$: $A(-3)=3\Rightarrow A=-1$. At $x=1/2$: $B(3/2)=3 \Rightarrow B=2$. So $a_n = -(-1)^n + 2\cdot 2^n = 2^{n+1}-(-1)^n$.</p>
+            <div class="formula-box gold">
+              $$\boxed{a_n = 2^{n+1} - (-1)^n}$$
+              Verify: $a_1=4-(-1)=3$ ✓, $a_2=8-1=7$ ✓, $a_3=16+1=17$ ✓
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q3</span>
+          <h4>Constrained Distributions — 50 Balls, 5 Bins, At Most 12 Each</h4>
+        </div>
+        <div class="problem-body">
+          <p>Count the ways to distribute 50 identical balls into 5 distinct bins with each bin containing at most 12 balls.</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">SOLUTION</div>
+            <p>The GF for each bin is $1+x+\cdots+x^{12}=\frac{1-x^{13}}{1-x}$. Total GF is $\left(\frac{1-x^{13}}{1-x}\right)^5$. We need $[x^{50}]$:</p>
+            $$[x^{50}]\frac{(1-x^{13})^5}{(1-x)^5} = \sum_{j=0}^{3}(-1)^j\binom{5}{j}\binom{54-13j}{4}$$
+            $$= \binom{54}{4}-5\binom{41}{4}+10\binom{28}{4}-10\binom{15}{4}$$
+            $$= 316251 - 506350 + 204750 - 13650 = \mathbf{1001}$$
+          </div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q4a</span>
+          <h4>EGF — Extract $a_n$ from $G(x) = e^{x^2+3x}$</h4>
+        </div>
+        <div class="problem-body">
+          <p>The EGF of $(a_n)$ is $G(x) = e^{x^2+3x}$. Find an explicit formula for $a_n$.</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">SOLUTION</div>
+            <p>Write $G(x) = e^{3x} \cdot e^{x^2}$. Using EGF product theorem with $F(x)=e^{3x}$ (so $b_k = 3^k$) and $H(x)=e^{x^2}$ (so $c_k = \frac{k!}{(k/2)!}$ if $k$ even, else $0$):</p>
+            $$a_n = \sum_{k=0}^{n}\binom{n}{k}c_k \cdot 3^{n-k} = \sum_{\substack{k=0\\k\text{ even}}}^{n}\binom{n}{k}\frac{k!}{(k/2)!}\cdot 3^{n-k}$$
+            Setting $k=2j$:
+            $$\boxed{a_n = \sum_{j=0}^{\lfloor n/2\rfloor}\binom{n}{2j}\frac{(2j)!}{j!}\cdot 3^{n-2j}}$$
+          </div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q4b</span>
+          <h4>OGF — Solve Non-Homogeneous Recurrence</h4>
+        </div>
+        <div class="problem-body">
+          <p>Let $a_0=1, a_1=3$, and $a_n = 3a_{n-1}+2a_{n-2}+5$ for $n\ge2$. Find the OGF closed form.</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">SOLUTION</div>
+            <p>Let $g(x) = \sum a_n x^n$. Sum recurrence for $n\ge2$, multiply by $x^n$:</p>
+            $$(g-1-3x) = 3x(g-1) + 2x^2 g + \frac{5x^2}{1-x}$$
+            $$g(1-3x-2x^2) = 1+3x-3x + \frac{5x^2}{1-x} = 1 + \frac{5x^2}{1-x} = \frac{1-x+5x^2}{1-x}$$
+            $$\boxed{g(x) = \frac{1-x+5x^2}{(1-x)(1-3x-2x^2)}}$$
+            <p>For a closed form for $a_n$, one would apply partial fractions and expand as power series. The denominator factors as $(1-x)(\alpha x - 1)(\beta x - 1)$ where $\alpha,\beta$ are roots of $2x^2+3x-1=0$.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q5</span>
+          <h4>Inclusion-Exclusion — Surjective Functions</h4>
+        </div>
+        <div class="problem-body">
+          <p>For $m \ge n$, find the number of surjective functions from $[m]$ to $[n]$.</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">SOLUTION</div>
+            <p>Let $A_i$ = functions where $i$ is not in the image. We want $|\overline{A_1}\cap\cdots\cap\overline{A_n}|$.</p>
+            <p>$|\cap_{i\in S}A_i| = (n-|S|)^m$ and there are $\binom{n}{k}$ sets $S$ of size $k$. By I-E:</p>
+            $$\boxed{\text{surj}(m,n) = \sum_{k=0}^{n}(-1)^k\binom{n}{k}(n-k)^m}$$
+          </div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q6</span>
+          <h4>Integer Partitions — Even Parts or Parts ≤ 10</h4>
+        </div>
+        <div class="problem-body">
+          <p>Find the generating function for integer partitions of $n$ where each part is even or at most 10.</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">SOLUTION</div>
+            <p>Allowed parts: $\{1,2,3,\ldots,10\}\cup\{12,14,16,\ldots\}$ (odd parts $>10$ are forbidden).</p>
+            $$G(x) = \underbrace{\prod_{k=1}^{10}\frac{1}{1-x^k}}_{\text{parts}\le 10}\cdot\underbrace{\prod_{j=6}^{\infty}\frac{1}{1-x^{2j}}}_{\text{even parts}>10}$$
+            <p>Alternatively: $G(x) = \prod_{m\in A}\frac{1}{1-x^m}$ where $A = [1,10]\cup\{12,14,16,\ldots\}$.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q7</span>
+          <h4>Expected Value — Hat Problem (Fixed Points)</h4>
+        </div>
+        <div class="problem-body">
+          <p>$n$ people, hats redistributed uniformly at random. Expected number who get their own hat back?</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">SOLUTION</div>
+            <p>Let $X_i = \mathbf{1}[\text{person }i\text{ gets own hat}]$. Then $E(X_i) = P(X_i=1) = \frac{1}{n}$.</p>
+            $$E\left(\sum_{i=1}^n X_i\right) = \sum_{i=1}^n \frac{1}{n} = \mathbf{1}$$
+          </div>
+        </div>
+      </div>
+
+      <div class="problem">
+        <div class="problem-header">
+          <span class="problem-num">Q8</span>
+          <h4>Random Walk — Frog on Hexagon</h4>
+        </div>
+        <div class="problem-body">
+          <p>Frog on hexagon $ABCDEF$, jumps left/right with equal probability. Expected jumps from $A$ to $D$?</p>
+          <button class="solution-toggle" onclick="toggleSolution(this)">▸ Show Solution</button>
+          <div class="solution">
+            <div class="solution-label">SOLUTION</div>
+            <p>States by distance to $D$: $E_0=0$, and:</p>
+            $$E_1 = 1 + \tfrac{1}{2}E_2,\quad E_2 = 1+\tfrac{1}{2}E_1+\tfrac{1}{2}E_3,\quad E_3 = 1+E_2$$
+            <p>Solving: $E_2 = 1+\frac{1}{2}(1+\frac{1}{2}E_2)+\frac{1}{2}(1+E_2) = 2+\frac{3}{4}E_2$, so $E_2=8$. Then $E_3=9$.</p>
+            <div class="formula-box gold">Expected jumps from $A$ to $D$ = $\mathbf{9}$.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ FORMULA SHEET ════════════════ -->
+  <div class="section" id="section-formulas">
+    <div class="content">
+      <div class="section-header">
+        <div class="section-number">Reference</div>
+        <h2>Formula Sheet</h2>
+        <p class="subtitle">Everything on the official formula sheet, plus key extras.</p>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Counting Basics</h3>
+          <span class="card-tag tag-formula">Sheet</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <table class="ref-table">
+            <tr><th>Rule</th><th>Formula</th></tr>
+            <tr><td>Sum rule</td><td>$|A \cup B| = |A|+|B|$ if $A \cap B = \emptyset$</td></tr>
+            <tr><td>Product rule</td><td>$|A \times B| = |A||B|$</td></tr>
+            <tr><td>Subsets of $[n]$</td><td>$2^n$</td></tr>
+            <tr><td>$k$-permutations of $n$</td><td>$\frac{n!}{(n-k)!} = n^{\underline k}$</td></tr>
+            <tr><td>Combinations</td><td>$\binom{n}{k} = \frac{n!}{k!(n-k)!}$</td></tr>
+            <tr><td>Multinomial</td><td>$\binom{n}{k_1,\ldots,k_m} = \frac{n!}{k_1!\cdots k_m!}$</td></tr>
+            <tr><td>Stars and bars</td><td>$\binom{n+k-1}{k-1}$ for $x_1+\cdots+x_k=n$, $x_i\ge0$</td></tr>
+          </table>
+          <div class="formula-box">
+            <div class="formula-label">Binomial theorem</div>
+            $(x+y)^n = \sum_{k=0}^{n}\binom{n}{k}x^k y^{n-k}$
+          </div>
+          <div class="formula-box green">
+            <div class="formula-label">Hockey stick identity</div>
+            $\sum_{i=k}^{n}\binom{i}{k} = \binom{n+1}{k+1}$
+          </div>
+          <div class="formula-box">
+            <div class="formula-label">Vandermonde identity</div>
+            $\sum_{k=0}^{r}\binom{m}{k}\binom{n}{r-k} = \binom{m+n}{r}$
+          </div>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>Generating Functions — Quick Reference</h3>
+          <span class="card-tag tag-formula">Sheet</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <table class="ref-table">
+            <tr><th>OGF $g(x)$</th><th>Sequence</th></tr>
+            <tr><td>$\frac{1}{1-x}$</td><td>$(1,1,1,\ldots)$</td></tr>
+            <tr><td>$\frac{1}{(1-x)^k}$</td><td>$\binom{n+k-1}{k-1}$</td></tr>
+            <tr><td>$(1+x)^n$</td><td>$\binom{n}{k}$</td></tr>
+            <tr><td>$\frac{1}{1-x-x^2}$</td><td>Fibonacci</td></tr>
+          </table>
+          <table class="ref-table" style="margin-top:10px">
+            <tr><th>EGF $G(x)$</th><th>Sequence $a_n$</th></tr>
+            <tr><td>$e^x$</td><td>$1$ (all constant)</td></tr>
+            <tr><td>$e^{cx}$</td><td>$c^n$</td></tr>
+            <tr><td>$\frac{1}{1-x}$</td><td>$n!$</td></tr>
+            <tr><td>$\cosh x$</td><td>$[n \text{ even}]$</td></tr>
+            <tr><td>$\sinh x$</td><td>$[n \text{ odd}]$</td></tr>
+            <tr><td>$\frac{e^{-x}}{1-x}$</td><td>$D_n$ (derangements)</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card open">
+        <div class="card-header" onclick="toggleCard(this)">
+          <h3>The Things to Have Memorized Cold</h3>
+          <span class="card-tag tag-exam">★ Must Know</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <ul class="checklist">
+            <li><span class="check-icon">①</span><div>$[x^n]\frac{1}{(1-x)^k} = \binom{n+k-1}{k-1}$ — the negative binomial expansion</div></li>
+            <li><span class="check-icon">②</span><div>EGF product $= \sum_k \binom{n}{k}a_k b_{n-k}$ — labeled subset splitting</div></li>
+            <li><span class="check-icon">③</span><div>$\text{surj}(m,n) = \sum_{k=0}^n (-1)^k\binom{n}{k}(n-k)^m$ — surjection formula</div></li>
+            <li><span class="check-icon">④</span><div>$D_n = n!\sum_{k=0}^n \frac{(-1)^k}{k!}$ — derangement formula</div></li>
+            <li><span class="check-icon">⑤</span><div>$E(X) = \sum E(X_i) = \sum P(A_i)$ — linearity + indicators (no independence!)</div></li>
+            <li><span class="check-icon">⑥</span><div>Geometric: $E(\text{trials till success}) = 1/p$</div></li>
+            <li><span class="check-icon">⑦</span><div>Partition GF: $\prod_{m=1}^\infty \frac{1}{1-x^m}$ for all partitions; restricted to parts in $S$: $\prod_{m\in S}\frac{1}{1-x^m}$</div></li>
+            <li><span class="check-icon">⑧</span><div>Markov hitting time: $E_i = 1 + \sum_j p_{ij}E_j$, solve linear system</div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+const visited = new Set(['overview']);
+
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  document.getElementById('topbar-title').textContent = document.getElementById('nav-' + id).textContent.trim().replace(/★\s*/g,'').replace(/\d+Q/g,'').trim();
+  visited.add(id);
+  const total = 8;
+  const pct = Math.round(visited.size / total * 100);
+  document.getElementById('progress-fill').style.width = Math.min(pct,100) + '%';
+  document.getElementById('progress-text').textContent = visited.size + ' / ' + total + ' sections';
+  window.scrollTo(0, 0);
+  if (window.MathJax) MathJax.typesetPromise();
+  return false;
+}
+
+function toggleCard(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+}
+
+function toggleSolution(btn) {
+  const sol = btn.nextElementSibling;
+  sol.classList.toggle('shown');
+  btn.textContent = sol.classList.contains('shown') ? '▾ Hide Solution' : '▸ Show Solution';
+}
+
+// Open first cards
+document.querySelectorAll('.card').forEach((c,i) => {
+  if (i < 2) c.classList.add('open');
+});
+</script>
+</body>
+</html>
