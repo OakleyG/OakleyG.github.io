@@ -340,6 +340,32 @@ nav {
 /* ============================================
    PHOTOGRAPHY GRID
    ============================================ */
+/* Heading row: title on the left, portfolio button on the right */
+.section-heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.section-heading-row h2 {
+    margin-bottom: 0;
+}
+
+.portfolio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s, gap 0.2s;
+}
+
+.portfolio-btn:hover {
+    gap: 0.7rem;
+}
+
 .photo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -377,6 +403,167 @@ nav {
 .photo-item:hover img,
 .photo-item-wide:hover img {
     transform: scale(1.05);
+}
+
+/* ============================================
+   PORTFOLIO PAGE
+   ============================================ */
+.portfolio-header {
+    padding-top: 8rem;   /* clear the fixed nav */
+    padding-bottom: 1rem;
+}
+
+.portfolio-intro {
+    max-width: 640px;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+.portfolio-section {
+    padding-top: 2rem;
+}
+
+/* Masonry layout: columns adapt to screen width automatically.
+   Portrait and landscape shots keep their natural ratio and pack
+   together with minimal blank space, on both desktop and phone. */
+.portfolio-masonry {
+    column-width: 320px;
+    column-gap: 1rem;
+}
+
+.portfolio-item {
+    position: relative;
+    break-inside: avoid;
+    margin: 0 0 1rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+    transition: transform 0.4s ease;
+}
+
+.portfolio-item:hover img {
+    transform: scale(1.03);
+}
+
+/* Per-image download button (native long-press still works on mobile) */
+.portfolio-download {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-decoration: none;
+    background: rgba(13,13,31,0.6);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.2s, transform 0.2s, background 0.2s;
+}
+
+.portfolio-item:hover .portfolio-download,
+.portfolio-download:focus {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.portfolio-download:hover {
+    background: var(--accent);
+}
+
+/* On touch devices there's no hover — keep the button visible */
+@media (hover: none) {
+    .portfolio-download {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.portfolio-empty {
+    color: var(--text-muted);
+    font-size: 1rem;
+    padding: 2rem 0;
+}
+
+.portfolio-empty code {
+    background: var(--bg-card);
+    padding: 0.15rem 0.4rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 0.9em;
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 2rem;
+    background: rgba(5,5,12,0.92);
+    backdrop-filter: blur(6px);
+}
+
+.lightbox[hidden] { display: none; }
+
+.lightbox img {
+    max-width: 92vw;
+    max-height: 78vh;
+    border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.4rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.lightbox-close:hover { opacity: 1; }
+
+.lightbox-download {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.65rem 1.6rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.lightbox-download:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
 }
 
 /* ============================================

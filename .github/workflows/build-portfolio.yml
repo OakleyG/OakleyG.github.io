@@ -1,0 +1,41 @@
+name: Build portfolio manifest
+
+# Regenerate portfolio/manifest.json whenever images are added/removed.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'portfolio/**'
+      - 'build_portfolio.py'
+      - '.github/workflows/build-portfolio.yml'
+
+# Allow the action to commit the regenerated manifest back to the repo.
+permissions:
+  contents: write
+
+jobs:
+  build-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate manifest
+        run: python build_portfolio.py
+
+      - name: Commit manifest if it changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- portfolio/manifest.json; then
+            echo "manifest.json unchanged — nothing to commit."
+          else
+            git add portfolio/manifest.json
+            git commit -m "chore: regenerate portfolio manifest [skip ci]"
+            git push
+          fi

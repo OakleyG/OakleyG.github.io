@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio · Oakley Gompels</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Oakley Gompels</a>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#photography">Photography</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+                <li><a href="index.html#contact" class="nav-cta">Get In Touch</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Portfolio Header -->
+    <section class="section portfolio-header">
+        <div class="container">
+            <div class="section-label">Photography</div>
+            <h2>The Full Portfolio</h2>
+            <p class="portfolio-intro">A growing collection of my favourite shots. Tap an image to open it
+            full size, or press &amp; hold (or use the download button) to save it to your device.</p>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section class="section portfolio-section">
+        <div class="container">
+            <div id="portfolio-grid" class="portfolio-masonry">
+                <!-- Images are injected here from portfolio/manifest.json -->
+            </div>
+            <p id="portfolio-empty" class="portfolio-empty" hidden>
+                No photos yet — add images to the <code>portfolio/</code> folder and push to publish.
+            </p>
+        </div>
+    </section>
+
+    <!-- Lightbox overlay -->
+    <div id="lightbox" class="lightbox" hidden>
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <img id="lightbox-img" src="" alt="">
+        <a id="lightbox-download" class="lightbox-download" href="" download>Download ↓</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <span class="footer-logo">Oakley Gompels</span>
+            <p>&copy; 2025 Oakley Gompels. Built with HTML &amp; CSS.</p>
+        </div>
+    </footer>
+
+    <script>
+        const PORTFOLIO_DIR = 'portfolio/';
+        const grid = document.getElementById('portfolio-grid');
+        const emptyMsg = document.getElementById('portfolio-empty');
+
+        // Turn a filename into a readable caption: "swiss_vict.jpg" -> "Swiss Vict"
+        function captionFromFile(file) {
+            return file.replace(/\.[^.]+$/, '')          // drop extension
+                       .replace(/[_-]+/g, ' ')            // underscores/dashes -> spaces
+                       .replace(/\s+/g, ' ')
+                       .trim()
+                       .replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        function buildItem(entry) {
+            // entry can be a string (filename) or an object { file, alt }
+            const file = typeof entry === 'string' ? entry : entry.file;
+            const alt  = (typeof entry === 'object' && entry.alt) ? entry.alt : captionFromFile(file);
+            // Encode the filename so spaces / special characters resolve correctly.
+            const src  = PORTFOLIO_DIR + encodeURIComponent(file);
+
+            const item = document.createElement('figure');
+            item.className = 'portfolio-item';
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = alt;
+            img.loading = 'lazy';
+            // Native long-press on mobile already offers "Save Image"; tap opens the lightbox.
+            img.addEventListener('click', () => openLightbox(src, alt));
+
+            // Explicit download button (mainly for desktop / convenience)
+            const dl = document.createElement('a');
+            dl.className = 'portfolio-download';
+            dl.href = src;
+            dl.download = file;
+            dl.title = 'Download';
+            dl.setAttribute('aria-label', 'Download ' + alt);
+            dl.textContent = '↓';
+            dl.addEventListener('click', e => e.stopPropagation());
+
+            item.appendChild(img);
+            item.appendChild(dl);
+            return item;
+        }
+
+        // ---- Lightbox ----
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxDl = document.getElementById('lightbox-download');
+
+        function openLightbox(src, alt) {
+            lightboxImg.src = src;
+            lightboxImg.alt = alt;
+            lightboxDl.href = src;
+            lightboxDl.download = decodeURIComponent(src.split('/').pop());
+            lightbox.hidden = false;
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            lightbox.hidden = true;
+            lightboxImg.src = '';
+            document.body.style.overflow = '';
+        }
+        lightbox.addEventListener('click', e => {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-close')) closeLightbox();
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+        // ---- Load the manifest and render ----
+        fetch(PORTFOLIO_DIR + 'manifest.json', { cache: 'no-store' })
+            .then(r => { if (!r.ok) throw new Error('no manifest'); return r.json(); })
+            .then(list => {
+                if (!Array.isArray(list) || list.length === 0) {
+                    emptyMsg.hidden = false;
+                    return;
+                }
+                const frag = document.createDocumentFragment();
+                list.forEach(entry => frag.appendChild(buildItem(entry)));
+                grid.appendChild(frag);
+            })
+            .catch(() => {
+                emptyMsg.hidden = false;
+            });
+    </script>
+
+</body>
+</html>
