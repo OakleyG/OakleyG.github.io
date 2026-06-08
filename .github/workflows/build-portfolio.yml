@@ -25,17 +25,20 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Generate manifest
+      - name: Install Pillow
+        run: pip install Pillow
+
+      - name: Generate thumbnails and manifest
         run: python build_portfolio.py
 
-      - name: Commit manifest if it changed
+      - name: Commit thumbnails + manifest if they changed
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- portfolio/manifest.json; then
-            echo "manifest.json unchanged — nothing to commit."
+          git add portfolio/manifest.json portfolio/thumbs
+          if git diff --cached --quiet; then
+            echo "Nothing changed — nothing to commit."
           else
-            git add portfolio/manifest.json
-            git commit -m "chore: regenerate portfolio manifest [skip ci]"
+            git commit -m "chore: regenerate portfolio thumbnails + manifest [skip ci]"
             git push
           fi

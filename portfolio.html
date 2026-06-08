@@ -74,27 +74,35 @@
                        .replace(/\b\w/g, c => c.toUpperCase());
         }
 
+        // Encode a path that may contain a subfolder + spaces (e.g. "thumbs/swiss vict.jpg")
+        function encodePath(path) {
+            return path.split('/').map(encodeURIComponent).join('/');
+        }
+
         function buildItem(entry) {
-            // entry can be a string (filename) or an object { file, alt }
+            // entry can be a string (filename) or an object { file, thumb, alt }
             const file = typeof entry === 'string' ? entry : entry.file;
             const alt  = (typeof entry === 'object' && entry.alt) ? entry.alt : captionFromFile(file);
-            // Encode the filename so spaces / special characters resolve correctly.
-            const src  = PORTFOLIO_DIR + encodeURIComponent(file);
+            // Grid uses the small thumbnail; full-res original is for lightbox + download.
+            const full  = PORTFOLIO_DIR + encodePath(file);
+            const thumb = (typeof entry === 'object' && entry.thumb)
+                ? PORTFOLIO_DIR + encodePath(entry.thumb)
+                : full;
 
             const item = document.createElement('figure');
             item.className = 'portfolio-item';
 
             const img = document.createElement('img');
-            img.src = src;
+            img.src = thumb;
             img.alt = alt;
             img.loading = 'lazy';
             // Native long-press on mobile already offers "Save Image"; tap opens the lightbox.
-            img.addEventListener('click', () => openLightbox(src, alt));
+            img.addEventListener('click', () => openLightbox(full, alt));
 
-            // Explicit download button (mainly for desktop / convenience)
+            // Explicit download button — always the full-resolution original
             const dl = document.createElement('a');
             dl.className = 'portfolio-download';
-            dl.href = src;
+            dl.href = full;
             dl.download = file;
             dl.title = 'Download';
             dl.setAttribute('aria-label', 'Download ' + alt);

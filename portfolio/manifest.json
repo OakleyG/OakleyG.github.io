@@ -1,386 +1,482 @@
 [
   {
     "file": "2X2A1284-Enhanced-NR.jpg",
+    "thumb": "thumbs/2X2A1284-Enhanced-NR.jpg",
     "alt": "2x2a1284 Enhanced Nr"
   },
   {
     "file": "2X2A1303-Enhanced-NR.jpg",
+    "thumb": "thumbs/2X2A1303-Enhanced-NR.jpg",
     "alt": "2x2a1303 Enhanced Nr"
   },
   {
     "file": "2X2A1340-Enhanced-NR.jpg",
+    "thumb": "thumbs/2X2A1340-Enhanced-NR.jpg",
     "alt": "2x2a1340 Enhanced Nr"
   },
   {
     "file": "2X2A1700-Enhanced-NR.jpg",
+    "thumb": "thumbs/2X2A1700-Enhanced-NR.jpg",
     "alt": "2x2a1700 Enhanced Nr"
   },
   {
     "file": "2X2A1735.jpg",
+    "thumb": "thumbs/2X2A1735.jpg",
     "alt": "2x2a1735"
   },
   {
     "file": "48hrUltra-13.jpg",
+    "thumb": "thumbs/48hrUltra-13.jpg",
     "alt": "48hrultra 13"
   },
   {
     "file": "48hrUltra-31.jpg",
+    "thumb": "thumbs/48hrUltra-31.jpg",
     "alt": "48hrultra 31"
   },
   {
     "file": "CNTower .jpg",
+    "thumb": "thumbs/CNTower .jpg",
     "alt": "Cntower"
   },
   {
     "file": "CNTower Iwo .jpg",
+    "thumb": "thumbs/CNTower Iwo .jpg",
     "alt": "Cntower Iwo"
   },
   {
     "file": "DJ DEROSE 2.jpg",
+    "thumb": "thumbs/DJ DEROSE 2.jpg",
     "alt": "Dj Derose 2"
   },
   {
     "file": "DJ DEROSE.jpg",
+    "thumb": "thumbs/DJ DEROSE.jpg",
     "alt": "Dj Derose"
   },
   {
     "file": "DJI_0382.jpg",
+    "thumb": "thumbs/DJI_0382.jpg",
     "alt": "Dji 0382"
   },
   {
     "file": "IMG_6658.PNG",
+    "thumb": "thumbs/IMG_6658.jpg",
     "alt": "Img 6658"
   },
   {
     "file": "OAKS7027.jpg",
+    "thumb": "thumbs/OAKS7027.jpg",
     "alt": "Oaks7027"
   },
   {
     "file": "OAKS8990.jpg",
+    "thumb": "thumbs/OAKS8990.jpg",
     "alt": "Oaks8990"
   },
   {
     "file": "Oakley SnowBoarding .jpg",
+    "thumb": "thumbs/Oakley SnowBoarding .jpg",
     "alt": "Oakley Snowboarding"
   },
   {
     "file": "Toronto workers .jpg",
+    "thumb": "thumbs/Toronto workers .jpg",
     "alt": "Toronto Workers"
   },
   {
     "file": "_AKS3038.jpg",
+    "thumb": "thumbs/_AKS3038.jpg",
     "alt": "Aks3038"
   },
   {
     "file": "_AKS3148.jpg",
+    "thumb": "thumbs/_AKS3148.jpg",
     "alt": "Aks3148"
   },
   {
     "file": "_AKS3397.jpg",
+    "thumb": "thumbs/_AKS3397.jpg",
     "alt": "Aks3397"
   },
   {
     "file": "_AKS3879.jpg",
+    "thumb": "thumbs/_AKS3879.jpg",
     "alt": "Aks3879"
   },
   {
     "file": "_AKS3891.jpg",
+    "thumb": "thumbs/_AKS3891.jpg",
     "alt": "Aks3891"
   },
   {
     "file": "_AKS3981.jpg",
+    "thumb": "thumbs/_AKS3981.jpg",
     "alt": "Aks3981"
   },
   {
     "file": "_AKS3988.jpg",
+    "thumb": "thumbs/_AKS3988.jpg",
     "alt": "Aks3988"
   },
   {
     "file": "_AKS4032.jpg",
+    "thumb": "thumbs/_AKS4032.jpg",
     "alt": "Aks4032"
   },
   {
     "file": "_AKS4147.jpg",
+    "thumb": "thumbs/_AKS4147.jpg",
     "alt": "Aks4147"
   },
   {
     "file": "_AKS4163.jpg",
+    "thumb": "thumbs/_AKS4163.jpg",
     "alt": "Aks4163"
   },
   {
     "file": "_AKS4224.jpg",
+    "thumb": "thumbs/_AKS4224.jpg",
     "alt": "Aks4224"
   },
   {
     "file": "_AKS4241.jpg",
+    "thumb": "thumbs/_AKS4241.jpg",
     "alt": "Aks4241"
   },
   {
     "file": "_AKS4253.jpg",
+    "thumb": "thumbs/_AKS4253.jpg",
     "alt": "Aks4253"
   },
   {
     "file": "_AKS4277.jpg",
+    "thumb": "thumbs/_AKS4277.jpg",
     "alt": "Aks4277"
   },
   {
     "file": "_AKS4355.jpg",
+    "thumb": "thumbs/_AKS4355.jpg",
     "alt": "Aks4355"
   },
   {
     "file": "_AKS4428.jpg",
+    "thumb": "thumbs/_AKS4428.jpg",
     "alt": "Aks4428"
   },
   {
     "file": "_AKS4429.jpg",
+    "thumb": "thumbs/_AKS4429.jpg",
     "alt": "Aks4429"
   },
   {
     "file": "_AKS4555.jpg",
+    "thumb": "thumbs/_AKS4555.jpg",
     "alt": "Aks4555"
   },
   {
     "file": "_AKS4632.jpg",
+    "thumb": "thumbs/_AKS4632.jpg",
     "alt": "Aks4632"
   },
   {
     "file": "_AKS4640.jpg",
+    "thumb": "thumbs/_AKS4640.jpg",
     "alt": "Aks4640"
   },
   {
     "file": "_AKS4669.jpg",
+    "thumb": "thumbs/_AKS4669.jpg",
     "alt": "Aks4669"
   },
   {
     "file": "_AKS4713.jpg",
+    "thumb": "thumbs/_AKS4713.jpg",
     "alt": "Aks4713"
   },
   {
     "file": "_AKS5101.jpg",
+    "thumb": "thumbs/_AKS5101.jpg",
     "alt": "Aks5101"
   },
   {
     "file": "_AKS5145.jpg",
+    "thumb": "thumbs/_AKS5145.jpg",
     "alt": "Aks5145"
   },
   {
     "file": "_AKS5410.jpg",
+    "thumb": "thumbs/_AKS5410.jpg",
     "alt": "Aks5410"
   },
   {
     "file": "_AKS5614.jpg",
+    "thumb": "thumbs/_AKS5614.jpg",
     "alt": "Aks5614"
   },
   {
     "file": "_AKS5763.jpg",
+    "thumb": "thumbs/_AKS5763.jpg",
     "alt": "Aks5763"
   },
   {
     "file": "_AKS5967.jpg",
+    "thumb": "thumbs/_AKS5967.jpg",
     "alt": "Aks5967"
   },
   {
     "file": "_AKS6074.jpg",
+    "thumb": "thumbs/_AKS6074.jpg",
     "alt": "Aks6074"
   },
   {
     "file": "_AKS6143.jpg",
+    "thumb": "thumbs/_AKS6143.jpg",
     "alt": "Aks6143"
   },
   {
     "file": "_AKS6193.jpg",
+    "thumb": "thumbs/_AKS6193.jpg",
     "alt": "Aks6193"
   },
   {
     "file": "_AKS6194.jpg",
+    "thumb": "thumbs/_AKS6194.jpg",
     "alt": "Aks6194"
   },
   {
     "file": "_AKS6224.jpg",
+    "thumb": "thumbs/_AKS6224.jpg",
     "alt": "Aks6224"
   },
   {
     "file": "_AKS6228.jpg",
+    "thumb": "thumbs/_AKS6228.jpg",
     "alt": "Aks6228"
   },
   {
     "file": "_AKS6381.jpg",
+    "thumb": "thumbs/_AKS6381.jpg",
     "alt": "Aks6381"
   },
   {
     "file": "_AKS6467.jpg",
+    "thumb": "thumbs/_AKS6467.jpg",
     "alt": "Aks6467"
   },
   {
     "file": "_AKS6554.jpg",
+    "thumb": "thumbs/_AKS6554.jpg",
     "alt": "Aks6554"
   },
   {
     "file": "_AKS6632.jpg",
+    "thumb": "thumbs/_AKS6632.jpg",
     "alt": "Aks6632"
   },
   {
     "file": "_AKS6635.jpg",
+    "thumb": "thumbs/_AKS6635.jpg",
     "alt": "Aks6635"
   },
   {
     "file": "_AKS6740.jpg",
+    "thumb": "thumbs/_AKS6740.jpg",
     "alt": "Aks6740"
   },
   {
     "file": "_AKS6756.jpg",
+    "thumb": "thumbs/_AKS6756.jpg",
     "alt": "Aks6756"
   },
   {
     "file": "_AKS6767.jpg",
+    "thumb": "thumbs/_AKS6767.jpg",
     "alt": "Aks6767"
   },
   {
     "file": "_AKS6787.jpg",
+    "thumb": "thumbs/_AKS6787.jpg",
     "alt": "Aks6787"
   },
   {
     "file": "_AKS6801.jpg",
+    "thumb": "thumbs/_AKS6801.jpg",
     "alt": "Aks6801"
   },
   {
     "file": "_AKS6846.jpg",
+    "thumb": "thumbs/_AKS6846.jpg",
     "alt": "Aks6846"
   },
   {
     "file": "_AKS6923.jpg",
+    "thumb": "thumbs/_AKS6923.jpg",
     "alt": "Aks6923"
   },
   {
     "file": "_AKS6967.jpg",
+    "thumb": "thumbs/_AKS6967.jpg",
     "alt": "Aks6967"
   },
   {
     "file": "_AKS7078.jpg",
+    "thumb": "thumbs/_AKS7078.jpg",
     "alt": "Aks7078"
   },
   {
     "file": "_AKS7082-2.jpg",
+    "thumb": "thumbs/_AKS7082-2.jpg",
     "alt": "Aks7082 2"
   },
   {
     "file": "_AKS7090.jpg",
+    "thumb": "thumbs/_AKS7090.jpg",
     "alt": "Aks7090"
   },
   {
     "file": "_AKS7099.jpg",
+    "thumb": "thumbs/_AKS7099.jpg",
     "alt": "Aks7099"
   },
   {
     "file": "_AKS7118.jpg",
+    "thumb": "thumbs/_AKS7118.jpg",
     "alt": "Aks7118"
   },
   {
     "file": "_AKS7183.jpg",
+    "thumb": "thumbs/_AKS7183.jpg",
     "alt": "Aks7183"
   },
   {
     "file": "_AKS7222.jpg",
+    "thumb": "thumbs/_AKS7222.jpg",
     "alt": "Aks7222"
   },
   {
     "file": "_AKS7254.jpg",
+    "thumb": "thumbs/_AKS7254.jpg",
     "alt": "Aks7254"
   },
   {
     "file": "_AKS7269.jpg",
+    "thumb": "thumbs/_AKS7269.jpg",
     "alt": "Aks7269"
   },
   {
     "file": "_AKS7303.jpg",
+    "thumb": "thumbs/_AKS7303.jpg",
     "alt": "Aks7303"
   },
   {
     "file": "_AKS7321.jpg",
+    "thumb": "thumbs/_AKS7321.jpg",
     "alt": "Aks7321"
   },
   {
     "file": "_AKS7378-2.jpg",
+    "thumb": "thumbs/_AKS7378-2.jpg",
     "alt": "Aks7378 2"
   },
   {
     "file": "_AKS7419.jpg",
+    "thumb": "thumbs/_AKS7419.jpg",
     "alt": "Aks7419"
   },
   {
     "file": "_AKS7447.jpg",
+    "thumb": "thumbs/_AKS7447.jpg",
     "alt": "Aks7447"
   },
   {
     "file": "_AKS7481.jpg",
+    "thumb": "thumbs/_AKS7481.jpg",
     "alt": "Aks7481"
   },
   {
     "file": "_AKS7488.jpg",
+    "thumb": "thumbs/_AKS7488.jpg",
     "alt": "Aks7488"
   },
   {
     "file": "_AKS7498.jpg",
+    "thumb": "thumbs/_AKS7498.jpg",
     "alt": "Aks7498"
   },
   {
     "file": "_AKS7500.jpg",
+    "thumb": "thumbs/_AKS7500.jpg",
     "alt": "Aks7500"
   },
   {
     "file": "_AKS7509-2.jpg",
+    "thumb": "thumbs/_AKS7509-2.jpg",
     "alt": "Aks7509 2"
   },
   {
     "file": "_AKS7956.jpg",
+    "thumb": "thumbs/_AKS7956.jpg",
     "alt": "Aks7956"
   },
   {
     "file": "_AKS8118.jpg",
+    "thumb": "thumbs/_AKS8118.jpg",
     "alt": "Aks8118"
   },
   {
     "file": "_AKS9040.jpg",
+    "thumb": "thumbs/_AKS9040.jpg",
     "alt": "Aks9040"
   },
   {
     "file": "_X2A0524-Enhanced-NR.jpg",
+    "thumb": "thumbs/_X2A0524-Enhanced-NR.jpg",
     "alt": "X2a0524 Enhanced Nr"
   },
   {
     "file": "_X2A1987.jpg",
+    "thumb": "thumbs/_X2A1987.jpg",
     "alt": "X2a1987"
   },
   {
     "file": "brooklyn.jpg",
+    "thumb": "thumbs/brooklyn.jpg",
     "alt": "Brooklyn"
   },
   {
     "file": "brooklyn_2.jpg",
+    "thumb": "thumbs/brooklyn_2.jpg",
     "alt": "Brooklyn 2"
   },
   {
     "file": "cotty views alec iwo .jpg",
+    "thumb": "thumbs/cotty views alec iwo .jpg",
     "alt": "Cotty Views Alec Iwo"
   },
   {
     "file": "flavia_toronto.jpg",
+    "thumb": "thumbs/flavia_toronto.jpg",
     "alt": "Flavia Toronto"
   },
   {
     "file": "randoms.jpg",
+    "thumb": "thumbs/randoms.jpg",
     "alt": "Randoms"
   },
   {
     "file": "southspain.jpg",
+    "thumb": "thumbs/southspain.jpg",
     "alt": "Southspain"
   },
   {
     "file": "spain_landscape.jpg",
+    "thumb": "thumbs/spain_landscape.jpg",
     "alt": "Spain Landscape"
   },
   {
     "file": "swiss vict.jpg",
+    "thumb": "thumbs/swiss vict.jpg",
     "alt": "Swiss Vict"
   }
 ]
