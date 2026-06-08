@@ -1,10 +1,5 @@
 [
   {
-    "file": "IMG_6658.PNG",
-    "thumb": "thumbs/IMG_6658.jpg",
-    "alt": "Img 6658"
-  },
-  {
     "file": "_AKS7509-2.jpg",
     "thumb": "thumbs/_AKS7509-2.jpg",
     "alt": "Aks7509 2"
@@ -458,5 +453,10 @@
     "file": "DJI_0382.jpg",
     "thumb": "thumbs/DJI_0382.jpg",
     "alt": "Dji 0382"
+  },
+  {
+    "file": "IMG_6658.PNG",
+    "thumb": "thumbs/IMG_6658.jpg",
+    "alt": "Img 6658"
   }
 ]

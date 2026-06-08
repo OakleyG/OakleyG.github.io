@@ -22,7 +22,6 @@ Running it locally before a push works too.
 Requires Pillow:  pip install Pillow
 """
 
-import datetime
 import json
 import pathlib
 
@@ -54,13 +53,22 @@ def caption_from_file(stem: str) -> str:
     return " ".join(part.capitalize() for part in stem.replace("-", " ").replace("_", " ").split())
 
 
+# Sentinel for files with no real capture date (screenshots, exported PNGs, etc.).
+# It's smaller than any real "YYYY:MM:DD ..." date, so with newest-first sorting
+# these land at the very bottom of the gallery.
+NO_DATE = "0000:00:00 00:00:00"
+
+
 def capture_key(path: pathlib.Path) -> str:
     """
     Return a sortable 'YYYY:MM:DD HH:MM:SS' string for when the photo was taken.
 
-    Prefers the EXIF capture date; falls back to the generic EXIF date, then to
-    the file's modification time. Because the format is fixed-width, plain string
-    comparison sorts chronologically.
+    Prefers the EXIF capture date, then the generic EXIF date. Files with no EXIF
+    date at all (e.g. screenshots / PNG exports) return NO_DATE so they sort to the
+    bottom. The format is fixed-width, so plain string comparison sorts
+    chronologically. (We deliberately don't fall back to file modification time:
+    on a fresh CI checkout every file shares the same mtime, which would be
+    meaningless.)
     """
     try:
         with Image.open(path) as im:
@@ -79,9 +87,7 @@ def capture_key(path: pathlib.Path) -> str:
     except Exception:
         pass
 
-    # No usable EXIF — fall back to the file's modification time.
-    mtime = datetime.datetime.fromtimestamp(path.stat().st_mtime)
-    return mtime.strftime("%Y:%m:%d %H:%M:%S")
+    return NO_DATE
 
 
 def make_thumb(src: pathlib.Path, dest: pathlib.Path) -> None:
