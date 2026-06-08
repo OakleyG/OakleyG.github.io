@@ -1,25 +1,5 @@
 [
   {
-    "file": "2X2A1284-Enhanced-NR.jpg",
-    "thumb": "thumbs/2X2A1284-Enhanced-NR.jpg",
-    "alt": "2x2a1284 Enhanced Nr"
-  },
-  {
-    "file": "2X2A1303-Enhanced-NR.jpg",
-    "thumb": "thumbs/2X2A1303-Enhanced-NR.jpg",
-    "alt": "2x2a1303 Enhanced Nr"
-  },
-  {
-    "file": "2X2A1340-Enhanced-NR.jpg",
-    "thumb": "thumbs/2X2A1340-Enhanced-NR.jpg",
-    "alt": "2x2a1340 Enhanced Nr"
-  },
-  {
-    "file": "2X2A1700-Enhanced-NR.jpg",
-    "thumb": "thumbs/2X2A1700-Enhanced-NR.jpg",
-    "alt": "2x2a1700 Enhanced Nr"
-  },
-  {
     "file": "2X2A1735.jpg",
     "thumb": "thumbs/2X2A1735.jpg",
     "alt": "2x2a1735"
@@ -43,16 +23,6 @@
     "file": "CNTower Iwo .jpg",
     "thumb": "thumbs/CNTower Iwo .jpg",
     "alt": "Cntower Iwo"
-  },
-  {
-    "file": "DJ DEROSE 2.jpg",
-    "thumb": "thumbs/DJ DEROSE 2.jpg",
-    "alt": "Dj Derose 2"
-  },
-  {
-    "file": "DJ DEROSE.jpg",
-    "thumb": "thumbs/DJ DEROSE.jpg",
-    "alt": "Dj Derose"
   },
   {
     "file": "DJI_0382.jpg",
@@ -83,6 +53,26 @@
     "file": "Toronto workers .jpg",
     "thumb": "thumbs/Toronto workers .jpg",
     "alt": "Toronto Workers"
+  },
+  {
+    "file": "_AKS0098.jpg",
+    "thumb": "thumbs/_AKS0098.jpg",
+    "alt": "Aks0098"
+  },
+  {
+    "file": "_AKS1284.jpg",
+    "thumb": "thumbs/_AKS1284.jpg",
+    "alt": "Aks1284"
+  },
+  {
+    "file": "_AKS1340.jpg",
+    "thumb": "thumbs/_AKS1340.jpg",
+    "alt": "Aks1340"
+  },
+  {
+    "file": "_AKS1700.jpg",
+    "thumb": "thumbs/_AKS1700.jpg",
+    "alt": "Aks1700"
   },
   {
     "file": "_AKS3038.jpg",
@@ -430,11 +420,6 @@
     "alt": "Aks9040"
   },
   {
-    "file": "_X2A0524-Enhanced-NR.jpg",
-    "thumb": "thumbs/_X2A0524-Enhanced-NR.jpg",
-    "alt": "X2a0524 Enhanced Nr"
-  },
-  {
     "file": "_X2A1987.jpg",
     "thumb": "thumbs/_X2A1987.jpg",
     "alt": "X2a1987"
@@ -453,11 +438,6 @@
     "file": "cotty views alec iwo .jpg",
     "thumb": "thumbs/cotty views alec iwo .jpg",
     "alt": "Cotty Views Alec Iwo"
-  },
-  {
-    "file": "flavia_toronto.jpg",
-    "thumb": "thumbs/flavia_toronto.jpg",
-    "alt": "Flavia Toronto"
   },
   {
     "file": "randoms.jpg",

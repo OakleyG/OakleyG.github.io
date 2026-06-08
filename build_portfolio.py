@@ -36,10 +36,11 @@ MANIFEST = PORTFOLIO_DIR / "manifest.json"
 # Image types we publish
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"}
 
-# Longest edge of a generated thumbnail, in pixels. ~1000px looks crisp even on
-# retina screens at the grid's column width, while staying a small download.
-THUMB_MAX_EDGE = 1000
-THUMB_QUALITY = 80
+# Longest edge of a generated thumbnail, in pixels. The grid columns are ~320px
+# wide, so ~720px stays crisp on retina screens while keeping the grid fast.
+# (The full-resolution original is always used for the lightbox and downloads.)
+THUMB_MAX_EDGE = 720
+THUMB_QUALITY = 72
 
 
 def caption_from_file(stem: str) -> str:
