@@ -22,10 +22,16 @@ Running it locally before a push works too.
 Requires Pillow:  pip install Pillow
 """
 
+import datetime
 import json
 import pathlib
 
 from PIL import Image, ImageOps
+
+# EXIF tag IDs we care about for ordering
+EXIF_DATETIME_ORIGINAL = 36867   # when the photo was actually taken
+EXIF_DATETIME = 306              # generic "date/time" fallback
+EXIF_SUBIFD = 0x8769             # pointer to the Exif sub-IFD holding 36867
 
 # Folders / files, relative to this script's location
 ROOT = pathlib.Path(__file__).resolve().parent
@@ -48,6 +54,36 @@ def caption_from_file(stem: str) -> str:
     return " ".join(part.capitalize() for part in stem.replace("-", " ").replace("_", " ").split())
 
 
+def capture_key(path: pathlib.Path) -> str:
+    """
+    Return a sortable 'YYYY:MM:DD HH:MM:SS' string for when the photo was taken.
+
+    Prefers the EXIF capture date; falls back to the generic EXIF date, then to
+    the file's modification time. Because the format is fixed-width, plain string
+    comparison sorts chronologically.
+    """
+    try:
+        with Image.open(path) as im:
+            exif = im.getexif()
+            if exif:
+                # DateTimeOriginal lives in the Exif sub-IFD
+                try:
+                    sub = exif.get_ifd(EXIF_SUBIFD)
+                    dt = sub.get(EXIF_DATETIME_ORIGINAL)
+                except Exception:
+                    dt = None
+                if not dt:
+                    dt = exif.get(EXIF_DATETIME)
+                if isinstance(dt, str) and dt.strip():
+                    return dt.strip()
+    except Exception:
+        pass
+
+    # No usable EXIF — fall back to the file's modification time.
+    mtime = datetime.datetime.fromtimestamp(path.stat().st_mtime)
+    return mtime.strftime("%Y:%m:%d %H:%M:%S")
+
+
 def make_thumb(src: pathlib.Path, dest: pathlib.Path) -> None:
     """Write a downscaled JPEG thumbnail of `src` to `dest` (skips if up to date)."""
     if dest.exists() and dest.stat().st_mtime >= src.stat().st_mtime:
@@ -66,10 +102,12 @@ def main() -> None:
     PORTFOLIO_DIR.mkdir(exist_ok=True)
     THUMBS_DIR.mkdir(exist_ok=True)
 
-    images = sorted(
+    images = [
         p for p in PORTFOLIO_DIR.iterdir()
         if p.is_file() and p.suffix.lower() in IMAGE_EXTS
-    )
+    ]
+    # Newest first by capture date; filename breaks ties for a stable order.
+    images.sort(key=lambda p: (capture_key(p), p.name), reverse=True)
 
     # Remove orphaned thumbnails whose source image is gone.
     valid_thumb_names = {p.stem + ".jpg" for p in images}
