@@ -150,11 +150,6 @@
     "alt": "Aks6143"
   },
   {
-    "file": "_AKS6074.jpg",
-    "thumb": "thumbs/_AKS6074.jpg",
-    "alt": "Aks6074"
-  },
-  {
     "file": "_AKS5967.jpg",
     "thumb": "thumbs/_AKS5967.jpg",
     "alt": "Aks5967"
@@ -453,6 +448,11 @@
     "file": "DJI_0382.jpg",
     "thumb": "thumbs/DJI_0382.jpg",
     "alt": "Dji 0382"
+  },
+  {
+    "file": "_AKS6074.jpg",
+    "thumb": "thumbs/_AKS6074.jpg",
+    "alt": "Aks6074"
   },
   {
     "file": "IMG_6658.PNG",
