@@ -3,114 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oakley Gompels</title>
+
+    <!-- Primary Meta -->
+    <title>Oakley Gompels — Maths & Physics @ Toronto | Finance & Consulting</title>
+    <meta name="description" content="Final-year Mathematics & Physics student at the University of Toronto with hands-on experience in financial modelling, operations and leadership. Seeking finance & consulting roles for 2026.">
+    <meta name="author" content="Oakley Gompels">
+    <meta name="theme-color" content="#0d0d1f">
+    <link rel="canonical" href="https://ogompels.com/">
+
+    <!-- Open Graph / social share -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Oakley Gompels — Quantitative rigour, commercial instinct">
+    <meta property="og:description" content="Maths & Physics student at the University of Toronto. Financial modelling, operations turnaround, leadership. Seeking finance & consulting roles for 2026.">
+    <meta property="og:url" content="https://ogompels.com/">
+    <meta property="og:image" content="https://ogompels.com/Pictures/thumbs/spain_landscape.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Oakley Gompels — Quantitative rigour, commercial instinct">
+    <meta name="twitter:description" content="Maths & Physics @ Toronto. Financial modelling, operations, leadership. Seeking finance & consulting roles for 2026.">
+    <meta name="twitter:image" content="https://ogompels.com/Pictures/thumbs/spain_landscape.jpg">
+
+    <!-- Favicon (inline monogram) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d0d1f'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' fill='%23ff6d4a' text-anchor='middle'%3EOG%3C/text%3E%3C/svg%3E">
+
+    <!-- Flag JS support so scroll-reveal only hides content when JS can restore it -->
+    <script>document.documentElement.classList.add('js');</script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <!-- Navigation Bar -->
-    <nav>
+    <nav id="nav">
         <div class="nav-container">
-            <span class="logo">Oakley Gompels</span>
-            <ul class="nav-links">
+            <a href="#top" class="logo">Oakley Gompels</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#work">Work</a></li>
                 <li><a href="#photography">Photography</a></li>
-                <li><a href="#cv">CV</a></li>
                 <li><a href="#contact" class="nav-cta">Get In Touch</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="top">
+        <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
         <div class="hero-bg-dots"></div>
         <div class="hero-content">
-            <p class="hero-eyebrow">Mathematics & Physics · University of Toronto</p>
-            <h1>Hello, I'm<br><span class="hero-highlight">Oakley Gompels</span></h1>
-            <p class="hero-sub">Quantitative &nbsp;·&nbsp; Adaptable &nbsp;·&nbsp; Passionate</p>
+            <p class="hero-eyebrow">Mathematics &amp; Physics · University of Toronto · Rotman Commerce Certificate</p>
+            <h1>Quantitative rigour,<br><span class="hero-highlight">commercial instinct.</span></h1>
+            <p class="hero-sub">
+                I'm Oakley — a final-year Maths &amp; Physics student who turns analysis into outcomes.
+                I've built valuation models, led a 400-member organisation, and unlocked a $70K
+                turnaround. Seeking <strong>finance &amp; consulting</strong> roles for 2026.
+            </p>
             <div class="hero-actions">
-                <a href="#projects" class="btn-primary">View My Work</a>
-                <a href="#contact" class="btn-secondary">Get In Touch</a>
+                <a href="#experience" class="btn-primary">See My Experience</a>
+                <a href="Oakley Gompels CV.pdf" class="btn-secondary" download>Download CV <span class="arrow">↓</span></a>
+            </div>
+            <div class="hero-scroll" aria-hidden="true">
+                <span>Scroll</span>
+                <svg viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="20"><rect x="1" y="1" width="14" height="22" rx="7"/><line x1="8" y1="6" x2="8" y2="10" class="hero-scroll-dot"/></svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Strip -->
+    <section class="impact" aria-label="Key achievements">
+        <div class="container impact-grid reveal">
+            <div class="impact-item">
+                <div class="impact-num" data-target="70" data-prefix="$" data-suffix="K">$0K</div>
+                <p>Renovation fund unlocked on a century-old charitable property</p>
+            </div>
+            <div class="impact-item">
+                <div class="impact-num" data-target="500" data-suffix=" hrs">0 hrs</div>
+                <p>Annual operational time saved through process redesign</p>
+            </div>
+            <div class="impact-item">
+                <div class="impact-num" data-target="400" data-suffix="+">0+</div>
+                <p>Members led as Vice President of a student organisation</p>
+            </div>
+            <div class="impact-item">
+                <div class="impact-num" data-target="99" data-suffix="%">0%</div>
+                <p>Order accuracy across 200+ daily dispatches</p>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section">
+    <section id="about" class="section section-alt">
+        <div class="container about-layout">
+            <div class="about-text reveal">
+                <div class="section-label">About</div>
+                <h2>Who I am</h2>
+                <p>I study Mathematics and Physics at the University of Toronto, alongside a
+                Certificate in Business from Rotman Commerce — because I care as much about how a
+                decision plays out commercially as I do about the theory behind it.</p>
+                <p>A physics degree is really training in one thing: pulling signal out of noisy
+                data and being honest about uncertainty. I've spent the last few years applying that
+                same discipline outside the lab — building financial models at an investment-banking
+                programme, running operations under real-time pressure, and leading teams through
+                messy, real-world problems where the answer isn't in the back of the book.</p>
+                <p>I move comfortably between the quantitative and the operational: rigorous with a
+                model, but focused on execution and outcomes. That combination is what I want to
+                bring to a career in <strong>finance and consulting</strong>.</p>
+            </div>
+            <aside class="about-aside reveal">
+                <div class="about-photo" aria-hidden="true">
+                    <span class="about-monogram">OG</span>
+                    <span class="about-photo-hint">Add your headshot →<br>replace .about-photo</span>
+                </div>
+                <ul class="about-facts">
+                    <li><span>Based in</span> Toronto &amp; UK</li>
+                    <li><span>Focus</span> Finance · Consulting</li>
+                    <li><span>Graduating</span> 2026</li>
+                    <li><span>Also</span> Photographer</li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Skills / Capabilities -->
+    <section id="skills" class="section">
         <div class="container">
-            <div class="section-label">About</div>
-            <h2>Who I am</h2>
-            <div class="about-body">
-                <p>I'm a Mathematics and Physics undergraduate at the University of Toronto,
-                with a strong interest in how quantitative thinking translates into real-world decision-making.
-                Alongside my degree, I've built experience across leadership, operations, and finance
-                — from running a large student organisation to improving operational workflows under real-time pressure.
-                I'm comfortable working with large data, models, and systems, but I care just
-                as much about execution and outcomes as I do about theory.</p>
+            <div class="section-label reveal">Capabilities</div>
+            <h2 class="reveal">What I bring</h2>
+            <div class="skills-grid">
+                <div class="skill-card reveal">
+                    <div class="skill-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg>
+                    </div>
+                    <h3>Analytical &amp; Quantitative</h3>
+                    <ul>
+                        <li>Financial modelling &amp; equity valuation</li>
+                        <li>Data analysis &amp; statistics</li>
+                        <li>Uncertainty &amp; error analysis</li>
+                        <li>Python · LaTeX</li>
+                    </ul>
+                </div>
+                <div class="skill-card reveal">
+                    <div class="skill-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18M3 12h18"/></svg>
+                    </div>
+                    <h3>Commercial &amp; Strategy</h3>
+                    <ul>
+                        <li>M&amp;A pitch decks &amp; equity research</li>
+                        <li>Market &amp; case analysis</li>
+                        <li>Innovation strategy (INSEAD)</li>
+                        <li>Business ethics &amp; economics</li>
+                    </ul>
+                </div>
+                <div class="skill-card reveal">
+                    <div class="skill-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg>
+                    </div>
+                    <h3>Leadership &amp; Operations</h3>
+                    <ul>
+                        <li>Team leadership (45+ people)</li>
+                        <li>Stakeholder management</li>
+                        <li>Process optimisation</li>
+                        <li>Crisis management under pressure</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="section section-alt">
+    <!-- Experience Section -->
+    <section id="experience" class="section section-alt">
         <div class="container">
-            <div class="section-label">Projects</div>
-            <h2>My Work</h2>
+            <div class="section-label reveal">Experience</div>
+            <h2 class="reveal">Where I've made an impact</h2>
+
+            <div class="timeline">
+
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-body">
+                        <div class="tl-head">
+                            <h3>Vice President</h3>
+                            <span class="cv-date">Jan 2025 – Present</span>
+                        </div>
+                        <p class="tl-org">University of Toronto Ski &amp; Snowboard Club</p>
+                        <p>Directed operations for a <strong>400+ member</strong> organisation; recruited and
+                        managed <strong>15+ executives</strong>; introduced inclusivity policies that lifted
+                        member engagement <strong>20%</strong> while cutting planning inefficiencies.</p>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-body">
+                        <div class="tl-head">
+                            <h3>Property Manager</h3>
+                            <span class="cv-date">Sep 2024 – Nov 2025</span>
+                        </div>
+                        <p class="tl-org">Phi Gamma Delta</p>
+                        <p>Revitalised a century-old charitable housing property — rebuilding owner trust
+                        after two decades of strained relations and unlocking a <strong>$70K renovation
+                        fund</strong>. Designed and ran operational workflows for a <strong>45-member team</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-body">
+                        <div class="tl-head">
+                            <h3>Operations</h3>
+                            <span class="cv-date">Oct 2023 – Aug 2025</span>
+                        </div>
+                        <p class="tl-org">Only Four Ltd</p>
+                        <p>Processed and dispatched <strong>200+ orders daily at 99% accuracy</strong>. Identified
+                        operational bottlenecks and prototyped improvements projected to cut pick-and-pack
+                        time by ~0.5s per item — roughly <strong>500 hours a year</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-body">
+                        <div class="tl-head">
+                            <h3>Summer Programme — Business &amp; Entrepreneurship</h3>
+                            <span class="cv-date">Jun – Aug 2024</span>
+                        </div>
+                        <p class="tl-org">INSEAD</p>
+                        <p>Intensive exposure to entrepreneurship, innovation strategy and global business
+                        practice. Collaborated on case studies and startup simulations, sharpening
+                        cross-cultural teamwork and pitching.</p>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-body">
+                        <div class="tl-head">
+                            <h3>Investment Banking Internship</h3>
+                            <span class="cv-date">Jul – Aug 2021</span>
+                        </div>
+                        <p class="tl-org">InvestIn</p>
+                        <p>Built financial models, conducted equity valuations and presented M&amp;A pitch
+                        decks in investment-banking simulations — first-hand exposure to capital markets
+                        and client advisory.</p>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-body">
+                        <div class="tl-head">
+                            <h3>Earlier</h3>
+                            <span class="cv-date">2017 – 2022</span>
+                        </div>
+                        <p class="tl-org">Lifeguard · Smallpeice Engineering Trust</p>
+                        <p>Crisis management and decision-making under pressure as a qualified lifeguard;
+                        hands-on prototyping, budgeting and data analysis on engineering programmes
+                        alongside Bloodhound, Rolls-Royce and JLR mentors.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="cv-download-wrap reveal">
+                <a href="Oakley Gompels CV.pdf" class="btn-primary" download>Download Full CV (PDF)</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected Work / Analytical rigour -->
+    <section id="work" class="section">
+        <div class="container">
+            <div class="section-label reveal">Selected Work</div>
+            <h2 class="reveal">Analytical rigour</h2>
+            <p class="section-intro reveal">Finance runs on the same core skill a physics degree trains:
+            extracting signal from noisy data, and being honest about what you don't know. A few
+            examples of that discipline — plus how this site itself was built.</p>
+
             <div class="projects-grid">
 
-                <div class="project-card">
-                    <div class="card-tag">Physics Lab</div>
-                    <h3>Brownian Motion and Diffusion Coefficient of Microspheres</h3>
-                    <p>Analyzed the Brownian motion of microspheres suspended in liquid using digital
-                    video microscopy — using mean squared displacement, weighted linear fits and the Stokes-Einstein
-                    relation to confirm the stochastic nature of thermal motion
-                    and highlight the importance of accurate uncertainty estimation in physical measurements.</p>
-                    <a href="Projects/Lab1.pdf" class="project-link">Read Full Report <span class="arrow">→</span></a>
+                <div class="project-card reveal">
+                    <div class="card-tag">Quantitative Analysis</div>
+                    <h3>Brownian Motion &amp; Diffusion Coefficient</h3>
+                    <p>Modelled the stochastic motion of microspheres from video microscopy — using
+                    mean-squared displacement, weighted linear fits and the Stokes–Einstein relation.
+                    A study in extracting a clean signal, and a rigorous estimate of its uncertainty,
+                    from noisy real-world data.</p>
+                    <a href="Projects/Lab1.pdf" class="project-link" target="_blank" rel="noopener">Read Full Report <span class="arrow">→</span></a>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="card-tag">Quantitative Analysis</div>
+                    <h3>Velocity of Ultrasonic Waves in Water</h3>
+                    <p>Used the Debye–Sears effect to measure the speed of sound in water and derive its
+                    bulk modulus via optical diffraction from an acoustically driven standing wave —
+                    calibrated against a sodium lamp with careful propagation of measurement error.</p>
+                    <a href="Projects/Lab2.pdf" class="project-link" target="_blank" rel="noopener">Read Full Report <span class="arrow">→</span></a>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="card-tag">Quantitative Analysis</div>
+                    <h3>Non-Linear Pendulum Dynamics</h3>
+                    <p>Investigated the departure of a real pendulum from simple-harmonic idealisation —
+                    testing where a clean theoretical model breaks down against experimental data, and
+                    quantifying the systematic error in the small-angle assumption.</p>
+                    <a href="Projects/Pendulum.pdf" class="project-link" target="_blank" rel="noopener">Read Full Report <span class="arrow">→</span></a>
                 </div>
 
                 <!-- Site Evolution card -->
-                <a href="evolution.html" class="project-card project-card--evo" title="View the full site evolution page">
-                    <!-- Mini git graph SVG -->
+                <a href="evolution.html" class="project-card project-card--evo reveal" title="View the full site evolution page">
                     <svg class="evo-mini-graph" viewBox="0 0 260 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <!-- Main branch line -->
                         <line x1="20" y1="28" x2="240" y2="28" stroke="#ff6d4a" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Feature branch curve out -->
                         <path d="M 80 28 C 80 28 88 56 110 56" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
-                        <!-- Feature branch line -->
                         <line x1="110" y1="56" x2="170" y2="56" stroke="#a78bfa" stroke-width="2.5"/>
-                        <!-- Feature branch merge back -->
                         <path d="M 170 56 C 192 56 192 28 192 28" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
-                        <!-- Main nodes -->
                         <circle cx="20"  cy="28" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>
                         <circle cx="80"  cy="28" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>
                         <circle cx="192" cy="28" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>
                         <circle cx="240" cy="28" r="8" fill="#ff6d4a" stroke="#16162a" stroke-width="2"/>
-                        <!-- Feature nodes -->
                         <circle cx="110" cy="56" r="8" fill="#a78bfa" stroke="#16162a" stroke-width="2"/>
                         <circle cx="170" cy="56" r="8" fill="#a78bfa" stroke="#16162a" stroke-width="2"/>
-                        <!-- Labels -->
                         <text x="20"  y="16" text-anchor="middle" fill="#ff6d4a" font-size="8" font-family="Inter,sans-serif" font-weight="600">v1</text>
                         <text x="110" y="72" text-anchor="middle" fill="#a78bfa" font-size="8" font-family="Inter,sans-serif" font-weight="600">v2</text>
                         <text x="240" y="16" text-anchor="middle" fill="#ff6d4a" font-size="8" font-family="Inter,sans-serif" font-weight="600">main</text>
                     </svg>
                     <div class="card-tag card-tag--evo">Site History</div>
-                    <h3>Site Evolution</h3>
-                    <p>A living visual history of this website — every design iteration preserved as a named Git branch. Explore the commits, design decisions, and what changed between each version.</p>
+                    <h3>How this site was built</h3>
+                    <p>A living visual history of this website — every design iteration preserved as a
+                    named Git branch. Explore the commits, decisions and what changed between versions.</p>
                     <span class="project-link">Explore History <span class="arrow">→</span></span>
                 </a>
 
-                <div class="project-card">
-                    <div class="card-tag">Physics Lab</div>
-                    <h3>Velocity of Ultrasonic Waves in Water</h3>
-                    <p>The Debye-Sears effect was employed to measure the speed of sound in water
-                    and determine its bulk modulus. The experiment utilised optical
-                    diffraction from an acoustically driven standing wave in a liquid medium, with
-                    angular deflection calibrated using a sodium lamp and a diffraction grating.</p>
-                    <a href="Projects/Lab2.pdf" class="project-link">Read Full Report <span class="arrow">→</span></a>
-                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Education Section -->
+    <section id="education" class="section section-alt">
+        <div class="container">
+            <div class="section-label reveal">Education</div>
+            <h2 class="reveal">Academic background</h2>
+            <div class="edu-grid">
+                <div class="cv-item reveal">
+                    <div class="cv-item-header">
+                        <h4>BSc Mathematics &amp; Physics</h4>
+                        <span class="cv-date">2022 – 2026</span>
+                    </div>
+                    <p class="cv-org">University of Toronto · Certificate in Business, Rotman Commerce</p>
+                    <p>Key modules: Ordinary &amp; Partial Differential Equations, Combinatorics, Linear
+                    Algebra, Multivariable Calculus, Advanced Classical Mechanics, Practical Physics Labs.</p>
+                    <p>Supplementary study in Economics, Business Ethics, Environmental Sustainability,
+                    Psychology and International Development.</p>
+                </div>
+                <div class="cv-item reveal">
+                    <div class="cv-item-header">
+                        <h4>A-Levels &amp; GCSEs</h4>
+                        <span class="cv-date">2017 – 2022</span>
+                    </div>
+                    <p class="cv-org">Dauntsey's School</p>
+                    <p>A-Levels: Mathematics (A), Physics (B), Economics (B).</p>
+                    <p>Captain of 2nd XI Hockey; Devizes Club 1st Team Hockey; 1st Team Rugby &amp; Cricket.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -118,172 +374,48 @@
     <!-- Photography Section -->
     <section id="photography" class="section">
         <div class="container">
-            <div class="section-label">Photography</div>
-            <div class="section-heading-row">
-                <h2>Through the Lens</h2>
-                <a href="portfolio.html" class="btn-primary portfolio-btn">View Full Portfolio <span class="arrow">→</span></a>
+            <div class="section-heading-row reveal">
+                <div>
+                    <div class="section-label">Beyond the numbers</div>
+                    <h2>Through the Lens</h2>
+                </div>
+                <a href="portfolio.html" class="btn-secondary portfolio-btn">View Full Portfolio <span class="arrow">→</span></a>
             </div>
-            <div class="about-body">
-                <p>What began as a casual hobby has grown into a genuine passion.
-                Photography has become a creative outlet that allows me to capture the sports
-                and moments shared by friends and family, preserving high-quality images that
-                hold lasting meaning. Beyond documenting memories, it has given me a new way
-                to engage with the world — one that encourages patience, attention, and an
-                appreciation for detail.</p>
-                <p>Each image doesn't stop at the press of the shutter —
-                the creative process continues through post-editing, reflection,
-                and constantly experimenting with new ways to add character and originality.</p>
+            <div class="about-body reveal">
+                <p>The same attention to detail I bring to a model, I bring to a photograph. What began
+                as a hobby has become a discipline in patience and observation — noticing the moment
+                before it happens, then refining it in post. It's the creative counterweight to the
+                analytical work, and I think both are better for it.</p>
             </div>
 
-            <div class="photo-grid">
-                <div class="photo-item">
-                    <img src="Pictures/thumbs/flavia_toronto.jpg" alt="Toronto">
-                </div>
-                <div class="photo-item">
-                    <img src="Pictures/thumbs/southspain.jpg" alt="South Spain">
-                </div>
-                <div class="photo-item">
-                    <img src="Pictures/thumbs/brooklyn_2.jpg" alt="Brooklyn">
-                </div>
-                <div class="photo-item">
-                    <img src="Pictures/thumbs/olly_reflect.jpg" alt="Reflection">
-                </div>
+            <div class="photo-grid reveal">
+                <div class="photo-item"><img src="Pictures/thumbs/flavia_toronto.jpg" alt="Toronto" loading="lazy"></div>
+                <div class="photo-item"><img src="Pictures/thumbs/southspain.jpg" alt="South Spain" loading="lazy"></div>
+                <div class="photo-item"><img src="Pictures/thumbs/brooklyn_2.jpg" alt="Brooklyn" loading="lazy"></div>
+                <div class="photo-item"><img src="Pictures/thumbs/olly_reflect.jpg" alt="Reflection" loading="lazy"></div>
             </div>
 
-            <div class="photo-grid photo-grid-wide">
-                <div class="photo-item-wide">
-                    <img src="Pictures/thumbs/spain_landscape.jpg" alt="Spain Landscape">
-                </div>
-                <div class="photo-item-wide">
-                    <img src="Pictures/thumbs/swiss vict.jpg" alt="Switzerland">
-                </div>
-                <div class="photo-item-wide">
-                    <img src="Pictures/thumbs/surf_wave.jpg" alt="Surf Wave">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CV Section -->
-    <section id="cv" class="section section-alt">
-        <div class="container">
-            <div class="section-label">CV</div>
-            <h2>Experience &amp; Education</h2>
-
-            <div class="cv-columns">
-
-                <!-- Experience -->
-                <div class="cv-col">
-                    <h3 class="cv-group-title">Experience</h3>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>Vice President</h4>
-                            <span class="cv-date">Jan 2025 – Present</span>
-                        </div>
-                        <p class="cv-org">University of Toronto Ski &amp; Snowboard Club</p>
-                        <p>Directed operations for a 400+ member organisation; recruited and managed 15+ executives; implemented inclusivity policies, improving member engagement by 20% and reducing planning inefficiencies.</p>
-                    </div>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>Property Manager</h4>
-                            <span class="cv-date">Sep 2024 – Nov 2025</span>
-                        </div>
-                        <p class="cv-org">Phi Gamma Delta</p>
-                        <p>Revitalised a century-old charitable housing property — rebuilding trust with owners after two decades of strained relations and unlocking a $70K renovation fund. Designed and managed operational workflows for a 45-member team.</p>
-                    </div>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>Operations</h4>
-                            <span class="cv-date">Oct 2023 – Aug 2025</span>
-                        </div>
-                        <p class="cv-org">Only Four Ltd</p>
-                        <p>Processed and dispatched 200+ customer orders daily with 99% accuracy. Identified operational bottlenecks and developed prototype improvements projected to cut pick-and-pack time by ~0.5 seconds per item (~500 hours annually).</p>
-                    </div>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>Investment Banking Internship</h4>
-                            <span class="cv-date">Jul – Aug 2021</span>
-                        </div>
-                        <p class="cv-org">InvestIn</p>
-                        <p>Competed in investment banking simulations, developed financial models, conducted equity valuations, and presented M&amp;A pitch decks — gaining exposure to capital markets and client advisory.</p>
-                    </div>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>Summer Programme — Business &amp; Entrepreneurship</h4>
-                            <span class="cv-date">Jun – Aug 2024</span>
-                        </div>
-                        <p class="cv-org">INSEAD</p>
-                        <p>Intensive exposure in entrepreneurship, innovation strategy, and global business practices. Collaborated on case studies and startup simulations, developing cross-cultural teamwork and pitching skills.</p>
-                    </div>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>Lifeguard</h4>
-                            <span class="cv-date">Sep 2020 – Apr 2022</span>
-                        </div>
-                        <p class="cv-org">Dauntsey's School</p>
-                        <p>Responded to emergencies with professionalism, applying crisis management and training under pressure.</p>
-                    </div>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>Smallpeice Trust</h4>
-                            <span class="cv-date">Jul 2017 &amp; Jul 2018</span>
-                        </div>
-                        <p class="cv-org">Engineering Experience</p>
-                        <p>First-hand experience creating prototypes, managing budgets and analysing data. Automotive Engineering: team design and build alongside Bloodhound/Rolls Royce/JLR, incorporating systems thinking, control, teamwork, and technical communication with industry mentors.</p>
-                    </div>
-                </div>
-
-                <!-- Education -->
-                <div class="cv-col">
-                    <h3 class="cv-group-title">Education</h3>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>BSc Mathematics &amp; Physics</h4>
-                            <span class="cv-date">2022 – 2026</span>
-                        </div>
-                        <p class="cv-org">University of Toronto</p>
-                        <p>Additional Certificate of Business — Rotman School of Commerce.</p>
-                        <p>Key modules: Ordinary &amp; Partial Differential Equations, Combinatorics, Abstract Maths, Linear Algebra, Multivariable Calculus, Practical Physics Labs, and Advanced Classical Mechanics.</p>
-                        <p>Supplementary courses in Environmental Sustainability, Psychology, International Development Studies, Business Ethics, and Economics.</p>
-                    </div>
-
-                    <div class="cv-item">
-                        <div class="cv-item-header">
-                            <h4>A-Levels &amp; GCSEs</h4>
-                            <span class="cv-date">2017 – 2022</span>
-                        </div>
-                        <p class="cv-org">Dauntsey's School</p>
-                        <p>A Levels: Mathematics (A), Physics (B), Economics (B).</p>
-                        <p>Captain of 2nd XI Hockey Team, Devizes Club 1st Team Hockey, 1st Team Rugby and Cricket.</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="cv-download-wrap">
-                <a href="Oakley Gompels CV.pdf" class="btn-primary">Download Full CV (PDF)</a>
+            <div class="photo-grid photo-grid-wide reveal">
+                <div class="photo-item-wide"><img src="Pictures/thumbs/spain_landscape.jpg" alt="Spain Landscape" loading="lazy"></div>
+                <div class="photo-item-wide"><img src="Pictures/thumbs/swiss vict.jpg" alt="Switzerland" loading="lazy"></div>
+                <div class="photo-item-wide"><img src="Pictures/thumbs/surf_wave.jpg" alt="Surf Wave" loading="lazy"></div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
+    <section id="contact" class="section section-alt contact-section">
         <div class="contact-glow"></div>
         <div class="container contact-inner">
-            <div class="section-label">Contact</div>
-            <h2>Get In Touch</h2>
-            <p class="contact-sub">Feel free to reach out for collaborations or just a friendly chat.</p>
-            <div class="contact-links">
-                <a href="mailto:oakleygompels@gmail.com" class="btn-primary">Email Me</a>
-                <a href="https://www.linkedin.com/in/oakley-gompels" target="_blank" class="btn-secondary">LinkedIn</a>
+            <div class="section-label reveal">Contact</div>
+            <h2 class="reveal">Let's talk</h2>
+            <p class="contact-sub reveal">I'm actively looking for finance and consulting opportunities
+            for 2026 — internships, graduate roles, or a conversation about a problem worth solving.
+            The fastest way to reach me is email.</p>
+            <div class="contact-links reveal">
+                <a href="mailto:oakley@gompels.co.uk" class="btn-primary">Email Me</a>
+                <a href="https://www.linkedin.com/in/oakley-gompels" target="_blank" rel="noopener" class="btn-secondary">LinkedIn</a>
+                <a href="https://github.com/OakleyG" target="_blank" rel="noopener" class="btn-secondary">GitHub</a>
             </div>
         </div>
     </section>
@@ -292,34 +424,17 @@
     <footer>
         <div class="footer-inner">
             <span class="footer-logo">Oakley Gompels</span>
-            <p>&copy; 2025 Oakley Gompels. Built with HTML &amp; CSS.</p>
+            <p>&copy; <span data-year>2026</span> Oakley Gompels · Hand-built with HTML, CSS &amp; Git</p>
         </div>
     </footer>
 
-    <!-- Site Evolution card styles -->
+    <!-- Site Evolution card styles (kept inline; specific to this card) -->
     <style>
-        .project-card--evo {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            cursor: pointer;
-        }
-        .evo-mini-graph {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            background: rgba(0,0,0,0.2);
-            padding: 0.5rem 0;
-            margin-bottom: 0.25rem;
-        }
-        .card-tag--evo {
-            background: rgba(167,139,250,0.1);
-            color: #a78bfa;
-            border-color: rgba(167,139,250,0.25);
-        }
+        .project-card--evo { text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.75rem; cursor: pointer; }
+        .evo-mini-graph { width: 100%; height: auto; border-radius: 8px; background: rgba(0,0,0,0.2); padding: 0.5rem 0; margin-bottom: 0.25rem; }
+        .card-tag--evo { background: rgba(167,139,250,0.1); color: #a78bfa; border-color: rgba(167,139,250,0.25); }
     </style>
 
+    <script src="main.js" defer></script>
 </body>
 </html>

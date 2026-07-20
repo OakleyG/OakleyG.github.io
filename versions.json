@@ -28,11 +28,20 @@
   },
   {
     "version": "v4",
-    "branch": "feature/maths-revision-notes",
-    "date": "2026-04-06",
-    "message": "Maths revision notes — MAT301 Group Theory and MAT344 Combinatorics added as interactive HTML documents in Notes/ folder",
+    "branch": "feature/photography-portfolio",
+    "date": "2026-06-09",
+    "message": "Photography portfolio — full masonry gallery, lightbox, EXIF-sorted thumbnails and per-image downloads",
+    "merged": true,
+    "commitHash": "d5c0549",
+    "compareUrl": "https://github.com/OakleyG/OakleyG.github.io/commits/main"
+  },
+  {
+    "version": "v5",
+    "branch": "feature/finance-reinvention",
+    "date": "2026-07-06",
+    "message": "Finance-focused reinvention — repositioned hero, impact metrics, skills, experience timeline, particle canvas, scroll animations and a proper mobile nav",
     "merged": false,
     "commitHash": "",
-    "compareUrl": "https://github.com/OakleyG/OakleyG.github.io/compare/main...feature/maths-revision-notes"
+    "compareUrl": "https://github.com/OakleyG/OakleyG.github.io/commits/main"
   }
 ]
