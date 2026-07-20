@@ -6,3 +6,6 @@ __pycache__/
 # Private working docs — the racking tool is published via Projects/, the rest stays local
 GHC/
 OG.jpg
+
+# Keep the editable CV source local; only the PDF is published/linked
+Oakley Gompels CV v2.docx
