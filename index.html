@@ -77,19 +77,19 @@
     <section class="impact" aria-label="Key achievements">
         <div class="container impact-grid reveal">
             <div class="impact-item">
-                <div class="impact-num" data-target="70" data-prefix="$" data-suffix="K">$0K</div>
+                <div class="impact-num" data-target="70" data-prefix="$" data-suffix="K">$70K</div>
                 <p>Renovation fund unlocked on a century-old charitable property</p>
             </div>
             <div class="impact-item">
-                <div class="impact-num" data-target="500" data-suffix=" hrs">0 hrs</div>
+                <div class="impact-num" data-target="500" data-suffix=" hrs">500 hrs</div>
                 <p>Annual operational time saved through process redesign</p>
             </div>
             <div class="impact-item">
-                <div class="impact-num" data-target="400" data-suffix="+">0+</div>
+                <div class="impact-num" data-target="400" data-suffix="+">400+</div>
                 <p>Members led as Vice President of a student organisation</p>
             </div>
             <div class="impact-item">
-                <div class="impact-num" data-target="99" data-suffix="%">0%</div>
+                <div class="impact-num" data-target="99" data-suffix="%">99%</div>
                 <p>Order accuracy across 200+ daily dispatches</p>
             </div>
         </div>
@@ -135,7 +135,7 @@
             <div class="skills-grid">
                 <div class="skill-card reveal">
                     <div class="skill-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg>
                     </div>
                     <h3>Analytical &amp; Quantitative</h3>
                     <ul>
@@ -147,7 +147,7 @@
                 </div>
                 <div class="skill-card reveal">
                     <div class="skill-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18M3 12h18"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18M3 12h18"/></svg>
                     </div>
                     <h3>Commercial &amp; Strategy</h3>
                     <ul>
@@ -159,7 +159,7 @@
                 </div>
                 <div class="skill-card reveal">
                     <div class="skill-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg>
                     </div>
                     <h3>Leadership &amp; Operations</h3>
                     <ul>
@@ -317,29 +317,19 @@
             it into a decision. Here's that discipline applied to a real business problem — plus a few
             from the lab, and how this site itself was built.</p>
 
-            <a href="Projects/racking_optimiser.html" class="featured-project reveal" target="_blank" rel="noopener">
-                <div class="fp-glow" aria-hidden="true"></div>
-                <div class="fp-body">
-                    <div class="card-tag">Operations · Optimisation · Interactive Tool</div>
-                    <h3>Warehouse Racking Layout Optimiser</h3>
-                    <p>For my family's business I built a constrained-integer optimiser that packs the most
-                    storage racking into a 132 m × 108 m warehouse while keeping every steel pillar out of
-                    the forklift aisles. A dynamic program sweeps the floor on a 5&nbsp;cm grid, deciding
-                    per-pillar which columns to keep or remove and letting aisle widths vary — tracing the
-                    exact trade-off between racking gained and steel removed. It reduces a messy real-world
-                    constraint problem to a single decision for management: <em>is each extra rack row worth
-                    removing one more column-line?</em></p>
-                    <div class="fp-stats">
-                        <div><strong>29</strong><span>storage rows — the hard ceiling</span></div>
-                        <div><strong>47.5%</strong><span>of floor used for racking</span></div>
-                        <div><strong>~3,130 m</strong><span>of racking run</span></div>
-                        <div><strong>&lt;1%</strong><span>off the theoretical maximum</span></div>
-                    </div>
-                    <span class="project-link">Open the interactive tool <span class="arrow">→</span></span>
-                </div>
-            </a>
-
             <div class="projects-grid">
+
+                <a href="Projects/racking_optimiser.html" class="project-card project-card--tool reveal" target="_blank" rel="noopener">
+                    <div class="card-tag">Operations · Optimisation</div>
+                    <h3>Warehouse Racking Layout Optimiser</h3>
+                    <p>For my family's business, a constrained-integer optimiser that packs the most storage
+                    racking into a 132 m × 108 m warehouse while keeping every steel pillar out of the
+                    forklift aisles. A dynamic program sweeps the floor on a 5&nbsp;cm grid, trading racking
+                    gained against steel removed — reaching <strong>29 rows at 47.5% floor-fill, within 1% of
+                    the theoretical ceiling</strong>, and reducing a messy constraint problem to one clear
+                    decision for management.</p>
+                    <span class="project-link">Open the interactive tool <span class="arrow">→</span></span>
+                </a>
 
                 <div class="project-card reveal">
                     <div class="card-tag">Quantitative Analysis</div>
