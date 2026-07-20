@@ -2,3 +2,7 @@
 .claude/
 __pycache__/
 *.pyc
+
+# Private working docs — the racking tool is published via Projects/, the rest stays local
+GHC/
+OG.jpg

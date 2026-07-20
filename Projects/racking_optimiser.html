@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gompels Warehouse — Racking Layout Optimiser</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#1a212b; --panel2:#222c38; --ink:#e7edf3; --mut:#93a1b0;
+    --rack:#3fb96b; --rackEdge:#2c8a4e; --flue:#0c1116; --aisle:#161d25;
+    --pillarOk:#7fd4ff; --pillarBad:#ff5b5b; --accent:#ffb454; --grid:#2b3848; --line:#33404f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  header{padding:14px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0;font-size:18px;font-weight:650}
+  .sub{color:var(--mut);font-size:12.5px;margin-top:3px}
+  .wrap{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 60px)}
+  .controls{padding:14px 18px;border-right:1px solid var(--line);overflow-y:auto;max-height:calc(100vh - 60px)}
+  .stage{padding:14px 20px;overflow:auto}
+  .grp{margin-bottom:15px}
+  .grp h3{margin:0 0 8px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+  .ctl{margin-bottom:10px}
+  .ctl label{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px}
+  .ctl label b{color:var(--accent);font-variant-numeric:tabular-nums;font-weight:600}
+  input[type=range]{width:100%;accent-color:var(--accent);margin:0}
+  input[type=number]{width:72px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);
+    border-radius:6px;padding:3px 6px;font-size:12.5px}
+  .row{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;margin-bottom:8px}
+  .seg{display:flex;gap:6px;margin-top:4px}
+  .seg button{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--ink);
+    padding:6px 0;border-radius:7px;cursor:pointer;font-size:12px}
+  .seg button.on{background:var(--accent);color:#1a1207;border-color:var(--accent);font-weight:650}
+  canvas{display:block;width:100%;background:var(--panel);border-radius:10px;border:1px solid var(--line)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:10px;margin:14px 0}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 13px}
+  .stat .k{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+  .stat .v{font-size:21px;font-weight:680;font-variant-numeric:tabular-nums;margin-top:2px}
+  .stat .v small{font-size:13px;color:var(--mut);font-weight:500}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+  th,td{padding:7px 9px;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+  th:first-child,td:first-child{text-align:left}
+  thead th{color:var(--mut);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em}
+  tr.best td{background:rgba(63,185,107,.10)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin:10px 2px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:13px;height:13px;border-radius:3px;display:inline-block}
+  details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 13px;margin-top:14px}
+  details summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:13px}
+  details p,details li{color:var(--mut);font-size:12.5px}
+  details code{color:var(--ink);background:var(--panel2);padding:1px 5px;border-radius:4px}
+  .warn{color:var(--pillarBad);font-weight:600}.ok{color:var(--rack);font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <h1>Gompels Warehouse — Racking Layout Optimiser</h1>
+  <div class="sub">Packed right→left from the right wall (datum). Racks alternate with aisles along the length (6 m pillar axis); each rack run spans the full width. Goal: maximise rack rows with every pillar out of the aisles.</div>
+</header>
+
+<div class="wrap">
+  <!-- ───────────── CONTROLS ───────────── -->
+  <div class="controls">
+    <div class="grp">
+      <h3>Building footprint</h3>
+      <div class="ctl"><label>Long axis (racked) L <b><span id="vL"></span> m</b></label>
+        <input type="range" id="L" min="20" max="200" step="0.5" value="132"></div>
+      <div class="ctl"><label>Width W<sub>y</sub> (rack-run length) <b><span id="vWy"></span> m</b></label>
+        <input type="range" id="Wy" min="12" max="120" step="1" value="108"></div>
+      <div class="ctl"><label>Left wall clearance c <b><span id="vc"></span> m</b></label>
+        <input type="range" id="c" min="0" max="1" step="0.05" value="0.3"></div>
+    </div>
+
+    <div class="grp">
+      <h3>Right wall (datum)</h3>
+      <label style="display:flex;gap:8px;align-items:center;font-size:12.5px;margin-bottom:8px;cursor:pointer">
+        <input type="checkbox" id="singleRight" checked style="accent-color:var(--accent)">
+        First rack on the right is single-depth</label>
+      <div class="ctl"><label>Right wall gap c<sub>R</sub> <b><span id="vcR"></span> m</b></label>
+        <input type="range" id="cR" min="0.20" max="0.50" step="0.01" value="0.30"></div>
+      <div class="sub" style="margin-top:-4px">Gap behind the single rack against the right wall (200–500 mm).</div>
+    </div>
+
+    <div class="grp">
+      <h3>Racking (fixed kit)</h3>
+      <div class="ctl"><label>Rack depth, one side d <b><span id="vd"></span> m</b></label>
+        <input type="range" id="d" min="0.8" max="1.3" step="0.025" value="1.1"></div>
+      <div class="ctl"><label>Flue gap f (back-to-back) <b><span id="vf"></span> m</b></label>
+        <input type="range" id="f" min="0" max="0.6" step="0.01" value="0.30"></div>
+      <div class="sub" style="margin-top:-4px">Back-to-back block 2d + f = <b id="vblock" style="color:var(--accent)"></b> m
+        &nbsp;(storage 2d = <b id="v2d" style="color:var(--accent)"></b> m)</div>
+    </div>
+
+    <div class="grp">
+      <h3>Aisles</h3>
+      <div class="ctl"><label>Minimum aisle a<sub>min</sub> <b><span id="vamin"></span> m</b></label>
+        <input type="range" id="amin" min="1.6" max="3.5" step="0.01" value="2.05"></div>
+      <div class="ctl"><label>Maximum aisle a<sub>max</sub> <b><span id="vamax"></span> m</b></label>
+        <input type="range" id="amax" min="2.05" max="4.0" step="0.05" value="3.0"></div>
+      <div class="sub" style="margin-top:-4px">Aisles vary freely in [a<sub>min</sub>, a<sub>max</sub>]. Keep ≤ 3 m unless it adds rows.</div>
+    </div>
+
+    <div class="grp">
+      <h3>Pillars</h3>
+      <div class="row"><span>Grid spacing (long axis) P₀</span>
+        <input type="number" id="P0" min="2" max="40" step="0.1" value="6"> m</div>
+      <div class="row"><span>Down-run spacing P<sub>y</sub></span>
+        <input type="number" id="Py" min="2" max="40" step="0.1" value="26.9"> m</div>
+      <div class="ctl"><label>Pillar width w<sub>p</sub> <b><span id="vwp"></span> m</b></label>
+        <input type="range" id="wp" min="0" max="0.5" step="0.01" value="0.2"></div>
+      <div class="ctl"><label>Grid offset φ <b><span id="vphi"></span> m</b></label>
+        <input type="range" id="phi" min="0" max="6" step="0.05" value="0"></div>
+    </div>
+
+    <div class="grp">
+      <h3>Optimiser</h3>
+      <div class="ctl"><label>Keep-pillar priority λ <b><span id="vlam"></span></b></label>
+        <input type="range" id="lam" min="0" max="3" step="0.05" value="0.3"></div>
+      <div class="sub" style="margin-top:-4px">0 = max racking (remove pillars freely). Higher = keep more pillars
+        (less steel, maybe fewer rows). Removal pattern is chosen automatically per pillar.</div>
+    </div>
+  </div>
+
+  <!-- ───────────── STAGE ───────────── -->
+  <div class="stage">
+    <canvas id="cv"></canvas>
+
+    <div class="legend">
+      <span><i class="sw" style="background:var(--rack)"></i> double rack (d each side)</span>
+      <span><i class="sw" style="background:#5fce86"></i> single rack (right wall)</span>
+      <span><i class="sw" style="background:var(--flue);border:1px solid #2c8a4e"></i> flue gap (f)</span>
+      <span><i class="sw" style="background:var(--aisle);border:1px solid #3a4655"></i> aisle (labelled, m)</span>
+      <span><i class="sw" style="background:var(--pillarOk)"></i> pillar kept (in rack) ✓</span>
+      <span><i class="sw" style="border:1.5px solid var(--accent);background:transparent"></i> pillar removed (costs steel)</span>
+    </div>
+
+    <!-- 1D side-view strip -->
+    <div style="margin:8px 0 4px;color:var(--mut);font-size:10px;letter-spacing:.07em;text-transform:uppercase">
+      1-D cross-section — long axis (right wall at right)</div>
+    <canvas id="cv1d" style="display:block;width:100%;border-radius:8px;border:1px solid var(--line);background:var(--panel)"></canvas>
+
+    <div class="stats" id="stats"></div>
+
+    <h3 style="color:var(--mut);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px">
+      Racking ↔ steel frontier (rows achievable per number of pillars removed, current kit)</h3>
+    <table id="cmp">
+      <thead><tr><th>Pillars removed</th><th>Rack rows R</th><th>Rack-fill %</th><th>Total rack run</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <details>
+      <summary>Model & packing rule</summary>
+      <p><b>Module.</b> Double block depth = <code>2d + f</code> (two racks + flue), then an aisle <code>a ≥ a_min</code>.
+      A pillar is "safe" anywhere inside the block (rack or flue). The rightmost rack is single-depth (<code>d</code>),
+      flush to the right wall behind a gap <code>c_R</code>.</p>
+      <p><b>Ceiling.</b> <code>rack-fill_max = 2d/(2d+f+a_min)</code>; storage counts only the 2d, the flue is dead space.
+      <code>R_max = (L − c − c_R + a_min)/(2d+f+a_min)</code>. Independent of width W_y (it cancels).</p>
+      <p><b>Pillar capture.</b> A pillar (full width <code>w_p</code>) may sit <i>anywhere</i> inside a block — it can
+      touch the aisle edge, it need not be centred. If a pillar ends up in an aisle it is <b>removed</b> (a costed
+      choice), not a violation.</p>
+      <p><b>Optimiser (dynamic program).</b> Sweeping right→left on a 5 cm grid, the DP chooses every block position
+      and every aisle width in [a_min, a_max] to maximise <code>rows + λ·(pillars kept)</code>. So aisles vary, the
+      keep/remove pattern is chosen <i>per pillar</i> (any mix of 6/12/18/24 m spans), and λ trades racking against
+      saved steel. The "frontier" table above is this DP swept over λ.</p>
+    </details>
+
+    <details open>
+      <summary>Scenario presets (click to apply — results computed live)</summary>
+      <p style="margin-top:8px">Fixed: d = 1.1 m, a<sub>min</sub> = 2.05 m, flue per scenario, clearances 0.30 m,
+      single rack at the right wall, 6 m pillar grid, L = 132 m, W = 108 m. The optimiser chooses aisle widths and the
+      per-pillar keep/remove pattern automatically. <b>Rows</b> and <b>pillars removed</b> below are computed live.</p>
+      <table id="presetTable">
+        <thead><tr><th>Scenario</th><th>Flue</th><th>Rack-fill</th><th>Rows</th><th>Removed</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p style="margin-top:10px"><b>Read of it:</b> at the preferred <b>300 mm flue</b> the optimiser reaches the
+      ~29-row ceiling but must <b>remove several pillars</b> to do it; raise λ to trade a row or two for far fewer
+      removals. Dropping the flue to <b>250 mm</b> gives the same racking for fewer removals — the single best lever.
+      Use the <b>frontier table</b> above to read exactly how many pillars you must pull for each row count, then pick
+      the point that justifies the steel.</p>
+    </details>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+// ---- core optimiser — RIGHT→LEFT dynamic program ----------------------
+// Works in u = distance from the right wall, on a 5 cm grid. A single rack
+// (depth d) optionally sits at the right wall behind gap cR. Double blocks
+// (2d+f) are then placed with aisles that may VARY in [aMin, aMax]. A pillar
+// is "kept" if its full width [u-wp/2, u+wp/2] lies anywhere inside a block
+// (it may touch the aisle edge — not centred). Any pillar left in an aisle is
+// "removed" (a deliberate, costed choice). The DP maximises
+//   objective = (rack rows) + lambda * (pillars kept),
+// so lambda trades racking against keeping pillars; the keep/remove pattern is
+// chosen automatically per pillar (any mix of 6/12/18/24 m spans). Foul-free
+// by construction: every pillar is either kept or removed, never stranded.
+function pack(params){
+  const {L, c, cR, d, f, aMin, aMax, wp, phi, singleRight, lambda} = params;
+  const P = (params.P > 0 && isFinite(params.P)) ? params.P : 6;  // guard against 0/NaN → infinite loop
+  const blockW = 2*d + f, store = 2*d;
+  const D = 0.05, g = x => Math.round(x/D);
+  const bw = g(blockW), aLo = g(aMin), aHi = g(Math.max(aMin, aMax)), maxE = g(L - c);
+  // pillars on the structural grid, measured from the right wall
+  const pil = [];
+  for(let k=Math.ceil((0-phi)/P); ; k++){
+    const u = phi + k*P;
+    if(u > L + 1e-9) break;
+    if(u >= -1e-9) pil.push(u);
+  }
+  const inside = pil.filter(u => u > cR + 1e-9 && u < L - c - 1e-9);   // pillars in the racked zone
+  // pillars whose full width fits inside block ending at grid index e
+  function cap(e){ let n=0; const lo=(e-bw)*D + wp/2, hi=e*D - wp/2;
+    for(const u of inside) if(u >= lo-1e-9 && u <= hi+1e-9) n++; return n; }
+  let sCap = 0;
+  if(singleRight){ const lo=cR+wp/2, hi=cR+d-wp/2; for(const u of inside) if(u>=lo-1e-9 && u<=hi+1e-9) sCap++; }
+
+  const NEG = -1e18, NP = maxE + 1;
+  const obj = new Float64Array(NP).fill(NEG), rows = new Int32Array(NP),
+        capA = new Int32Array(NP), prev = new Int32Array(NP).fill(-2);
+  let start;
+  if(singleRight){ start = g(cR + d); obj[start] = 1 + lambda*sCap; rows[start] = 1; capA[start] = sCap; }
+  else { start = Math.max(0, g(cR - aMin)); obj[start] = 0; rows[start] = 0; capA[start] = 0; }
+  prev[start] = -1;
+  for(let e=start+1; e<=maxE; e++){
+    if(e - bw < start) continue;
+    const lo = Math.max(start, e - bw - aHi), hi = e - bw - aLo;
+    if(hi < start) continue;
+    const ce = cap(e); let best = NEG, bp = -2;
+    for(let pv=lo; pv<=hi; pv++){
+      if(obj[pv] <= NEG/2) continue;
+      const v = obj[pv] + 1 + lambda*ce;
+      if(v > best){ best = v; bp = pv; }
+    }
+    if(bp >= 0){ obj[e] = best; rows[e] = rows[bp] + 1; capA[e] = capA[bp] + ce; prev[e] = bp; }
+  }
+  let beObj = NEG, be = start;
+  for(let e=start; e<=maxE; e++) if(obj[e] > beObj){ beObj = obj[e]; be = e; }
+  // reconstruct double blocks (in u)
+  const dbl = []; let e = be;
+  while(prev[e] >= 0){ dbl.push({a:(e-bw)*D, b:e*D, single:false}); e = prev[e]; }
+  dbl.reverse();
+  const blocksU = [];
+  if(singleRight) blocksU.push({a:cR, b:cR+d, single:true});
+  blocksU.push(...dbl);
+  blocksU.sort((a,b)=>a.a-b.a);
+  // classify pillars (full-width capture)
+  const pillarsU = inside.map(u => ({u, kept: blocksU.some(b => (u-wp/2)>=b.a-1e-9 && (u+wp/2)<=b.b+1e-9)}));
+  const captured = pillarsU.filter(p=>p.kept).length, removed = inside.length - captured;
+  // elems (racks + aisles) in u, then mirror to real x
+  const eu = [];
+  for(let i=0;i<blocksU.length;i++){
+    if(i>0) eu.push({type:'aisle', a:blocksU[i-1].b, b:blocksU[i].a});
+    eu.push({type:'rack', a:blocksU[i].a, b:blocksU[i].b, single:blocksU[i].single});
+  }
+  const elems = eu.map(x => ({type:x.type, a:L - x.b, b:L - x.a, single:x.single})).sort((p,q)=>p.a-q.a);
+  const pillars = pillarsU.map(p => ({x: L - p.u, kept: p.kept, fouled:false}));
+  const R = blocksU.length, singles = blocksU.filter(b=>b.single).length, doubles = R - singles;
+  const storeTot = doubles*store + singles*d;
+  const aisles = elems.filter(x=>x.type==='aisle');
+  const Rmax = Math.floor((L - c - cR + aMin)/(blockW + aMin) + 1e-9);
+  return {elems, pillars, R, doubles, singles, removed, captured, Ninside:inside.length,
+    Rmax, fouled:0, fill: L>0 ? storeTot/L : 0, ceil: store/(blockW+aMin),
+    avgAisle: aisles.length ? aisles.reduce((s,x)=>s+(x.b-x.a),0)/aisles.length : 0,
+    minAisle: aisles.length ? Math.min(...aisles.map(x=>x.b-x.a)) : 0,
+    maxAisle: aisles.length ? Math.max(...aisles.map(x=>x.b-x.a)) : 0,
+    used: (blocksU.length ? blocksU[blocksU.length-1].b : cR) + c, d, f};
+}
+
+// ---- read controls -----------------------------------------------------
+function readParams(){
+  return {
+    L:+$('L').value, Wy:+$('Wy').value, c:+$('c').value, cR:+$('cR').value,
+    d:+$('d').value, f:+$('f').value, aMin:+$('amin').value, aMax:+$('amax').value,
+    P:+$('P0').value, P0:+$('P0').value, Py:+$('Py').value, wp:+$('wp').value, phi:+$('phi').value,
+    singleRight: $('singleRight').checked, lambda:+$('lam').value
+  };
+}
+
+// ---- 2-D drawing -------------------------------------------------------
+const cv = $('cv'), ctx = cv.getContext('2d');
+function draw(res, p){
+  const cssW = cv.clientWidth;
+  const padL=46, padR=16, topStrip=34, padB=26;
+  const W = cssW - padL - padR;
+  const sx = W / p.L, sy = sx;
+  const Hy = p.Wy * sy;
+  const cssH = topStrip + Hy + padB;
+  const dpr = window.devicePixelRatio || 1;
+  cv.style.height = cssH+'px';
+  cv.width = cssW*dpr; cv.height = cssH*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,cssW,cssH);
+  const X = m => padL + m*sx, Y = m => topStrip + m*sy;
+
+  ctx.fillStyle = '#12181f'; ctx.fillRect(X(0), Y(0), p.L*sx, Hy);
+
+  const dpx = p.d*sx;
+  for(const e of res.elems){
+    if(e.type!=='rack') continue;
+    const x0=X(e.a), w=(e.b-e.a)*sx;
+    if(e.single){
+      // single-depth rack against the right wall — one strip, no flue
+      ctx.fillStyle='#5fce86'; ctx.fillRect(x0, Y(0), Math.max(1,w), Hy);
+      ctx.strokeStyle='#2c8a4e'; ctx.lineWidth=1; ctx.strokeRect(x0+.5, Y(0)+.5, Math.max(1,w)-1, Hy-1);
+    } else {
+      // double block: flue backdrop + two rack halves of depth d
+      ctx.fillStyle='#0c1116'; ctx.fillRect(x0, Y(0), Math.max(1,w), Hy);
+      ctx.fillStyle='#3fb96b';
+      ctx.fillRect(x0, Y(0), Math.max(1,dpx), Hy);
+      ctx.fillRect(x0+w-dpx, Y(0), Math.max(1,dpx), Hy);
+      ctx.strokeStyle='#2c8a4e'; ctx.lineWidth=1; ctx.strokeRect(x0+.5, Y(0)+.5, Math.max(1,w)-1, Hy-1);
+    }
+  }
+
+  // full 2-D pillar lattice (down-run spacing Py). kept = blue solid; removed = orange hollow line.
+  const pyN = Math.floor(p.Wy/p.Py + 1e-9);
+  for(const pl of res.pillars){
+    const xx = X(pl.x);
+    const s = Math.min(7, Math.max(4, sy*0.25));
+    if(!pl.kept){   // a pillar we choose to remove — mark the whole column faintly
+      ctx.strokeStyle='rgba(255,180,84,.45)'; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(xx, Y(0)); ctx.lineTo(xx, Y(p.Wy)); ctx.stroke();
+    }
+    for(let r=0; r<=pyN; r++){
+      const yy=Y(r*p.Py);
+      if(pl.kept){ ctx.fillStyle='#7fd4ff'; ctx.fillRect(xx-s/2, yy-s/2, s, s); }
+      else { ctx.strokeStyle='#ffb454'; ctx.lineWidth=1.2; ctx.strokeRect(xx-s/2, yy-s/2, s, s); }
+    }
+  }
+
+  // aisle width labels (rotated) in top strip
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  for(const e of res.elems){
+    if(e.type!=='aisle') continue;
+    const w=e.b-e.a, xc=X((e.a+e.b)/2), wide = w > p.aMin + 0.01;
+    ctx.save(); ctx.translate(xc, topStrip-15); ctx.rotate(-Math.PI/2);
+    ctx.fillStyle = wide ? '#ffb454' : '#8aa0b3';
+    ctx.font = (wide?'bold ':'')+'10px sans-serif';
+    ctx.fillText(w.toFixed(2), 0, 0); ctx.restore();
+  }
+  ctx.fillStyle='#6b7c8e'; ctx.font='9px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('aisle widths (m) ↓', X(0), topStrip-6);
+
+  // bottom ruler at pillar spacing
+  ctx.textAlign='center'; ctx.fillStyle='#6b7c8e'; ctx.font='9px sans-serif';
+  for(let m=0; m<=p.L+1e-9; m+=p.P){
+    const xx=X(m);
+    ctx.strokeStyle='#26303c'; ctx.beginPath(); ctx.moveTo(xx, Y(p.Wy)); ctx.lineTo(xx, Y(p.Wy)+4); ctx.stroke();
+    ctx.fillText(m.toFixed(0), xx, Y(p.Wy)+13);
+  }
+  ctx.strokeStyle='#33404f'; ctx.lineWidth=1; ctx.strokeRect(X(0)+.5, Y(0)+.5, p.L*sx-1, Hy-1);
+  ctx.save(); ctx.translate(13, Y(p.Wy/2)); ctx.rotate(-Math.PI/2);
+  ctx.fillStyle='#6b7c8e'; ctx.textAlign='center'; ctx.font='10px sans-serif';
+  ctx.fillText('rack runs — width '+p.Wy.toFixed(0)+'m', 0, 0); ctx.restore();
+}
+
+// ---- 1D side-view strip -----------------------------------------------
+const cv1d = $('cv1d'), ctx1 = cv1d.getContext('2d');
+function draw1D(res, p){
+  const cssW = cv1d.clientWidth;
+  const H = 64;                        // fixed strip height (px)
+  const padL = 6, padR = 6, padT = 22, padB = 18;
+  const drawW = cssW - padL - padR;
+  const dpr = window.devicePixelRatio || 1;
+  cv1d.style.height = H + 'px';
+  cv1d.width = cssW * dpr; cv1d.height = H * dpr;
+  ctx1.setTransform(dpr,0,0,dpr,0,0);
+  ctx1.clearRect(0,0,cssW,H);
+
+  const sx = drawW / p.L;              // m → px
+  const X = m => padL + m * sx;
+  const rackH = H - padT - padB;       // height of the rack band
+
+  // floor background
+  ctx1.fillStyle = '#12181f';
+  ctx1.fillRect(padL, padT, drawW, rackH);
+
+  // rack blocks
+  const dpx = p.d * sx;
+  for(const e of res.elems){
+    if(e.type !== 'rack') continue;
+    const x0 = X(e.a), w = Math.max(1, (e.b - e.a) * sx);
+    if(e.single){
+      ctx1.fillStyle = '#5fce86';
+      ctx1.fillRect(x0, padT, w, rackH);
+    } else {
+      ctx1.fillStyle = '#0c1116';
+      ctx1.fillRect(x0, padT, w, rackH);          // flue centre
+      ctx1.fillStyle = '#3fb96b';
+      ctx1.fillRect(x0, padT, Math.max(1, dpx), rackH);
+      ctx1.fillRect(x0 + w - dpx, padT, Math.max(1, dpx), rackH);
+    }
+    ctx1.strokeStyle = '#2c8a4e'; ctx1.lineWidth = 0.5;
+    ctx1.strokeRect(x0 + 0.5, padT + 0.5, w - 1, rackH - 1);
+  }
+
+  // aisle dimension lines + labels above the band
+  ctx1.textAlign = 'center'; ctx1.textBaseline = 'middle';
+  ctx1.font = '8.5px sans-serif';
+  for(const e of res.elems){
+    if(e.type !== 'aisle') continue;
+    const w = e.b - e.a, x0 = X(e.a), xW = w * sx, xc = x0 + xW / 2;
+    const wide = w > p.aMin + 0.01;
+    // tick marks
+    ctx1.strokeStyle = wide ? '#ffb454' : '#4a5a6a'; ctx1.lineWidth = 0.8;
+    ctx1.beginPath(); ctx1.moveTo(x0, padT - 5); ctx1.lineTo(x0, padT - 1); ctx1.stroke();
+    ctx1.beginPath(); ctx1.moveTo(x0 + xW, padT - 5); ctx1.lineTo(x0 + xW, padT - 1); ctx1.stroke();
+    // dimension line
+    ctx1.beginPath(); ctx1.moveTo(x0, padT - 3); ctx1.lineTo(x0 + xW, padT - 3); ctx1.stroke();
+    // label (only if wide enough to fit)
+    if(xW > 22){
+      ctx1.fillStyle = wide ? '#ffb454' : '#6b7c8e';
+      ctx1.fillText(w.toFixed(2), xc, padT - 10);
+    }
+  }
+
+  // pillar markers — vertical bar at their x position
+  for(const pl of res.pillars){
+    const xx = X(pl.x);
+    const wpx = Math.max(2, p.wp * sx);
+    ctx1.fillStyle = pl.kept ? 'rgba(127,212,255,0.9)' : 'rgba(255,180,84,0.6)';
+    ctx1.fillRect(xx - wpx/2, padT - 1, wpx, rackH + 2);
+  }
+
+  // wall markers
+  ctx1.fillStyle = '#4a5568';
+  ctx1.fillRect(padL, padT, 3, rackH);              // left wall
+  ctx1.fillRect(padL + drawW - 3, padT, 3, rackH);  // right wall
+
+  // bottom axis tick labels at pillar grid positions
+  ctx1.textAlign = 'center'; ctx1.fillStyle = '#5a6b7c'; ctx1.font = '8px sans-serif'; ctx1.textBaseline = 'top';
+  for(let m = 0; m <= p.L + 1e-9; m += p.P){
+    ctx1.fillText(m.toFixed(0), X(m), padT + rackH + 2);
+  }
+
+  // border
+  ctx1.strokeStyle = '#33404f'; ctx1.lineWidth = 1;
+  ctx1.strokeRect(padL + 0.5, padT + 0.5, drawW - 1, rackH - 1);
+}
+
+// ---- stats + trade-off frontier ---------------------------------------
+function renderStats(res, p){
+  const pct = x => (100*x).toFixed(1)+'%';
+  const totalRun = res.R * p.Wy;
+  $('stats').innerHTML = [
+    ['Rack rows R', `${res.R} <small>/ ${res.Rmax} max</small>`],
+    ['Double + single', `${res.doubles} <small>dbl +</small> ${res.singles} <small>sgl</small>`],
+    ['Rack-fill', `${pct(res.fill)} <small>/ ${pct(res.ceil)} ceiling</small>`],
+    ['Pillars kept', `<span class="ok">${res.captured}</span> <small>/ ${res.Ninside}</small>`],
+    ['Pillars removed', `<span class="${res.removed?'warn':'ok'}">${res.removed}</span>`],
+    ['Aisle range', `${res.minAisle.toFixed(2)}–${res.maxAisle.toFixed(2)} <small>m</small>`],
+    ['Total rack run', `${totalRun.toFixed(0)} <small>m (R×W)</small>`],
+  ].map(([k,v])=>`<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+}
+// Sweep lambda to trace the racking-vs-steel frontier (rows achievable per #removed).
+function renderCompare(){
+  const base = readParams();
+  const byRemoved = new Map();
+  for(const lam of [0,0.1,0.2,0.3,0.5,0.75,1,1.5,2,3]){
+    const r = pack({...base, lambda:lam});
+    const cur = byRemoved.get(r.removed);
+    if(!cur || r.R > cur.R) byRemoved.set(r.removed, {R:r.R, fill:r.fill, Rmax:r.Rmax});
+  }
+  const pts = [...byRemoved.entries()].map(([rem,o])=>({rem,...o})).sort((a,b)=>a.rem-b.rem);
+  const maxR = Math.max(...pts.map(p=>p.R));
+  const here = pack(base).removed;
+  $('cmp').querySelector('tbody').innerHTML = pts.map(r=>`
+    <tr class="${r.R===maxR?'best':''}">
+      <td>${r.rem}${r.rem===here?' &larr; now':''}</td>
+      <td>${r.R} / ${r.Rmax}</td>
+      <td>${(100*r.fill).toFixed(1)}%</td>
+      <td>${(r.R*base.Wy).toFixed(0)} m</td>
+    </tr>`).join('');
+}
+
+// ---- update ------------------------------------------------------------
+function update(){
+  const p = readParams();
+  $('vL').textContent=p.L.toFixed(1); $('vWy').textContent=p.Wy.toFixed(0);
+  $('vc').textContent=p.c.toFixed(2); $('vcR').textContent=p.cR.toFixed(2);
+  $('vd').textContent=p.d.toFixed(3); $('vf').textContent=p.f.toFixed(2);
+  $('v2d').textContent=(2*p.d).toFixed(2); $('vblock').textContent=(2*p.d+p.f).toFixed(2);
+  $('vamin').textContent=p.aMin.toFixed(2); $('vamax').textContent=p.aMax.toFixed(2);
+  $('vwp').textContent=p.wp.toFixed(2); $('vphi').textContent=p.phi.toFixed(2);
+  $('vlam').textContent=p.lambda.toFixed(2);
+  const res = pack(p);
+  draw(res, p); draw1D(res, p); renderStats(res, p); renderCompare();
+}
+
+['L','Wy','c','cR','d','f','amin','amax','wp','phi','P0','Py','lam'].forEach(id=>$(id).addEventListener('input',update));
+$('singleRight').addEventListener('change', update);
+let _rz; window.addEventListener('resize', () => { clearTimeout(_rz); _rz = setTimeout(update, 120); });
+
+// ---- scenario presets (live-computed by the optimiser) ----------------
+const COMMON = {L:132, Wy:108, c:0.30, cR:0.30, d:1.1, Py:26.9, wp:0.20, P0:6, phi:0, singleRight:true, aMin:2.05};
+const PRESETS = [
+  {name:'Max racking · flue 300 ★', note:'recommended — most rows, fire-safe flue',
+   v:{...COMMON, f:0.30, aMax:3.0, lambda:0.2}},
+  {name:'Max racking · flue 250', note:'250 mm flue — same result as 300, no benefit here',
+   v:{...COMMON, f:0.25, aMax:3.0, lambda:0.2}},
+  {name:'Balanced · flue 300', note:'trade a little racking for fewer removals',
+   v:{...COMMON, f:0.30, aMax:3.0, lambda:1.0}},
+  {name:'Fewest removals · flue 300', note:'keep as much steel as possible',
+   v:{...COMMON, f:0.30, aMax:3.0, lambda:3.0}},
+];
+function applyPreset(p){
+  const v=p.v, map={aMin:'amin',aMax:'amax',lambda:'lam'};
+  ['L','Wy','c','cR','d','f','aMin','aMax','P0','phi','Py','wp','lambda'].forEach(k=>{
+    const id = map[k]||k; if(v[k]!==undefined) $(id).value = v[k];
+  });
+  $('singleRight').checked = v.singleRight; update();
+}
+function renderPresets(){
+  const tb=$('presetTable').querySelector('tbody');
+  tb.innerHTML = PRESETS.map((p,i)=>{
+    const r = pack(p.v);
+    return `<tr>
+      <td style="text-align:left">${p.name}<br><span style="color:var(--mut);font-size:11px">${p.note}</span></td>
+      <td>${(p.v.f*1000).toFixed(0)} mm</td>
+      <td class="ok">${(100*r.fill).toFixed(1)}%</td>
+      <td>${r.R}</td>
+      <td class="${r.removed?'warn':'ok'}">${r.removed}</td>
+      <td><button data-i="${i}" class="applyBtn" style="background:var(--accent);color:#1a1207;border:none;
+        border-radius:6px;padding:5px 11px;cursor:pointer;font-weight:650;font-size:12px">Apply</button></td>
+    </tr>`;
+  }).join('');
+  tb.querySelectorAll('.applyBtn').forEach(b=>b.addEventListener('click',()=>applyPreset(PRESETS[+b.dataset.i])));
+}
+renderPresets();
+update();
+</script>
+</body>
+</html>

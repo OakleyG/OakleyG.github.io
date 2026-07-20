@@ -59,7 +59,7 @@
             <h1>Quantitative rigour,<br><span class="hero-highlight">commercial instinct.</span></h1>
             <p class="hero-sub">
                 I'm Oakley — a final-year Maths &amp; Physics student who turns analysis into outcomes.
-                I've built valuation models, led a 400-member organisation, and unlocked a $70K
+                I've built valuation models, optimised a real warehouse layout, and unlocked a $70K
                 turnaround. Seeking <strong>finance &amp; consulting</strong> roles for 2026.
             </p>
             <div class="hero-actions">
@@ -114,9 +114,8 @@
                 bring to a career in <strong>finance and consulting</strong>.</p>
             </div>
             <aside class="about-aside reveal">
-                <div class="about-photo" aria-hidden="true">
-                    <span class="about-monogram">OG</span>
-                    <span class="about-photo-hint">Add your headshot →<br>replace .about-photo</span>
+                <div class="about-photo">
+                    <img src="Pictures/oakley.jpg" alt="Oakley Gompels" loading="lazy">
                 </div>
                 <ul class="about-facts">
                     <li><span>Based in</span> Toronto &amp; UK</li>
@@ -181,6 +180,40 @@
             <h2 class="reveal">Where I've made an impact</h2>
 
             <div class="timeline">
+
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-body">
+                        <div class="tl-head">
+                            <h3>Business Development — AI Workflows, Procurement &amp; Commercial Property</h3>
+                            <span class="cv-date">Apr 2026 – Present</span>
+                        </div>
+                        <p class="tl-org">Gompels Healthcare · Melksham, UK</p>
+                        <p>Working behind the scenes on the company's move to a new warehouse — across
+                        procurement, property and process. Researching and sourcing machinery from China
+                        (travelling to Shanghai to visit factories and finalise deals), helping draft the
+                        property contracts behind the move, building a <a href="#work">racking optimiser</a>
+                        to improve efficiency in the new space, and prototyping AI-powered workflows to
+                        speed up how the team researches, plans and makes decisions. All part of doing the
+                        basics brilliantly as we grow.</p>
+                    </div>
+                </div>
+
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-body">
+                        <div class="tl-head">
+                            <h3>Quantitative Researcher</h3>
+                            <span class="cv-date">May 2026 – Jul 2026</span>
+                        </div>
+                        <p class="tl-org">EgaTree · Internship · Remote (New York)</p>
+                        <p>A data science &amp; quantitative research internship working hands-on with real
+                        <strong>financial time-series data</strong>, <strong>statistical modelling</strong> and
+                        genuinely fascinating <strong>physics-inspired approaches to forecasting</strong> —
+                        learning by doing rather than from textbooks. Covered quantitative research,
+                        numerical analysis and a broad quant toolkit.</p>
+                    </div>
+                </div>
 
                 <div class="tl-item reveal">
                     <div class="tl-dot"></div>
@@ -279,9 +312,32 @@
         <div class="container">
             <div class="section-label reveal">Selected Work</div>
             <h2 class="reveal">Analytical rigour</h2>
-            <p class="section-intro reveal">Finance runs on the same core skill a physics degree trains:
-            extracting signal from noisy data, and being honest about what you don't know. A few
-            examples of that discipline — plus how this site itself was built.</p>
+            <p class="section-intro reveal">Finance and consulting run on the same core skill a physics degree trains:
+            extracting signal from noisy data, being honest about what you don't know, and turning
+            it into a decision. Here's that discipline applied to a real business problem — plus a few
+            from the lab, and how this site itself was built.</p>
+
+            <a href="Projects/racking_optimiser.html" class="featured-project reveal" target="_blank" rel="noopener">
+                <div class="fp-glow" aria-hidden="true"></div>
+                <div class="fp-body">
+                    <div class="card-tag">Operations · Optimisation · Interactive Tool</div>
+                    <h3>Warehouse Racking Layout Optimiser</h3>
+                    <p>For my family's business I built a constrained-integer optimiser that packs the most
+                    storage racking into a 132 m × 108 m warehouse while keeping every steel pillar out of
+                    the forklift aisles. A dynamic program sweeps the floor on a 5&nbsp;cm grid, deciding
+                    per-pillar which columns to keep or remove and letting aisle widths vary — tracing the
+                    exact trade-off between racking gained and steel removed. It reduces a messy real-world
+                    constraint problem to a single decision for management: <em>is each extra rack row worth
+                    removing one more column-line?</em></p>
+                    <div class="fp-stats">
+                        <div><strong>29</strong><span>storage rows — the hard ceiling</span></div>
+                        <div><strong>47.5%</strong><span>of floor used for racking</span></div>
+                        <div><strong>~3,130 m</strong><span>of racking run</span></div>
+                        <div><strong>&lt;1%</strong><span>off the theoretical maximum</span></div>
+                    </div>
+                    <span class="project-link">Open the interactive tool <span class="arrow">→</span></span>
+                </div>
+            </a>
 
             <div class="projects-grid">
 
