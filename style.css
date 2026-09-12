@@ -143,11 +143,11 @@ nav {
    ============================================ */
 .hero {
     position: relative;
-    min-height: 88vh;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding: 6rem 2rem;
+    padding: 4rem 2rem 3rem;
     background: var(--bg);
 }
 
