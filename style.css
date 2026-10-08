@@ -1312,3 +1312,12 @@ html.js .skills-grid .reveal.is-visible { transition-delay: 0.05s; }
 
 .hero-bg-dots { opacity: 0.5; }
 body::after { opacity: 0.018; }
+
+/* Experience entries written as short paragraphs */
+.tl-body > p.tl-text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 0.7rem;
+}
+.tl-body > p.tl-text:last-child { margin-bottom: 0; }
