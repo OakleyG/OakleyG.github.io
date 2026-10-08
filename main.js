@@ -90,7 +90,7 @@
         let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
         let particles = [];
         let raf = null;
-        const ACCENT = '109,74';       // rgb of #ff6d4a without alpha
+        const ACCENT = '255,109,74';   // rgb of #ff6d4a
         const LIGHT = '167,139,250';   // subtle purple accent
 
         function size() {
@@ -108,7 +108,7 @@
                 vx: (Math.random() - 0.5) * 0.28,
                 vy: (Math.random() - 0.5) * 0.28,
                 r: Math.random() * 1.6 + 0.8,
-                c: Math.random() > 0.82 ? LIGHT : '255,' + ACCENT
+                c: Math.random() > 0.82 ? LIGHT : ACCENT
             }));
         }
 
@@ -125,7 +125,7 @@
                     const dx = a.x - b.x, dy = a.y - b.y;
                     const dist = Math.hypot(dx, dy);
                     if (dist < 130) {
-                        ctx.strokeStyle = 'rgba(255,' + ACCENT + ',' + (0.10 * (1 - dist / 130)) + ')';
+                        ctx.strokeStyle = 'rgba(' + ACCENT + ',' + (0.10 * (1 - dist / 130)) + ')';
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(a.x, a.y);

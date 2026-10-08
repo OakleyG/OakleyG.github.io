@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Evolution | Oakley Gompels</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js/lib/index.iife.js"></script>
 </head>
 <body>
@@ -49,7 +48,7 @@
             <h2>Commit History</h2>
             <p style="color:var(--text-muted);margin-bottom:2rem;font-size:0.95rem;">
                 Orange nodes are commits on <strong style="color:#ff6d4a">main</strong>.
-                Purple nodes are feature branches, each one a named design iteration, merged back when ready.
+                Orange nodes are feature branches, each one a named design iteration, merged back when ready.
             </p>
             <div class="evo-graph-card">
                 <div id="gitgraph-container"></div>
@@ -269,21 +268,21 @@
                     branch: {
                         lineWidth: 3,
                         spacingX: 55,
-                        labelFont: '600 12px Inter, system-ui, sans-serif',
+                        labelFont: '600 12px 'Times New Roman', Times, serif',
                         labelRotation: 0,
                     },
                     commit: {
                         spacing: 70,
                         dot: { size: 11, strokeWidth: 2, strokeColor: '#16162a' },
                         message: {
-                            font: '500 13px Inter, system-ui, sans-serif',
+                            font: '500 13px 'Times New Roman', Times, serif',
                             color: '#f0f0f5',
                             displayAuthor: false,
                             displayHash: false,
                         },
                     },
                     tag: {
-                        font: '600 11px Inter, system-ui, sans-serif',
+                        font: '600 11px 'Times New Roman', Times, serif',
                         color: '#ff6d4a',
                     },
                 },
@@ -344,7 +343,7 @@
             const mainY = 45;
             const featY = 100;
             const totalWidth = Math.max(700, versions.length * nodeSpacing + 140);
-            let s = [`<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 ${totalWidth} 150" style="font-family:Inter,sans-serif;min-width:${totalWidth}px">`];
+            let s = [`<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 ${totalWidth} 150" style="font-family:Times New Roman,Times,serif;min-width:${totalWidth}px">`];
             s.push(`<line x1="60" y1="${mainY}" x2="${totalWidth-40}" y2="${mainY}" stroke="#ff6d4a" stroke-width="3" stroke-linecap="round"/>`);
             let mx = 90;
             versions.forEach(v => {

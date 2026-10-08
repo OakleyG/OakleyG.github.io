@@ -16,8 +16,8 @@
     --accent-dark: #e0522e;
     --text:      #f0f0f5;
     --text-muted:#9090a8;
-    --font:      'Inter', system-ui, -apple-system, sans-serif;
-    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font:      'Times New Roman', Times, serif;
+    --font-display: 'Times New Roman', Times, serif;
     --radius:    12px;
     --max-w:     1200px;
 }
@@ -41,7 +41,7 @@ nav {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(13, 13, 31, 0.85);
+    background: rgba(13,13,31, 0.85);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
@@ -58,6 +58,7 @@ nav {
 }
 
 .logo {
+    text-decoration: none;
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--text);
@@ -116,7 +117,7 @@ nav {
 .btn-primary:hover {
     background: var(--accent-dark);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255, 109, 74, 0.35);
+    box-shadow: 0 8px 24px rgba(255,109,74, 0.35);
 }
 
 .btn-secondary {
@@ -143,7 +144,7 @@ nav {
    ============================================ */
 .hero {
     position: relative;
-    min-height: 60vh;
+    min-height: 0;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -166,7 +167,7 @@ nav {
     position: absolute;
     top: 10%;
     left: -10%;
-    width: 70%;
+    width: 120%;
     height: 80%;
     background: radial-gradient(ellipse at center, rgba(255,109,74,0.08) 0%, transparent 65%);
     pointer-events: none;
@@ -745,7 +746,7 @@ footer p {
         flex-direction: column;
         align-items: stretch;
         gap: 0;
-        background: rgba(13, 13, 31, 0.97);
+        background: rgba(13,13,31, 0.97);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         border-bottom: 1px solid var(--border);
@@ -850,7 +851,7 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
     opacity: 0.55;
 }
 .hero-content { z-index: 2; }
-.hero-sub { max-width: 640px; line-height: 1.75; }
+.hero-sub { max-width: none; line-height: 1.75; }
 .hero-sub strong { color: var(--text); font-weight: 600; }
 
 .hero-scroll {
@@ -1285,3 +1286,29 @@ html.js .skills-grid .reveal.is-visible { transition-delay: 0.05s; }
         page-break-inside: avoid;
     }
 }
+
+/* ============================================
+   POLISH PASS — headline, secondary button, labels, texture
+   ============================================ */
+.hero-content h1 { font-weight: 500; letter-spacing: 0; line-height: 1.08; }
+.section h2, .now-title { font-weight: 500; letter-spacing: 0; }
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid rgba(255,109,74,0.55);
+    color: var(--text);
+}
+.btn-secondary:hover {
+    background: rgba(255,109,74,0.08);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.section-label {
+    color: var(--accent);
+    background: rgba(255,109,74,0.08);
+    border-color: rgba(255,109,74,0.3);
+}
+
+.hero-bg-dots { opacity: 0.5; }
+body::after { opacity: 0.018; }
